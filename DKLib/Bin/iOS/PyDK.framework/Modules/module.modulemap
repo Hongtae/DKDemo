@@ -1,0 +1,6 @@
+framework module PyDK {
+  umbrella header "PyDK.h"
+
+  export *
+  module * { export * }
+}

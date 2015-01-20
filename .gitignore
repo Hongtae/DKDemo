@@ -51,4 +51,4 @@ xcuserdata
 __pycache__/
 
 # project settings
-Build/*
+Build/**

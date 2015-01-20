@@ -1,0 +1,1083 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		84CADBE91A6AB60F0087774D /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84CADBE81A6AB60F0087774D /* main.cpp */; };
+		84CADBEB1A6AB60F0087774D /* Images_OSX.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 84CADBEA1A6AB60F0087774D /* Images_OSX.xcassets */; };
+		84CADC1C1A6AB8820087774D /* getpath.mm in Sources */ = {isa = PBXBuildFile; fileRef = 84CADC1B1A6AB8820087774D /* getpath.mm */; };
+		84CADC451A6ABB540087774D /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 84CADC431A6ABB540087774D /* LaunchScreen.xib */; };
+		84CADC5A1A6ABCF90087774D /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84CADBE81A6AB60F0087774D /* main.cpp */; };
+		84CADC5B1A6ABD000087774D /* Images_iOS.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 84CADC351A6ABB540087774D /* Images_iOS.xcassets */; };
+		84CADC5D1A6ABD1C0087774D /* getpath.mm in Sources */ = {isa = PBXBuildFile; fileRef = 84CADC1B1A6AB8820087774D /* getpath.mm */; };
+		84CADDF41A6B8DB70087774D /* DK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84CADCED1A6B8DA10087774D /* DK.framework */; };
+		84CADDF51A6B8DB70087774D /* DK.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 84CADCED1A6B8DA10087774D /* DK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		84CADDF61A6B8DB70087774D /* PyDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84CADCEE1A6B8DA10087774D /* PyDK.framework */; };
+		84CADDF71A6B8DB70087774D /* PyDK.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 84CADCEE1A6B8DA10087774D /* PyDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		84CADDF91A6B8DCA0087774D /* DK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84CADCF01A6B8DA10087774D /* DK.framework */; };
+		84CADDFA1A6B8DCA0087774D /* DK.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 84CADCF01A6B8DA10087774D /* DK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		84CADDFB1A6B8DCA0087774D /* PyDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84CADCF11A6B8DA10087774D /* PyDK.framework */; };
+		84CADDFC1A6B8DCA0087774D /* PyDK.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 84CADCF11A6B8DA10087774D /* PyDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		84E0762D1A6D0FBB000C1A38 /* Scripts in Resources */ = {isa = PBXBuildFile; fileRef = 84E0762C1A6D0FBB000C1A38 /* Scripts */; };
+		84E0762E1A6D0FBB000C1A38 /* Scripts in Resources */ = {isa = PBXBuildFile; fileRef = 84E0762C1A6D0FBB000C1A38 /* Scripts */; };
+		84E0764C1A6D5D64000C1A38 /* knights in Resources */ = {isa = PBXBuildFile; fileRef = 84E076471A6D5D64000C1A38 /* knights */; };
+		84E0764D1A6D5D64000C1A38 /* knights in Resources */ = {isa = PBXBuildFile; fileRef = 84E076471A6D5D64000C1A38 /* knights */; };
+		84E0764E1A6D5D64000C1A38 /* deathstar.png in Resources */ = {isa = PBXBuildFile; fileRef = 84E076481A6D5D64000C1A38 /* deathstar.png */; };
+		84E0764F1A6D5D64000C1A38 /* deathstar.png in Resources */ = {isa = PBXBuildFile; fileRef = 84E076481A6D5D64000C1A38 /* deathstar.png */; };
+		84E076501A6D5D64000C1A38 /* desert in Resources */ = {isa = PBXBuildFile; fileRef = 84E076491A6D5D64000C1A38 /* desert */; };
+		84E076511A6D5D64000C1A38 /* desert in Resources */ = {isa = PBXBuildFile; fileRef = 84E076491A6D5D64000C1A38 /* desert */; };
+		84E076541A6D5D64000C1A38 /* koo.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 84E0764B1A6D5D64000C1A38 /* koo.jpg */; };
+		84E076551A6D5D64000C1A38 /* koo.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 84E0764B1A6D5D64000C1A38 /* koo.jpg */; };
+		84E076701A6E4D2D000C1A38 /* tree.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 84E0766F1A6E4D2D000C1A38 /* tree.jpg */; };
+		84E076711A6E4D6D000C1A38 /* tree.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 84E0766F1A6E4D2D000C1A38 /* tree.jpg */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		84CADC831A6B82120087774D /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				84CADDFC1A6B8DCA0087774D /* PyDK.framework in Embed Frameworks */,
+				84CADDFA1A6B8DCA0087774D /* DK.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		84CADDF81A6B8DB70087774D /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				84CADDF71A6B8DB70087774D /* PyDK.framework in Embed Frameworks */,
+				84CADDF51A6B8DB70087774D /* DK.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		84CADBE01A6AB60F0087774D /* Demo_OSX.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Demo_OSX.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		84CADBE41A6AB60F0087774D /* DemoApp_OSX-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "DemoApp_OSX-Info.plist"; sourceTree = "<group>"; };
+		84CADBE81A6AB60F0087774D /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		84CADBEA1A6AB60F0087774D /* Images_OSX.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images_OSX.xcassets; sourceTree = "<group>"; };
+		84CADC1B1A6AB8820087774D /* getpath.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = getpath.mm; sourceTree = "<group>"; };
+		84CADC321A6ABB530087774D /* Demo_iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Demo_iOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		84CADC351A6ABB540087774D /* Images_iOS.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images_iOS.xcassets; sourceTree = "<group>"; };
+		84CADC411A6ABB540087774D /* DemoApp_iOS-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "DemoApp_iOS-Info.plist"; sourceTree = "<group>"; };
+		84CADC591A6ABCBB0087774D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
+		84CADCED1A6B8DA10087774D /* DK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = DK.framework; sourceTree = "<group>"; };
+		84CADCEE1A6B8DA10087774D /* PyDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = PyDK.framework; sourceTree = "<group>"; };
+		84CADCF01A6B8DA10087774D /* DK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = DK.framework; sourceTree = "<group>"; };
+		84CADCF11A6B8DA10087774D /* PyDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = PyDK.framework; sourceTree = "<group>"; };
+		84CADCF51A6B8DA10087774D /* dk.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = dk.h; sourceTree = "<group>"; };
+		84CADCF71A6B8DA10087774D /* DKAllocator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKAllocator.h; sourceTree = "<group>"; };
+		84CADCF81A6B8DA10087774D /* DKArray.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKArray.h; sourceTree = "<group>"; };
+		84CADCF91A6B8DA10087774D /* DKAtomicNumber32.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKAtomicNumber32.h; sourceTree = "<group>"; };
+		84CADCFA1A6B8DA10087774D /* DKAtomicNumber64.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKAtomicNumber64.h; sourceTree = "<group>"; };
+		84CADCFB1A6B8DA10087774D /* DKAVLTree.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKAVLTree.h; sourceTree = "<group>"; };
+		84CADCFC1A6B8DA10087774D /* DKBuffer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKBuffer.h; sourceTree = "<group>"; };
+		84CADCFD1A6B8DA10087774D /* DKBufferStream.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKBufferStream.h; sourceTree = "<group>"; };
+		84CADCFE1A6B8DA10087774D /* DKCallback.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKCallback.h; sourceTree = "<group>"; };
+		84CADCFF1A6B8DA10087774D /* DKCircularQueue.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKCircularQueue.h; sourceTree = "<group>"; };
+		84CADD001A6B8DA10087774D /* DKCondition.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKCondition.h; sourceTree = "<group>"; };
+		84CADD011A6B8DA10087774D /* DKCriticalSection.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKCriticalSection.h; sourceTree = "<group>"; };
+		84CADD021A6B8DA10087774D /* DKData.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKData.h; sourceTree = "<group>"; };
+		84CADD031A6B8DA10087774D /* DKDataStream.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKDataStream.h; sourceTree = "<group>"; };
+		84CADD041A6B8DA10087774D /* DKDateTime.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKDateTime.h; sourceTree = "<group>"; };
+		84CADD051A6B8DA10087774D /* DKDirectory.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKDirectory.h; sourceTree = "<group>"; };
+		84CADD061A6B8DA10087774D /* DKDummyLock.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKDummyLock.h; sourceTree = "<group>"; };
+		84CADD071A6B8DA10087774D /* DKEndianness.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKEndianness.h; sourceTree = "<group>"; };
+		84CADD081A6B8DA10087774D /* DKError.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKError.h; sourceTree = "<group>"; };
+		84CADD091A6B8DA10087774D /* DKFence.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKFence.h; sourceTree = "<group>"; };
+		84CADD0A1A6B8DA10087774D /* DKFile.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKFile.h; sourceTree = "<group>"; };
+		84CADD0B1A6B8DA10087774D /* DKFileMap.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKFileMap.h; sourceTree = "<group>"; };
+		84CADD0C1A6B8DA10087774D /* DKFunction.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKFunction.h; sourceTree = "<group>"; };
+		84CADD0D1A6B8DA10087774D /* DKHash.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKHash.h; sourceTree = "<group>"; };
+		84CADD0E1A6B8DA10087774D /* DKInvocation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKInvocation.h; sourceTree = "<group>"; };
+		84CADD0F1A6B8DA10087774D /* DKList.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKList.h; sourceTree = "<group>"; };
+		84CADD101A6B8DA10087774D /* DKLock.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKLock.h; sourceTree = "<group>"; };
+		84CADD111A6B8DA10087774D /* DKLog.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKLog.h; sourceTree = "<group>"; };
+		84CADD121A6B8DA10087774D /* DKMap.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKMap.h; sourceTree = "<group>"; };
+		84CADD131A6B8DA10087774D /* DKMemory.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKMemory.h; sourceTree = "<group>"; };
+		84CADD141A6B8DA10087774D /* DKMessageQueue.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKMessageQueue.h; sourceTree = "<group>"; };
+		84CADD151A6B8DA10087774D /* DKMutex.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKMutex.h; sourceTree = "<group>"; };
+		84CADD161A6B8DA10087774D /* DKObject.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKObject.h; sourceTree = "<group>"; };
+		84CADD171A6B8DA10087774D /* DKObjectRefCounter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKObjectRefCounter.h; sourceTree = "<group>"; };
+		84CADD181A6B8DA10087774D /* DKOperation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKOperation.h; sourceTree = "<group>"; };
+		84CADD191A6B8DA10087774D /* DKOperationQueue.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKOperationQueue.h; sourceTree = "<group>"; };
+		84CADD1A1A6B8DA10087774D /* DKOrderedArray.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKOrderedArray.h; sourceTree = "<group>"; };
+		84CADD1B1A6B8DA10087774D /* DKQueue.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKQueue.h; sourceTree = "<group>"; };
+		84CADD1C1A6B8DA10087774D /* DKRational.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKRational.h; sourceTree = "<group>"; };
+		84CADD1D1A6B8DA10087774D /* DKRunLoop.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKRunLoop.h; sourceTree = "<group>"; };
+		84CADD1E1A6B8DA10087774D /* DKRunLoopTimer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKRunLoopTimer.h; sourceTree = "<group>"; };
+		84CADD1F1A6B8DA10087774D /* DKSet.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKSet.h; sourceTree = "<group>"; };
+		84CADD201A6B8DA10087774D /* DKSharedInstance.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKSharedInstance.h; sourceTree = "<group>"; };
+		84CADD211A6B8DA10087774D /* DKSharedLock.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKSharedLock.h; sourceTree = "<group>"; };
+		84CADD221A6B8DA10087774D /* DKSingleton.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKSingleton.h; sourceTree = "<group>"; };
+		84CADD231A6B8DA10087774D /* DKSpinLock.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKSpinLock.h; sourceTree = "<group>"; };
+		84CADD241A6B8DA10087774D /* DKStack.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKStack.h; sourceTree = "<group>"; };
+		84CADD251A6B8DA10087774D /* DKStaticArray.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKStaticArray.h; sourceTree = "<group>"; };
+		84CADD261A6B8DA10087774D /* DKStream.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKStream.h; sourceTree = "<group>"; };
+		84CADD271A6B8DA10087774D /* DKString.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKString.h; sourceTree = "<group>"; };
+		84CADD281A6B8DA10087774D /* DKStringU8.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKStringU8.h; sourceTree = "<group>"; };
+		84CADD291A6B8DA10087774D /* DKStringUE.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKStringUE.h; sourceTree = "<group>"; };
+		84CADD2A1A6B8DA10087774D /* DKStringW.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKStringW.h; sourceTree = "<group>"; };
+		84CADD2B1A6B8DA10087774D /* DKThread.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKThread.h; sourceTree = "<group>"; };
+		84CADD2C1A6B8DA10087774D /* DKTimer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKTimer.h; sourceTree = "<group>"; };
+		84CADD2D1A6B8DA10087774D /* DKTuple.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKTuple.h; sourceTree = "<group>"; };
+		84CADD2E1A6B8DA10087774D /* DKTypeInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKTypeInfo.h; sourceTree = "<group>"; };
+		84CADD2F1A6B8DA10087774D /* DKTypeList.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKTypeList.h; sourceTree = "<group>"; };
+		84CADD301A6B8DA10087774D /* DKTypes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKTypes.h; sourceTree = "<group>"; };
+		84CADD311A6B8DA10087774D /* DKTypeTraits.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKTypeTraits.h; sourceTree = "<group>"; };
+		84CADD321A6B8DA10087774D /* DKUtils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKUtils.h; sourceTree = "<group>"; };
+		84CADD331A6B8DA10087774D /* DKUUID.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKUUID.h; sourceTree = "<group>"; };
+		84CADD341A6B8DA10087774D /* DKValue.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKValue.h; sourceTree = "<group>"; };
+		84CADD351A6B8DA10087774D /* DKXMLDocument.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKXMLDocument.h; sourceTree = "<group>"; };
+		84CADD361A6B8DA10087774D /* DKXMLParser.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKXMLParser.h; sourceTree = "<group>"; };
+		84CADD371A6B8DA10087774D /* DKZipArchiver.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKZipArchiver.h; sourceTree = "<group>"; };
+		84CADD381A6B8DA10087774D /* DKZipUnarchiver.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKZipUnarchiver.h; sourceTree = "<group>"; };
+		84CADD391A6B8DA10087774D /* DKFoundation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKFoundation.h; sourceTree = "<group>"; };
+		84CADD3B1A6B8DA10087774D /* DKAllocator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKAllocator.h; sourceTree = "<group>"; };
+		84CADD3C1A6B8DA10087774D /* DKArray.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKArray.h; sourceTree = "<group>"; };
+		84CADD3D1A6B8DA10087774D /* DKAtomicNumber32.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKAtomicNumber32.h; sourceTree = "<group>"; };
+		84CADD3E1A6B8DA10087774D /* DKAtomicNumber64.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKAtomicNumber64.h; sourceTree = "<group>"; };
+		84CADD3F1A6B8DA10087774D /* DKAVLTree.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKAVLTree.h; sourceTree = "<group>"; };
+		84CADD401A6B8DA10087774D /* DKBuffer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKBuffer.h; sourceTree = "<group>"; };
+		84CADD411A6B8DA10087774D /* DKBufferStream.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKBufferStream.h; sourceTree = "<group>"; };
+		84CADD421A6B8DA10087774D /* DKCallback.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKCallback.h; sourceTree = "<group>"; };
+		84CADD431A6B8DA10087774D /* DKCircularQueue.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKCircularQueue.h; sourceTree = "<group>"; };
+		84CADD441A6B8DA10087774D /* DKCondition.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKCondition.h; sourceTree = "<group>"; };
+		84CADD451A6B8DA10087774D /* DKCriticalSection.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKCriticalSection.h; sourceTree = "<group>"; };
+		84CADD461A6B8DA10087774D /* DKData.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKData.h; sourceTree = "<group>"; };
+		84CADD471A6B8DA10087774D /* DKDataStream.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKDataStream.h; sourceTree = "<group>"; };
+		84CADD481A6B8DA10087774D /* DKDateTime.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKDateTime.h; sourceTree = "<group>"; };
+		84CADD491A6B8DA10087774D /* DKDirectory.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKDirectory.h; sourceTree = "<group>"; };
+		84CADD4A1A6B8DA10087774D /* DKDummyLock.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKDummyLock.h; sourceTree = "<group>"; };
+		84CADD4B1A6B8DA10087774D /* DKEndianness.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKEndianness.h; sourceTree = "<group>"; };
+		84CADD4C1A6B8DA10087774D /* DKError.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKError.h; sourceTree = "<group>"; };
+		84CADD4D1A6B8DA10087774D /* DKFence.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKFence.h; sourceTree = "<group>"; };
+		84CADD4E1A6B8DA10087774D /* DKFile.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKFile.h; sourceTree = "<group>"; };
+		84CADD4F1A6B8DA10087774D /* DKFileMap.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKFileMap.h; sourceTree = "<group>"; };
+		84CADD501A6B8DA10087774D /* DKFunction.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKFunction.h; sourceTree = "<group>"; };
+		84CADD511A6B8DA10087774D /* DKHash.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKHash.h; sourceTree = "<group>"; };
+		84CADD521A6B8DA10087774D /* DKInvocation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKInvocation.h; sourceTree = "<group>"; };
+		84CADD531A6B8DA10087774D /* DKList.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKList.h; sourceTree = "<group>"; };
+		84CADD541A6B8DA10087774D /* DKLock.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKLock.h; sourceTree = "<group>"; };
+		84CADD551A6B8DA10087774D /* DKLog.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKLog.h; sourceTree = "<group>"; };
+		84CADD561A6B8DA10087774D /* DKMap.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKMap.h; sourceTree = "<group>"; };
+		84CADD571A6B8DA10087774D /* DKMemory.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKMemory.h; sourceTree = "<group>"; };
+		84CADD581A6B8DA10087774D /* DKMessageQueue.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKMessageQueue.h; sourceTree = "<group>"; };
+		84CADD591A6B8DA10087774D /* DKMutex.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKMutex.h; sourceTree = "<group>"; };
+		84CADD5A1A6B8DA10087774D /* DKObject.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKObject.h; sourceTree = "<group>"; };
+		84CADD5B1A6B8DA10087774D /* DKObjectRefCounter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKObjectRefCounter.h; sourceTree = "<group>"; };
+		84CADD5C1A6B8DA10087774D /* DKOperation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKOperation.h; sourceTree = "<group>"; };
+		84CADD5D1A6B8DA10087774D /* DKOperationQueue.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKOperationQueue.h; sourceTree = "<group>"; };
+		84CADD5E1A6B8DA10087774D /* DKOrderedArray.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKOrderedArray.h; sourceTree = "<group>"; };
+		84CADD5F1A6B8DA10087774D /* DKQueue.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKQueue.h; sourceTree = "<group>"; };
+		84CADD601A6B8DA10087774D /* DKRational.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKRational.h; sourceTree = "<group>"; };
+		84CADD611A6B8DA10087774D /* DKRunLoop.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKRunLoop.h; sourceTree = "<group>"; };
+		84CADD621A6B8DA10087774D /* DKRunLoopTimer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKRunLoopTimer.h; sourceTree = "<group>"; };
+		84CADD631A6B8DA10087774D /* DKSet.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKSet.h; sourceTree = "<group>"; };
+		84CADD641A6B8DA10087774D /* DKSharedInstance.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKSharedInstance.h; sourceTree = "<group>"; };
+		84CADD651A6B8DA10087774D /* DKSharedLock.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKSharedLock.h; sourceTree = "<group>"; };
+		84CADD661A6B8DA10087774D /* DKSingleton.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKSingleton.h; sourceTree = "<group>"; };
+		84CADD671A6B8DA10087774D /* DKSpinLock.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKSpinLock.h; sourceTree = "<group>"; };
+		84CADD681A6B8DA10087774D /* DKStack.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKStack.h; sourceTree = "<group>"; };
+		84CADD691A6B8DA10087774D /* DKStaticArray.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKStaticArray.h; sourceTree = "<group>"; };
+		84CADD6A1A6B8DA10087774D /* DKStream.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKStream.h; sourceTree = "<group>"; };
+		84CADD6B1A6B8DA10087774D /* DKString.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKString.h; sourceTree = "<group>"; };
+		84CADD6C1A6B8DA10087774D /* DKStringU8.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKStringU8.h; sourceTree = "<group>"; };
+		84CADD6D1A6B8DA10087774D /* DKStringUE.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKStringUE.h; sourceTree = "<group>"; };
+		84CADD6E1A6B8DA10087774D /* DKStringW.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKStringW.h; sourceTree = "<group>"; };
+		84CADD6F1A6B8DA10087774D /* DKThread.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKThread.h; sourceTree = "<group>"; };
+		84CADD701A6B8DA10087774D /* DKTimer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKTimer.h; sourceTree = "<group>"; };
+		84CADD711A6B8DA20087774D /* DKTuple.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKTuple.h; sourceTree = "<group>"; };
+		84CADD721A6B8DA20087774D /* DKTypeInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKTypeInfo.h; sourceTree = "<group>"; };
+		84CADD731A6B8DA20087774D /* DKTypeList.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKTypeList.h; sourceTree = "<group>"; };
+		84CADD741A6B8DA20087774D /* DKTypes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKTypes.h; sourceTree = "<group>"; };
+		84CADD751A6B8DA20087774D /* DKTypeTraits.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKTypeTraits.h; sourceTree = "<group>"; };
+		84CADD761A6B8DA20087774D /* DKUtils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKUtils.h; sourceTree = "<group>"; };
+		84CADD771A6B8DA20087774D /* DKUUID.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKUUID.h; sourceTree = "<group>"; };
+		84CADD781A6B8DA20087774D /* DKValue.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKValue.h; sourceTree = "<group>"; };
+		84CADD791A6B8DA20087774D /* DKXMLDocument.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKXMLDocument.h; sourceTree = "<group>"; };
+		84CADD7A1A6B8DA20087774D /* DKXMLParser.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKXMLParser.h; sourceTree = "<group>"; };
+		84CADD7B1A6B8DA20087774D /* DKZipArchiver.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKZipArchiver.h; sourceTree = "<group>"; };
+		84CADD7C1A6B8DA20087774D /* DKZipUnarchiver.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKZipUnarchiver.h; sourceTree = "<group>"; };
+		84CADD7D1A6B8DA20087774D /* DKFoundation_msvc.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKFoundation_msvc.h; sourceTree = "<group>"; };
+		84CADD7F1A6B8DA20087774D /* DKAABox.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKAABox.h; sourceTree = "<group>"; };
+		84CADD801A6B8DA20087774D /* DKActionController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKActionController.h; sourceTree = "<group>"; };
+		84CADD811A6B8DA20087774D /* DKAffineTransform2.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKAffineTransform2.h; sourceTree = "<group>"; };
+		84CADD821A6B8DA20087774D /* DKAffineTransform3.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKAffineTransform3.h; sourceTree = "<group>"; };
+		84CADD831A6B8DA20087774D /* DKAnimation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKAnimation.h; sourceTree = "<group>"; };
+		84CADD841A6B8DA20087774D /* DKAnimationController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKAnimationController.h; sourceTree = "<group>"; };
+		84CADD851A6B8DA20087774D /* DKApplication.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKApplication.h; sourceTree = "<group>"; };
+		84CADD861A6B8DA20087774D /* DKAudioListener.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKAudioListener.h; sourceTree = "<group>"; };
+		84CADD871A6B8DA20087774D /* DKAudioPlayer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKAudioPlayer.h; sourceTree = "<group>"; };
+		84CADD881A6B8DA20087774D /* DKAudioSource.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKAudioSource.h; sourceTree = "<group>"; };
+		84CADD891A6B8DA20087774D /* DKAudioStream.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKAudioStream.h; sourceTree = "<group>"; };
+		84CADD8A1A6B8DA20087774D /* DKBlendState.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKBlendState.h; sourceTree = "<group>"; };
+		84CADD8B1A6B8DA20087774D /* DKBox.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKBox.h; sourceTree = "<group>"; };
+		84CADD8C1A6B8DA20087774D /* DKBoxShape.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKBoxShape.h; sourceTree = "<group>"; };
+		84CADD8D1A6B8DA20087774D /* DKCamera.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKCamera.h; sourceTree = "<group>"; };
+		84CADD8E1A6B8DA20087774D /* DKCapsuleShape.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKCapsuleShape.h; sourceTree = "<group>"; };
+		84CADD8F1A6B8DA20087774D /* DKCollisionObject.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKCollisionObject.h; sourceTree = "<group>"; };
+		84CADD901A6B8DA20087774D /* DKCollisionShape.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKCollisionShape.h; sourceTree = "<group>"; };
+		84CADD911A6B8DA20087774D /* DKColor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKColor.h; sourceTree = "<group>"; };
+		84CADD921A6B8DA20087774D /* DKCompoundShape.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKCompoundShape.h; sourceTree = "<group>"; };
+		84CADD931A6B8DA20087774D /* DKConcaveShape.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKConcaveShape.h; sourceTree = "<group>"; };
+		84CADD941A6B8DA20087774D /* DKConeShape.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKConeShape.h; sourceTree = "<group>"; };
+		84CADD951A6B8DA20087774D /* DKConeTwistConstraint.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKConeTwistConstraint.h; sourceTree = "<group>"; };
+		84CADD961A6B8DA20087774D /* DKConstraint.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKConstraint.h; sourceTree = "<group>"; };
+		84CADD971A6B8DA20087774D /* DKConvexHullShape.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKConvexHullShape.h; sourceTree = "<group>"; };
+		84CADD981A6B8DA20087774D /* DKConvexShape.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKConvexShape.h; sourceTree = "<group>"; };
+		84CADD991A6B8DA20087774D /* DKCylinderShape.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKCylinderShape.h; sourceTree = "<group>"; };
+		84CADD9A1A6B8DA20087774D /* DKDynamicsScene.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKDynamicsScene.h; sourceTree = "<group>"; };
+		84CADD9B1A6B8DA20087774D /* DKFixedConstraint.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKFixedConstraint.h; sourceTree = "<group>"; };
+		84CADD9C1A6B8DA20087774D /* DKFont.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKFont.h; sourceTree = "<group>"; };
+		84CADD9D1A6B8DA20087774D /* DKFrame.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKFrame.h; sourceTree = "<group>"; };
+		84CADD9E1A6B8DA20087774D /* DKGearConstraint.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKGearConstraint.h; sourceTree = "<group>"; };
+		84CADD9F1A6B8DA20087774D /* DKGeneric6DofConstraint.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKGeneric6DofConstraint.h; sourceTree = "<group>"; };
+		84CADDA01A6B8DA20087774D /* DKGeneric6DofSpringConstraint.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKGeneric6DofSpringConstraint.h; sourceTree = "<group>"; };
+		84CADDA11A6B8DA20087774D /* DKGeometryBuffer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKGeometryBuffer.h; sourceTree = "<group>"; };
+		84CADDA21A6B8DA20087774D /* DKHingeConstraint.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKHingeConstraint.h; sourceTree = "<group>"; };
+		84CADDA31A6B8DA20087774D /* DKIndexBuffer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKIndexBuffer.h; sourceTree = "<group>"; };
+		84CADDA41A6B8DA20087774D /* DKLight.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKLight.h; sourceTree = "<group>"; };
+		84CADDA51A6B8DA20087774D /* DKLine.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKLine.h; sourceTree = "<group>"; };
+		84CADDA61A6B8DA20087774D /* DKLinearTransform2.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKLinearTransform2.h; sourceTree = "<group>"; };
+		84CADDA71A6B8DA20087774D /* DKLinearTransform3.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKLinearTransform3.h; sourceTree = "<group>"; };
+		84CADDA81A6B8DA20087774D /* DKMaterial.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKMaterial.h; sourceTree = "<group>"; };
+		84CADDA91A6B8DA20087774D /* DKMath.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKMath.h; sourceTree = "<group>"; };
+		84CADDAA1A6B8DA20087774D /* DKMatrix2.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKMatrix2.h; sourceTree = "<group>"; };
+		84CADDAB1A6B8DA20087774D /* DKMatrix3.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKMatrix3.h; sourceTree = "<group>"; };
+		84CADDAC1A6B8DA20087774D /* DKMatrix4.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKMatrix4.h; sourceTree = "<group>"; };
+		84CADDAD1A6B8DA20087774D /* DKMesh.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKMesh.h; sourceTree = "<group>"; };
+		84CADDAE1A6B8DA20087774D /* DKModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKModel.h; sourceTree = "<group>"; };
+		84CADDAF1A6B8DA20087774D /* DKMultiSphereShape.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKMultiSphereShape.h; sourceTree = "<group>"; };
+		84CADDB01A6B8DA20087774D /* DKOpenALContext.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKOpenALContext.h; sourceTree = "<group>"; };
+		84CADDB11A6B8DA20087774D /* DKOpenGLContext.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKOpenGLContext.h; sourceTree = "<group>"; };
+		84CADDB21A6B8DA20087774D /* DKPlane.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKPlane.h; sourceTree = "<group>"; };
+		84CADDB31A6B8DA20087774D /* DKPoint.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKPoint.h; sourceTree = "<group>"; };
+		84CADDB41A6B8DA20087774D /* DKPoint2PointConstraint.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKPoint2PointConstraint.h; sourceTree = "<group>"; };
+		84CADDB51A6B8DA20087774D /* DKPolyhedralConvexShape.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKPolyhedralConvexShape.h; sourceTree = "<group>"; };
+		84CADDB61A6B8DA20087774D /* DKPrimitiveIndex.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKPrimitiveIndex.h; sourceTree = "<group>"; };
+		84CADDB71A6B8DA20087774D /* DKPropertySet.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKPropertySet.h; sourceTree = "<group>"; };
+		84CADDB81A6B8DA20087774D /* DKQuaternion.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKQuaternion.h; sourceTree = "<group>"; };
+		84CADDB91A6B8DA20087774D /* DKRect.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKRect.h; sourceTree = "<group>"; };
+		84CADDBA1A6B8DA20087774D /* DKRenderer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKRenderer.h; sourceTree = "<group>"; };
+		84CADDBB1A6B8DA20087774D /* DKRenderState.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKRenderState.h; sourceTree = "<group>"; };
+		84CADDBC1A6B8DA20087774D /* DKRenderTarget.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKRenderTarget.h; sourceTree = "<group>"; };
+		84CADDBD1A6B8DA20087774D /* DKResource.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKResource.h; sourceTree = "<group>"; };
+		84CADDBE1A6B8DA20087774D /* DKResourceLoader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKResourceLoader.h; sourceTree = "<group>"; };
+		84CADDBF1A6B8DA20087774D /* DKResourcePool.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKResourcePool.h; sourceTree = "<group>"; };
+		84CADDC01A6B8DA20087774D /* DKRigidBody.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKRigidBody.h; sourceTree = "<group>"; };
+		84CADDC11A6B8DA20087774D /* DKScene.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKScene.h; sourceTree = "<group>"; };
+		84CADDC21A6B8DA20087774D /* DKSceneState.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKSceneState.h; sourceTree = "<group>"; };
+		84CADDC31A6B8DA20087774D /* DKScreen.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKScreen.h; sourceTree = "<group>"; };
+		84CADDC41A6B8DA20087774D /* DKSerializer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKSerializer.h; sourceTree = "<group>"; };
+		84CADDC51A6B8DA20087774D /* DKShader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKShader.h; sourceTree = "<group>"; };
+		84CADDC61A6B8DA20087774D /* DKShaderConstant.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKShaderConstant.h; sourceTree = "<group>"; };
+		84CADDC71A6B8DA20087774D /* DKShaderProgram.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKShaderProgram.h; sourceTree = "<group>"; };
+		84CADDC81A6B8DA20087774D /* DKSize.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKSize.h; sourceTree = "<group>"; };
+		84CADDC91A6B8DA20087774D /* DKSkinMesh.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKSkinMesh.h; sourceTree = "<group>"; };
+		84CADDCA1A6B8DA20087774D /* DKSliderConstraint.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKSliderConstraint.h; sourceTree = "<group>"; };
+		84CADDCB1A6B8DA20087774D /* DKSoftBody.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKSoftBody.h; sourceTree = "<group>"; };
+		84CADDCC1A6B8DA20087774D /* DKSphere.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKSphere.h; sourceTree = "<group>"; };
+		84CADDCD1A6B8DA20087774D /* DKSphereShape.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKSphereShape.h; sourceTree = "<group>"; };
+		84CADDCE1A6B8DA20087774D /* DKSpline.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKSpline.h; sourceTree = "<group>"; };
+		84CADDCF1A6B8DA20087774D /* DKStaticMesh.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKStaticMesh.h; sourceTree = "<group>"; };
+		84CADDD01A6B8DA20087774D /* DKStaticPlaneShape.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKStaticPlaneShape.h; sourceTree = "<group>"; };
+		84CADDD11A6B8DA20087774D /* DKStaticTriangleMeshShape.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKStaticTriangleMeshShape.h; sourceTree = "<group>"; };
+		84CADDD21A6B8DA20087774D /* DKTexture.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKTexture.h; sourceTree = "<group>"; };
+		84CADDD31A6B8DA20087774D /* DKTexture2D.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKTexture2D.h; sourceTree = "<group>"; };
+		84CADDD41A6B8DA20087774D /* DKTexture3D.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKTexture3D.h; sourceTree = "<group>"; };
+		84CADDD51A6B8DA20087774D /* DKTextureCube.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKTextureCube.h; sourceTree = "<group>"; };
+		84CADDD61A6B8DA20087774D /* DKTextureSampler.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKTextureSampler.h; sourceTree = "<group>"; };
+		84CADDD71A6B8DA20087774D /* DKTransform.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKTransform.h; sourceTree = "<group>"; };
+		84CADDD81A6B8DA20087774D /* DKTriangle.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKTriangle.h; sourceTree = "<group>"; };
+		84CADDD91A6B8DA20087774D /* DKVariant.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKVariant.h; sourceTree = "<group>"; };
+		84CADDDA1A6B8DA20087774D /* DKVector2.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKVector2.h; sourceTree = "<group>"; };
+		84CADDDB1A6B8DA20087774D /* DKVector3.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKVector3.h; sourceTree = "<group>"; };
+		84CADDDC1A6B8DA20087774D /* DKVector4.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKVector4.h; sourceTree = "<group>"; };
+		84CADDDD1A6B8DA20087774D /* DKVertexBuffer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKVertexBuffer.h; sourceTree = "<group>"; };
+		84CADDDE1A6B8DA20087774D /* DKVertexStream.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKVertexStream.h; sourceTree = "<group>"; };
+		84CADDDF1A6B8DA20087774D /* DKVKey.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKVKey.h; sourceTree = "<group>"; };
+		84CADDE01A6B8DA20087774D /* DKVoxel32FileStorage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKVoxel32FileStorage.h; sourceTree = "<group>"; };
+		84CADDE11A6B8DA20087774D /* DKVoxel32SparseVolume.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKVoxel32SparseVolume.h; sourceTree = "<group>"; };
+		84CADDE21A6B8DA20087774D /* DKVoxel32Storage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKVoxel32Storage.h; sourceTree = "<group>"; };
+		84CADDE31A6B8DA20087774D /* DKVoxelIsosurfacePolygonizer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKVoxelIsosurfacePolygonizer.h; sourceTree = "<group>"; };
+		84CADDE41A6B8DA20087774D /* DKVoxelPolygonizer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKVoxelPolygonizer.h; sourceTree = "<group>"; };
+		84CADDE51A6B8DA20087774D /* DKVoxelVolume.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKVoxelVolume.h; sourceTree = "<group>"; };
+		84CADDE61A6B8DA20087774D /* DKWindow.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKWindow.h; sourceTree = "<group>"; };
+		84CADDE81A6B8DA20087774D /* DKApplicationInterface.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKApplicationInterface.h; sourceTree = "<group>"; };
+		84CADDE91A6B8DA20087774D /* DKOpenGLInterface.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKOpenGLInterface.h; sourceTree = "<group>"; };
+		84CADDEA1A6B8DA20087774D /* DKWindowInterface.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKWindowInterface.h; sourceTree = "<group>"; };
+		84CADDEB1A6B8DA20087774D /* DKFramework.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKFramework.h; sourceTree = "<group>"; };
+		84CADDEC1A6B8DA20087774D /* DKInclude.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKInclude.h; sourceTree = "<group>"; };
+		84CADDEE1A6B8DA20087774D /* PyDK.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PyDK.h; sourceTree = "<group>"; };
+		84CADDEF1A6B8DA20087774D /* PyDKApplication.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PyDKApplication.h; sourceTree = "<group>"; };
+		84CADDF01A6B8DA20087774D /* PyDKInterpreter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PyDKInterpreter.h; sourceTree = "<group>"; };
+		84CADDF11A6B8DA20087774D /* PyDKPython.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PyDKPython.h; sourceTree = "<group>"; };
+		84CADDF31A6B8DA20087774D /* python34.zip */ = {isa = PBXFileReference; lastKnownFileType = archive.zip; path = python34.zip; sourceTree = "<group>"; };
+		84E0762C1A6D0FBB000C1A38 /* Scripts */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Scripts; sourceTree = "<group>"; };
+		84E076471A6D5D64000C1A38 /* knights */ = {isa = PBXFileReference; lastKnownFileType = folder; path = knights; sourceTree = "<group>"; };
+		84E076481A6D5D64000C1A38 /* deathstar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = deathstar.png; sourceTree = "<group>"; };
+		84E076491A6D5D64000C1A38 /* desert */ = {isa = PBXFileReference; lastKnownFileType = folder; path = desert; sourceTree = "<group>"; };
+		84E0764B1A6D5D64000C1A38 /* koo.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = koo.jpg; sourceTree = "<group>"; };
+		84E0766F1A6E4D2D000C1A38 /* tree.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = tree.jpg; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		84CADBDD1A6AB60F0087774D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				84CADDFB1A6B8DCA0087774D /* PyDK.framework in Frameworks */,
+				84CADDF91A6B8DCA0087774D /* DK.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		84CADC2F1A6ABB530087774D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				84CADDF61A6B8DB70087774D /* PyDK.framework in Frameworks */,
+				84CADDF41A6B8DB70087774D /* DK.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		84CADBD71A6AB60F0087774D = {
+			isa = PBXGroup;
+			children = (
+				84E0762C1A6D0FBB000C1A38 /* Scripts */,
+				84CADBE21A6AB60F0087774D /* DemoApp */,
+				84CADCEA1A6B8DA10087774D /* DKLib */,
+				84CADBE11A6AB60F0087774D /* Products */,
+				84E076341A6D5B28000C1A38 /* Resources */,
+			);
+			sourceTree = "<group>";
+		};
+		84CADBE11A6AB60F0087774D /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				84CADBE01A6AB60F0087774D /* Demo_OSX.app */,
+				84CADC321A6ABB530087774D /* Demo_iOS.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		84CADBE21A6AB60F0087774D /* DemoApp */ = {
+			isa = PBXGroup;
+			children = (
+				84CADBE81A6AB60F0087774D /* main.cpp */,
+				84CADC1B1A6AB8820087774D /* getpath.mm */,
+				84CADC411A6ABB540087774D /* DemoApp_iOS-Info.plist */,
+				84CADBE41A6AB60F0087774D /* DemoApp_OSX-Info.plist */,
+				84CADC351A6ABB540087774D /* Images_iOS.xcassets */,
+				84CADBEA1A6AB60F0087774D /* Images_OSX.xcassets */,
+				84CADC431A6ABB540087774D /* LaunchScreen.xib */,
+			);
+			name = DemoApp;
+			sourceTree = SOURCE_ROOT;
+		};
+		84CADCEA1A6B8DA10087774D /* DKLib */ = {
+			isa = PBXGroup;
+			children = (
+				84CADCEB1A6B8DA10087774D /* Bin */,
+				84CADCF41A6B8DA10087774D /* DK */,
+				84CADDED1A6B8DA20087774D /* PyDK */,
+				84CADDF21A6B8DA20087774D /* Resources */,
+			);
+			name = DKLib;
+			path = ../DKLib;
+			sourceTree = "<group>";
+		};
+		84CADCEB1A6B8DA10087774D /* Bin */ = {
+			isa = PBXGroup;
+			children = (
+				84CADCEC1A6B8DA10087774D /* iOS */,
+				84CADCEF1A6B8DA10087774D /* OSX */,
+				84CADCF21A6B8DA10087774D /* Win32_i386 */,
+				84CADCF31A6B8DA10087774D /* Win32_x64 */,
+			);
+			path = Bin;
+			sourceTree = "<group>";
+		};
+		84CADCEC1A6B8DA10087774D /* iOS */ = {
+			isa = PBXGroup;
+			children = (
+				84CADCED1A6B8DA10087774D /* DK.framework */,
+				84CADCEE1A6B8DA10087774D /* PyDK.framework */,
+			);
+			path = iOS;
+			sourceTree = "<group>";
+		};
+		84CADCEF1A6B8DA10087774D /* OSX */ = {
+			isa = PBXGroup;
+			children = (
+				84CADCF01A6B8DA10087774D /* DK.framework */,
+				84CADCF11A6B8DA10087774D /* PyDK.framework */,
+			);
+			path = OSX;
+			sourceTree = "<group>";
+		};
+		84CADCF21A6B8DA10087774D /* Win32_i386 */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Win32_i386;
+			sourceTree = "<group>";
+		};
+		84CADCF31A6B8DA10087774D /* Win32_x64 */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Win32_x64;
+			sourceTree = "<group>";
+		};
+		84CADCF41A6B8DA10087774D /* DK */ = {
+			isa = PBXGroup;
+			children = (
+				84CADCF51A6B8DA10087774D /* dk.h */,
+				84CADCF61A6B8DA10087774D /* DKFoundation */,
+				84CADD391A6B8DA10087774D /* DKFoundation.h */,
+				84CADD3A1A6B8DA10087774D /* DKFoundation_msvc */,
+				84CADD7D1A6B8DA20087774D /* DKFoundation_msvc.h */,
+				84CADD7E1A6B8DA20087774D /* DKFramework */,
+				84CADDEB1A6B8DA20087774D /* DKFramework.h */,
+				84CADDEC1A6B8DA20087774D /* DKInclude.h */,
+			);
+			path = DK;
+			sourceTree = "<group>";
+		};
+		84CADCF61A6B8DA10087774D /* DKFoundation */ = {
+			isa = PBXGroup;
+			children = (
+				84CADCF71A6B8DA10087774D /* DKAllocator.h */,
+				84CADCF81A6B8DA10087774D /* DKArray.h */,
+				84CADCF91A6B8DA10087774D /* DKAtomicNumber32.h */,
+				84CADCFA1A6B8DA10087774D /* DKAtomicNumber64.h */,
+				84CADCFB1A6B8DA10087774D /* DKAVLTree.h */,
+				84CADCFC1A6B8DA10087774D /* DKBuffer.h */,
+				84CADCFD1A6B8DA10087774D /* DKBufferStream.h */,
+				84CADCFE1A6B8DA10087774D /* DKCallback.h */,
+				84CADCFF1A6B8DA10087774D /* DKCircularQueue.h */,
+				84CADD001A6B8DA10087774D /* DKCondition.h */,
+				84CADD011A6B8DA10087774D /* DKCriticalSection.h */,
+				84CADD021A6B8DA10087774D /* DKData.h */,
+				84CADD031A6B8DA10087774D /* DKDataStream.h */,
+				84CADD041A6B8DA10087774D /* DKDateTime.h */,
+				84CADD051A6B8DA10087774D /* DKDirectory.h */,
+				84CADD061A6B8DA10087774D /* DKDummyLock.h */,
+				84CADD071A6B8DA10087774D /* DKEndianness.h */,
+				84CADD081A6B8DA10087774D /* DKError.h */,
+				84CADD091A6B8DA10087774D /* DKFence.h */,
+				84CADD0A1A6B8DA10087774D /* DKFile.h */,
+				84CADD0B1A6B8DA10087774D /* DKFileMap.h */,
+				84CADD0C1A6B8DA10087774D /* DKFunction.h */,
+				84CADD0D1A6B8DA10087774D /* DKHash.h */,
+				84CADD0E1A6B8DA10087774D /* DKInvocation.h */,
+				84CADD0F1A6B8DA10087774D /* DKList.h */,
+				84CADD101A6B8DA10087774D /* DKLock.h */,
+				84CADD111A6B8DA10087774D /* DKLog.h */,
+				84CADD121A6B8DA10087774D /* DKMap.h */,
+				84CADD131A6B8DA10087774D /* DKMemory.h */,
+				84CADD141A6B8DA10087774D /* DKMessageQueue.h */,
+				84CADD151A6B8DA10087774D /* DKMutex.h */,
+				84CADD161A6B8DA10087774D /* DKObject.h */,
+				84CADD171A6B8DA10087774D /* DKObjectRefCounter.h */,
+				84CADD181A6B8DA10087774D /* DKOperation.h */,
+				84CADD191A6B8DA10087774D /* DKOperationQueue.h */,
+				84CADD1A1A6B8DA10087774D /* DKOrderedArray.h */,
+				84CADD1B1A6B8DA10087774D /* DKQueue.h */,
+				84CADD1C1A6B8DA10087774D /* DKRational.h */,
+				84CADD1D1A6B8DA10087774D /* DKRunLoop.h */,
+				84CADD1E1A6B8DA10087774D /* DKRunLoopTimer.h */,
+				84CADD1F1A6B8DA10087774D /* DKSet.h */,
+				84CADD201A6B8DA10087774D /* DKSharedInstance.h */,
+				84CADD211A6B8DA10087774D /* DKSharedLock.h */,
+				84CADD221A6B8DA10087774D /* DKSingleton.h */,
+				84CADD231A6B8DA10087774D /* DKSpinLock.h */,
+				84CADD241A6B8DA10087774D /* DKStack.h */,
+				84CADD251A6B8DA10087774D /* DKStaticArray.h */,
+				84CADD261A6B8DA10087774D /* DKStream.h */,
+				84CADD271A6B8DA10087774D /* DKString.h */,
+				84CADD281A6B8DA10087774D /* DKStringU8.h */,
+				84CADD291A6B8DA10087774D /* DKStringUE.h */,
+				84CADD2A1A6B8DA10087774D /* DKStringW.h */,
+				84CADD2B1A6B8DA10087774D /* DKThread.h */,
+				84CADD2C1A6B8DA10087774D /* DKTimer.h */,
+				84CADD2D1A6B8DA10087774D /* DKTuple.h */,
+				84CADD2E1A6B8DA10087774D /* DKTypeInfo.h */,
+				84CADD2F1A6B8DA10087774D /* DKTypeList.h */,
+				84CADD301A6B8DA10087774D /* DKTypes.h */,
+				84CADD311A6B8DA10087774D /* DKTypeTraits.h */,
+				84CADD321A6B8DA10087774D /* DKUtils.h */,
+				84CADD331A6B8DA10087774D /* DKUUID.h */,
+				84CADD341A6B8DA10087774D /* DKValue.h */,
+				84CADD351A6B8DA10087774D /* DKXMLDocument.h */,
+				84CADD361A6B8DA10087774D /* DKXMLParser.h */,
+				84CADD371A6B8DA10087774D /* DKZipArchiver.h */,
+				84CADD381A6B8DA10087774D /* DKZipUnarchiver.h */,
+			);
+			path = DKFoundation;
+			sourceTree = "<group>";
+		};
+		84CADD3A1A6B8DA10087774D /* DKFoundation_msvc */ = {
+			isa = PBXGroup;
+			children = (
+				84CADD3B1A6B8DA10087774D /* DKAllocator.h */,
+				84CADD3C1A6B8DA10087774D /* DKArray.h */,
+				84CADD3D1A6B8DA10087774D /* DKAtomicNumber32.h */,
+				84CADD3E1A6B8DA10087774D /* DKAtomicNumber64.h */,
+				84CADD3F1A6B8DA10087774D /* DKAVLTree.h */,
+				84CADD401A6B8DA10087774D /* DKBuffer.h */,
+				84CADD411A6B8DA10087774D /* DKBufferStream.h */,
+				84CADD421A6B8DA10087774D /* DKCallback.h */,
+				84CADD431A6B8DA10087774D /* DKCircularQueue.h */,
+				84CADD441A6B8DA10087774D /* DKCondition.h */,
+				84CADD451A6B8DA10087774D /* DKCriticalSection.h */,
+				84CADD461A6B8DA10087774D /* DKData.h */,
+				84CADD471A6B8DA10087774D /* DKDataStream.h */,
+				84CADD481A6B8DA10087774D /* DKDateTime.h */,
+				84CADD491A6B8DA10087774D /* DKDirectory.h */,
+				84CADD4A1A6B8DA10087774D /* DKDummyLock.h */,
+				84CADD4B1A6B8DA10087774D /* DKEndianness.h */,
+				84CADD4C1A6B8DA10087774D /* DKError.h */,
+				84CADD4D1A6B8DA10087774D /* DKFence.h */,
+				84CADD4E1A6B8DA10087774D /* DKFile.h */,
+				84CADD4F1A6B8DA10087774D /* DKFileMap.h */,
+				84CADD501A6B8DA10087774D /* DKFunction.h */,
+				84CADD511A6B8DA10087774D /* DKHash.h */,
+				84CADD521A6B8DA10087774D /* DKInvocation.h */,
+				84CADD531A6B8DA10087774D /* DKList.h */,
+				84CADD541A6B8DA10087774D /* DKLock.h */,
+				84CADD551A6B8DA10087774D /* DKLog.h */,
+				84CADD561A6B8DA10087774D /* DKMap.h */,
+				84CADD571A6B8DA10087774D /* DKMemory.h */,
+				84CADD581A6B8DA10087774D /* DKMessageQueue.h */,
+				84CADD591A6B8DA10087774D /* DKMutex.h */,
+				84CADD5A1A6B8DA10087774D /* DKObject.h */,
+				84CADD5B1A6B8DA10087774D /* DKObjectRefCounter.h */,
+				84CADD5C1A6B8DA10087774D /* DKOperation.h */,
+				84CADD5D1A6B8DA10087774D /* DKOperationQueue.h */,
+				84CADD5E1A6B8DA10087774D /* DKOrderedArray.h */,
+				84CADD5F1A6B8DA10087774D /* DKQueue.h */,
+				84CADD601A6B8DA10087774D /* DKRational.h */,
+				84CADD611A6B8DA10087774D /* DKRunLoop.h */,
+				84CADD621A6B8DA10087774D /* DKRunLoopTimer.h */,
+				84CADD631A6B8DA10087774D /* DKSet.h */,
+				84CADD641A6B8DA10087774D /* DKSharedInstance.h */,
+				84CADD651A6B8DA10087774D /* DKSharedLock.h */,
+				84CADD661A6B8DA10087774D /* DKSingleton.h */,
+				84CADD671A6B8DA10087774D /* DKSpinLock.h */,
+				84CADD681A6B8DA10087774D /* DKStack.h */,
+				84CADD691A6B8DA10087774D /* DKStaticArray.h */,
+				84CADD6A1A6B8DA10087774D /* DKStream.h */,
+				84CADD6B1A6B8DA10087774D /* DKString.h */,
+				84CADD6C1A6B8DA10087774D /* DKStringU8.h */,
+				84CADD6D1A6B8DA10087774D /* DKStringUE.h */,
+				84CADD6E1A6B8DA10087774D /* DKStringW.h */,
+				84CADD6F1A6B8DA10087774D /* DKThread.h */,
+				84CADD701A6B8DA10087774D /* DKTimer.h */,
+				84CADD711A6B8DA20087774D /* DKTuple.h */,
+				84CADD721A6B8DA20087774D /* DKTypeInfo.h */,
+				84CADD731A6B8DA20087774D /* DKTypeList.h */,
+				84CADD741A6B8DA20087774D /* DKTypes.h */,
+				84CADD751A6B8DA20087774D /* DKTypeTraits.h */,
+				84CADD761A6B8DA20087774D /* DKUtils.h */,
+				84CADD771A6B8DA20087774D /* DKUUID.h */,
+				84CADD781A6B8DA20087774D /* DKValue.h */,
+				84CADD791A6B8DA20087774D /* DKXMLDocument.h */,
+				84CADD7A1A6B8DA20087774D /* DKXMLParser.h */,
+				84CADD7B1A6B8DA20087774D /* DKZipArchiver.h */,
+				84CADD7C1A6B8DA20087774D /* DKZipUnarchiver.h */,
+			);
+			path = DKFoundation_msvc;
+			sourceTree = "<group>";
+		};
+		84CADD7E1A6B8DA20087774D /* DKFramework */ = {
+			isa = PBXGroup;
+			children = (
+				84CADD7F1A6B8DA20087774D /* DKAABox.h */,
+				84CADD801A6B8DA20087774D /* DKActionController.h */,
+				84CADD811A6B8DA20087774D /* DKAffineTransform2.h */,
+				84CADD821A6B8DA20087774D /* DKAffineTransform3.h */,
+				84CADD831A6B8DA20087774D /* DKAnimation.h */,
+				84CADD841A6B8DA20087774D /* DKAnimationController.h */,
+				84CADD851A6B8DA20087774D /* DKApplication.h */,
+				84CADD861A6B8DA20087774D /* DKAudioListener.h */,
+				84CADD871A6B8DA20087774D /* DKAudioPlayer.h */,
+				84CADD881A6B8DA20087774D /* DKAudioSource.h */,
+				84CADD891A6B8DA20087774D /* DKAudioStream.h */,
+				84CADD8A1A6B8DA20087774D /* DKBlendState.h */,
+				84CADD8B1A6B8DA20087774D /* DKBox.h */,
+				84CADD8C1A6B8DA20087774D /* DKBoxShape.h */,
+				84CADD8D1A6B8DA20087774D /* DKCamera.h */,
+				84CADD8E1A6B8DA20087774D /* DKCapsuleShape.h */,
+				84CADD8F1A6B8DA20087774D /* DKCollisionObject.h */,
+				84CADD901A6B8DA20087774D /* DKCollisionShape.h */,
+				84CADD911A6B8DA20087774D /* DKColor.h */,
+				84CADD921A6B8DA20087774D /* DKCompoundShape.h */,
+				84CADD931A6B8DA20087774D /* DKConcaveShape.h */,
+				84CADD941A6B8DA20087774D /* DKConeShape.h */,
+				84CADD951A6B8DA20087774D /* DKConeTwistConstraint.h */,
+				84CADD961A6B8DA20087774D /* DKConstraint.h */,
+				84CADD971A6B8DA20087774D /* DKConvexHullShape.h */,
+				84CADD981A6B8DA20087774D /* DKConvexShape.h */,
+				84CADD991A6B8DA20087774D /* DKCylinderShape.h */,
+				84CADD9A1A6B8DA20087774D /* DKDynamicsScene.h */,
+				84CADD9B1A6B8DA20087774D /* DKFixedConstraint.h */,
+				84CADD9C1A6B8DA20087774D /* DKFont.h */,
+				84CADD9D1A6B8DA20087774D /* DKFrame.h */,
+				84CADD9E1A6B8DA20087774D /* DKGearConstraint.h */,
+				84CADD9F1A6B8DA20087774D /* DKGeneric6DofConstraint.h */,
+				84CADDA01A6B8DA20087774D /* DKGeneric6DofSpringConstraint.h */,
+				84CADDA11A6B8DA20087774D /* DKGeometryBuffer.h */,
+				84CADDA21A6B8DA20087774D /* DKHingeConstraint.h */,
+				84CADDA31A6B8DA20087774D /* DKIndexBuffer.h */,
+				84CADDA41A6B8DA20087774D /* DKLight.h */,
+				84CADDA51A6B8DA20087774D /* DKLine.h */,
+				84CADDA61A6B8DA20087774D /* DKLinearTransform2.h */,
+				84CADDA71A6B8DA20087774D /* DKLinearTransform3.h */,
+				84CADDA81A6B8DA20087774D /* DKMaterial.h */,
+				84CADDA91A6B8DA20087774D /* DKMath.h */,
+				84CADDAA1A6B8DA20087774D /* DKMatrix2.h */,
+				84CADDAB1A6B8DA20087774D /* DKMatrix3.h */,
+				84CADDAC1A6B8DA20087774D /* DKMatrix4.h */,
+				84CADDAD1A6B8DA20087774D /* DKMesh.h */,
+				84CADDAE1A6B8DA20087774D /* DKModel.h */,
+				84CADDAF1A6B8DA20087774D /* DKMultiSphereShape.h */,
+				84CADDB01A6B8DA20087774D /* DKOpenALContext.h */,
+				84CADDB11A6B8DA20087774D /* DKOpenGLContext.h */,
+				84CADDB21A6B8DA20087774D /* DKPlane.h */,
+				84CADDB31A6B8DA20087774D /* DKPoint.h */,
+				84CADDB41A6B8DA20087774D /* DKPoint2PointConstraint.h */,
+				84CADDB51A6B8DA20087774D /* DKPolyhedralConvexShape.h */,
+				84CADDB61A6B8DA20087774D /* DKPrimitiveIndex.h */,
+				84CADDB71A6B8DA20087774D /* DKPropertySet.h */,
+				84CADDB81A6B8DA20087774D /* DKQuaternion.h */,
+				84CADDB91A6B8DA20087774D /* DKRect.h */,
+				84CADDBA1A6B8DA20087774D /* DKRenderer.h */,
+				84CADDBB1A6B8DA20087774D /* DKRenderState.h */,
+				84CADDBC1A6B8DA20087774D /* DKRenderTarget.h */,
+				84CADDBD1A6B8DA20087774D /* DKResource.h */,
+				84CADDBE1A6B8DA20087774D /* DKResourceLoader.h */,
+				84CADDBF1A6B8DA20087774D /* DKResourcePool.h */,
+				84CADDC01A6B8DA20087774D /* DKRigidBody.h */,
+				84CADDC11A6B8DA20087774D /* DKScene.h */,
+				84CADDC21A6B8DA20087774D /* DKSceneState.h */,
+				84CADDC31A6B8DA20087774D /* DKScreen.h */,
+				84CADDC41A6B8DA20087774D /* DKSerializer.h */,
+				84CADDC51A6B8DA20087774D /* DKShader.h */,
+				84CADDC61A6B8DA20087774D /* DKShaderConstant.h */,
+				84CADDC71A6B8DA20087774D /* DKShaderProgram.h */,
+				84CADDC81A6B8DA20087774D /* DKSize.h */,
+				84CADDC91A6B8DA20087774D /* DKSkinMesh.h */,
+				84CADDCA1A6B8DA20087774D /* DKSliderConstraint.h */,
+				84CADDCB1A6B8DA20087774D /* DKSoftBody.h */,
+				84CADDCC1A6B8DA20087774D /* DKSphere.h */,
+				84CADDCD1A6B8DA20087774D /* DKSphereShape.h */,
+				84CADDCE1A6B8DA20087774D /* DKSpline.h */,
+				84CADDCF1A6B8DA20087774D /* DKStaticMesh.h */,
+				84CADDD01A6B8DA20087774D /* DKStaticPlaneShape.h */,
+				84CADDD11A6B8DA20087774D /* DKStaticTriangleMeshShape.h */,
+				84CADDD21A6B8DA20087774D /* DKTexture.h */,
+				84CADDD31A6B8DA20087774D /* DKTexture2D.h */,
+				84CADDD41A6B8DA20087774D /* DKTexture3D.h */,
+				84CADDD51A6B8DA20087774D /* DKTextureCube.h */,
+				84CADDD61A6B8DA20087774D /* DKTextureSampler.h */,
+				84CADDD71A6B8DA20087774D /* DKTransform.h */,
+				84CADDD81A6B8DA20087774D /* DKTriangle.h */,
+				84CADDD91A6B8DA20087774D /* DKVariant.h */,
+				84CADDDA1A6B8DA20087774D /* DKVector2.h */,
+				84CADDDB1A6B8DA20087774D /* DKVector3.h */,
+				84CADDDC1A6B8DA20087774D /* DKVector4.h */,
+				84CADDDD1A6B8DA20087774D /* DKVertexBuffer.h */,
+				84CADDDE1A6B8DA20087774D /* DKVertexStream.h */,
+				84CADDDF1A6B8DA20087774D /* DKVKey.h */,
+				84CADDE01A6B8DA20087774D /* DKVoxel32FileStorage.h */,
+				84CADDE11A6B8DA20087774D /* DKVoxel32SparseVolume.h */,
+				84CADDE21A6B8DA20087774D /* DKVoxel32Storage.h */,
+				84CADDE31A6B8DA20087774D /* DKVoxelIsosurfacePolygonizer.h */,
+				84CADDE41A6B8DA20087774D /* DKVoxelPolygonizer.h */,
+				84CADDE51A6B8DA20087774D /* DKVoxelVolume.h */,
+				84CADDE61A6B8DA20087774D /* DKWindow.h */,
+				84CADDE71A6B8DA20087774D /* Interface */,
+			);
+			path = DKFramework;
+			sourceTree = "<group>";
+		};
+		84CADDE71A6B8DA20087774D /* Interface */ = {
+			isa = PBXGroup;
+			children = (
+				84CADDE81A6B8DA20087774D /* DKApplicationInterface.h */,
+				84CADDE91A6B8DA20087774D /* DKOpenGLInterface.h */,
+				84CADDEA1A6B8DA20087774D /* DKWindowInterface.h */,
+			);
+			path = Interface;
+			sourceTree = "<group>";
+		};
+		84CADDED1A6B8DA20087774D /* PyDK */ = {
+			isa = PBXGroup;
+			children = (
+				84CADDEE1A6B8DA20087774D /* PyDK.h */,
+				84CADDEF1A6B8DA20087774D /* PyDKApplication.h */,
+				84CADDF01A6B8DA20087774D /* PyDKInterpreter.h */,
+				84CADDF11A6B8DA20087774D /* PyDKPython.h */,
+			);
+			path = PyDK;
+			sourceTree = "<group>";
+		};
+		84CADDF21A6B8DA20087774D /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				84CADDF31A6B8DA20087774D /* python34.zip */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		84E076341A6D5B28000C1A38 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				84E076491A6D5D64000C1A38 /* desert */,
+				84E076471A6D5D64000C1A38 /* knights */,
+				84E0764B1A6D5D64000C1A38 /* koo.jpg */,
+				84E0766F1A6E4D2D000C1A38 /* tree.jpg */,
+				84E076481A6D5D64000C1A38 /* deathstar.png */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		84CADBDF1A6AB60F0087774D /* Demo_OSX */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 84CADBFD1A6AB60F0087774D /* Build configuration list for PBXNativeTarget "Demo_OSX" */;
+			buildPhases = (
+				84CADBDC1A6AB60F0087774D /* Sources */,
+				84CADBDD1A6AB60F0087774D /* Frameworks */,
+				84CADBDE1A6AB60F0087774D /* Resources */,
+				84CADC831A6B82120087774D /* Embed Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Demo_OSX;
+			productName = DemoApp;
+			productReference = 84CADBE01A6AB60F0087774D /* Demo_OSX.app */;
+			productType = "com.apple.product-type.application";
+		};
+		84CADC311A6ABB530087774D /* Demo_iOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 84CADC521A6ABB540087774D /* Build configuration list for PBXNativeTarget "Demo_iOS" */;
+			buildPhases = (
+				84CADC2E1A6ABB530087774D /* Sources */,
+				84CADC2F1A6ABB530087774D /* Frameworks */,
+				84CADC301A6ABB530087774D /* Resources */,
+				84CADDF81A6B8DB70087774D /* Embed Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Demo_iOS;
+			productName = Demo_iOS;
+			productReference = 84CADC321A6ABB530087774D /* Demo_iOS.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		84CADBD81A6AB60F0087774D /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0610;
+				ORGANIZATIONNAME = tiff;
+				TargetAttributes = {
+					84CADBDF1A6AB60F0087774D = {
+						CreatedOnToolsVersion = 6.1.1;
+					};
+					84CADC311A6ABB530087774D = {
+						CreatedOnToolsVersion = 6.1.1;
+					};
+				};
+			};
+			buildConfigurationList = 84CADBDB1A6AB60F0087774D /* Build configuration list for PBXProject "DemoApp" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 84CADBD71A6AB60F0087774D;
+			productRefGroup = 84CADBE11A6AB60F0087774D /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				84CADBDF1A6AB60F0087774D /* Demo_OSX */,
+				84CADC311A6ABB530087774D /* Demo_iOS */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		84CADBDE1A6AB60F0087774D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				84E076501A6D5D64000C1A38 /* desert in Resources */,
+				84E0764E1A6D5D64000C1A38 /* deathstar.png in Resources */,
+				84E0764C1A6D5D64000C1A38 /* knights in Resources */,
+				84E076701A6E4D2D000C1A38 /* tree.jpg in Resources */,
+				84E0762D1A6D0FBB000C1A38 /* Scripts in Resources */,
+				84CADBEB1A6AB60F0087774D /* Images_OSX.xcassets in Resources */,
+				84E076541A6D5D64000C1A38 /* koo.jpg in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		84CADC301A6ABB530087774D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				84CADC451A6ABB540087774D /* LaunchScreen.xib in Resources */,
+				84E0764D1A6D5D64000C1A38 /* knights in Resources */,
+				84CADC5B1A6ABD000087774D /* Images_iOS.xcassets in Resources */,
+				84E0764F1A6D5D64000C1A38 /* deathstar.png in Resources */,
+				84E0762E1A6D0FBB000C1A38 /* Scripts in Resources */,
+				84E076511A6D5D64000C1A38 /* desert in Resources */,
+				84E076551A6D5D64000C1A38 /* koo.jpg in Resources */,
+				84E076711A6E4D6D000C1A38 /* tree.jpg in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		84CADBDC1A6AB60F0087774D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				84CADBE91A6AB60F0087774D /* main.cpp in Sources */,
+				84CADC1C1A6AB8820087774D /* getpath.mm in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		84CADC2E1A6ABB530087774D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				84CADC5A1A6ABCF90087774D /* main.cpp in Sources */,
+				84CADC5D1A6ABD1C0087774D /* getpath.mm in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		84CADC431A6ABB540087774D /* LaunchScreen.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				84CADC591A6ABCBB0087774D /* Base */,
+			);
+			name = LaunchScreen.xib;
+			path = /Users/tiff/Desktop/GIT/DKDemo/DemoApp;
+			sourceTree = "<absolute>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		84CADBFB1A6AB60F0087774D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COPY_PHASE_STRIP = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		84CADBFC1A6AB60F0087774D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		84CADBFE1A6AB60F0087774D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					/Users/tiff/Desktop/GIT/DKDemo/DKLib/Bin/OSX,
+				);
+				INFOPLIST_FILE = "$(SRCROOT)/DemoApp_OSX-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		84CADBFF1A6AB60F0087774D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					/Users/tiff/Desktop/GIT/DKDemo/DKLib/Bin/OSX,
+				);
+				INFOPLIST_FILE = "$(SRCROOT)/DemoApp_OSX-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		84CADC531A6ABB540087774D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					/Users/tiff/Desktop/GIT/DKDemo/DKLib/Bin/iOS,
+				);
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = "$(SRCROOT)/DemoApp_iOS-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		84CADC541A6ABB540087774D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					/Users/tiff/Desktop/GIT/DKDemo/DKLib/Bin/iOS,
+				);
+				INFOPLIST_FILE = "$(SRCROOT)/DemoApp_iOS-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		84CADBDB1A6AB60F0087774D /* Build configuration list for PBXProject "DemoApp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				84CADBFB1A6AB60F0087774D /* Debug */,
+				84CADBFC1A6AB60F0087774D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		84CADBFD1A6AB60F0087774D /* Build configuration list for PBXNativeTarget "Demo_OSX" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				84CADBFE1A6AB60F0087774D /* Debug */,
+				84CADBFF1A6AB60F0087774D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		84CADC521A6ABB540087774D /* Build configuration list for PBXNativeTarget "Demo_iOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				84CADC531A6ABB540087774D /* Debug */,
+				84CADC541A6ABB540087774D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 84CADBD81A6AB60F0087774D /* Project object */;
+}

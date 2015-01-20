@@ -1,0 +1,407 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<DKSerializer class="DKMaterial">
+  <Local type="xml">
+    <DKVariant type="pairs">
+      <Node>
+        <Key>renderingProperties</Key>
+        <DKVariant type="array">
+          <DKVariant type="pairs">
+            <Node>
+              <Key>blendState</Key>
+              <DKVariant type="pairs">
+                <Node>
+                  <Key>colorMaskA</Key>
+                  <DKVariant type="integer">1</DKVariant>
+                </Node>
+                <Node>
+                  <Key>colorMaskB</Key>
+                  <DKVariant type="integer">1</DKVariant>
+                </Node>
+                <Node>
+                  <Key>colorMaskG</Key>
+                  <DKVariant type="integer">1</DKVariant>
+                </Node>
+                <Node>
+                  <Key>colorMaskR</Key>
+                  <DKVariant type="integer">1</DKVariant>
+                </Node>
+                <Node>
+                  <Key>constantColor</Key>
+                  <DKVariant type="vector4">0.000000, 0.000000, 0.000000, 0.000000</DKVariant>
+                </Node>
+                <Node>
+                  <Key>dstAlpha</Key>
+                  <DKVariant type="string">Zero</DKVariant>
+                </Node>
+                <Node>
+                  <Key>dstRGB</Key>
+                  <DKVariant type="string">Zero</DKVariant>
+                </Node>
+                <Node>
+                  <Key>funcAlpha</Key>
+                  <DKVariant type="string">Add</DKVariant>
+                </Node>
+                <Node>
+                  <Key>funcRGB</Key>
+                  <DKVariant type="string">Add</DKVariant>
+                </Node>
+                <Node>
+                  <Key>srcAlpha</Key>
+                  <DKVariant type="string">One</DKVariant>
+                </Node>
+                <Node>
+                  <Key>srcRGB</Key>
+                  <DKVariant type="string">One</DKVariant>
+                </Node>
+              </DKVariant>
+            </Node>
+            <Node>
+              <Key>depthFunc</Key>
+              <DKVariant type="string">Less</DKVariant>
+            </Node>
+            <Node>
+              <Key>depthWrite</Key>
+              <DKVariant type="integer">1</DKVariant>
+            </Node>
+            <Node>
+              <Key>name</Key>
+              <DKVariant type="string">Untitled Program</DKVariant>
+            </Node>
+            <Node>
+              <Key>shaders</Key>
+              <DKVariant type="array">
+                <DKVariant type="pairs">
+                  <Node>
+                    <Key>name</Key>
+                    <DKVariant type="string">main</DKVariant>
+                  </Node>
+                  <Node>
+                    <Key>source</Key>
+                    <DKVariant type="string">
+                      #ifndef GL_ES
+                      #define highp
+                      #define mediump
+                      #define lowp
+                      #endif
+
+                      uniform highp mat4 modelMatrix;
+                      uniform highp mat4 modelViewProjectionMatrix;
+                      uniform highp mat4 boneMatrices[40];
+
+                      attribute highp vec4 position;
+                      attribute mediump vec3 normal;
+                      attribute mediump vec2 texcoord;
+                      attribute mediump vec4 boneWeights;
+                      attribute mediump vec4 boneIndices;
+
+                      varying highp vec3 pos;
+                      varying mediump vec3 norm;
+                      varying mediump vec2 texuv;
+
+                      void main(void)
+                      {
+                          mediump mat4 tm =
+                              boneMatrices[int(boneIndices.x+0.5)] * boneWeights.x +
+                              boneMatrices[int(boneIndices.y+0.5)] * boneWeights.y +
+                              boneMatrices[int(boneIndices.z+0.5)] * boneWeights.z +
+                              boneMatrices[int(boneIndices.w+0.5)] * boneWeights.w;
+
+                          highp vec4 blendedPosition = tm * position;
+                          mediump vec3 blendedNormal = vec3(tm * vec4(normal, 0.0));
+
+                          highp vec4 p = modelMatrix * blendedPosition;
+                          pos = p.xyz / p.w;
+                          norm = normalize(vec3(modelMatrix * vec4(blendedNormal, 0.0)));
+                          texuv = texcoord;
+                          gl_Position = modelViewProjectionMatrix * blendedPosition;
+                      }
+
+                    </DKVariant>
+                  </Node>
+                  <Node>
+                    <Key>type</Key>
+                    <DKVariant type="string">VertexShader</DKVariant>
+                  </Node>
+                </DKVariant>
+                <DKVariant type="pairs">
+                  <Node>
+                    <Key>name</Key>
+                    <DKVariant type="string">main</DKVariant>
+                  </Node>
+                  <Node>
+                    <Key>source</Key>
+                    <DKVariant type="string">
+                      #ifndef GL_ES
+                      #define highp
+                      #define mediump
+                      #define lowp
+                      #endif
+
+                      varying highp vec3 pos;
+                      varying mediump vec3 norm;
+                      varying mediump vec2 texuv;
+
+                      uniform sampler2D diffuseMap;
+
+                      uniform mediump vec3 camera;
+                      uniform mediump vec3 lightDir;
+                      uniform lowp vec3 lightColor;
+                      uniform lowp vec3 ambientColor;
+
+                      void main(void)
+                      {
+                          mediump vec3 halfvector = normalize(normalize(camera) - normalize(lightDir));
+                          mediump vec3 normal = normalize(norm);
+                          lowp vec4 color = texture2D(diffuseMap, texuv);
+
+                          mediump float lambert = max(dot(norm, -lightDir), 0.0);
+                          mediump float specularPower = pow(max(dot(normal, halfvector), 0.0), 96.0);
+
+                          lowp vec3 specular = vec3(0.75, 0.75, 0.75) * specularPower;
+                          lowp vec3 diffuse = color.rgb * lightColor.rgb * lambert;
+                          lowp vec3 ambient = color.rgb * ambientColor;
+
+                          gl_FragColor.rgb = diffuse + ambient + specular;
+                          gl_FragColor.a = 1.0;
+                      }
+                    </DKVariant>
+                  </Node>
+                  <Node>
+                    <Key>type</Key>
+                    <DKVariant type="string">FragmentShader</DKVariant>
+                  </Node>
+                </DKVariant>
+              </DKVariant>
+            </Node>
+          </DKVariant>
+        </DKVariant>
+      </Node>
+      <Node>
+        <Key>samplerProperties</Key>
+        <DKVariant type="pairs" />
+      </Node>
+      <Node>
+        <Key>shaderProperties</Key>
+        <DKVariant type="array" />
+      </Node>
+      <Node>
+        <Key>shadingProperties</Key>
+        <DKVariant type="pairs">
+          <Node>
+            <Key>boneMatrices</Key>
+            <DKVariant type="pairs">
+              <Node>
+                <Key>id</Key>
+                <DKVariant type="string">AffineTransformArray</DKVariant>
+              </Node>
+              <Node>
+                <Key>type</Key>
+                <DKVariant type="string">Unknown</DKVariant>
+              </Node>
+            </DKVariant>
+          </Node>
+          <Node>
+            <Key>camera</Key>
+            <DKVariant type="pairs">
+              <Node>
+                <Key>id</Key>
+                <DKVariant type="string">CameraPosition</DKVariant>
+              </Node>
+              <Node>
+                <Key>type</Key>
+                <DKVariant type="string">Unknown</DKVariant>
+              </Node>
+            </DKVariant>
+          </Node>
+          <Node>
+            <Key>diffuseMap</Key>
+            <DKVariant type="pairs">
+              <Node>
+                <Key>id</Key>
+                <DKVariant type="string">Texture2D</DKVariant>
+              </Node>
+              <Node>
+                <Key>type</Key>
+                <DKVariant type="string">Unknown</DKVariant>
+              </Node>
+            </DKVariant>
+          </Node>
+          <Node>
+            <Key>lightColor</Key>
+            <DKVariant type="pairs">
+              <Node>
+                <Key>id</Key>
+                <DKVariant type="string">DirectionalLightColor</DKVariant>
+              </Node>
+              <Node>
+                <Key>type</Key>
+                <DKVariant type="string">Unknown</DKVariant>
+              </Node>
+            </DKVariant>
+          </Node>
+          <Node>
+            <Key>lightDir</Key>
+            <DKVariant type="pairs">
+              <Node>
+                <Key>id</Key>
+                <DKVariant type="string">DirectionalLightDirection</DKVariant>
+              </Node>
+              <Node>
+                <Key>type</Key>
+                <DKVariant type="string">Unknown</DKVariant>
+              </Node>
+            </DKVariant>
+          </Node>
+
+          <Node>
+            <Key>ambientColor</Key>
+            <DKVariant type="pairs">
+              <Node>
+                <Key>id</Key>
+                <DKVariant type="string">AmbientColor</DKVariant>
+              </Node>
+              <Node>
+                <Key>type</Key>
+                <DKVariant type="string">Unknown</DKVariant>
+              </Node>
+            </DKVariant>
+          </Node>
+
+          <Node>
+            <Key>modelMatrix</Key>
+            <DKVariant type="pairs">
+              <Node>
+                <Key>id</Key>
+                <DKVariant type="string">ModelMatrix</DKVariant>
+              </Node>
+              <Node>
+                <Key>type</Key>
+                <DKVariant type="string">Unknown</DKVariant>
+              </Node>
+            </DKVariant>
+          </Node>
+          <Node>
+            <Key>modelViewProjectionMatrix</Key>
+            <DKVariant type="pairs">
+              <Node>
+                <Key>id</Key>
+                <DKVariant type="string">ModelViewProjectionMatrix</DKVariant>
+              </Node>
+              <Node>
+                <Key>type</Key>
+                <DKVariant type="string">Unknown</DKVariant>
+              </Node>
+            </DKVariant>
+          </Node>
+        </DKVariant>
+      </Node>
+      <Node>
+        <Key>streamProperties</Key>
+        <DKVariant type="pairs">
+          <Node>
+            <Key>boneIndices</Key>
+            <DKVariant type="pairs">
+              <Node>
+                <Key>components</Key>
+                <DKVariant type="integer">0</DKVariant>
+              </Node>
+              <Node>
+                <Key>id</Key>
+                <DKVariant type="string">BlendIndices</DKVariant>
+              </Node>
+              <Node>
+                <Key>type</Key>
+                <DKVariant type="string">Unknown</DKVariant>
+              </Node>
+            </DKVariant>
+          </Node>
+          <Node>
+            <Key>boneWeights</Key>
+            <DKVariant type="pairs">
+              <Node>
+                <Key>components</Key>
+                <DKVariant type="integer">0</DKVariant>
+              </Node>
+              <Node>
+                <Key>id</Key>
+                <DKVariant type="string">BlendWeights</DKVariant>
+              </Node>
+              <Node>
+                <Key>type</Key>
+                <DKVariant type="string">Unknown</DKVariant>
+              </Node>
+            </DKVariant>
+          </Node>
+          <Node>
+            <Key>normal</Key>
+            <DKVariant type="pairs">
+              <Node>
+                <Key>components</Key>
+                <DKVariant type="integer">0</DKVariant>
+              </Node>
+              <Node>
+                <Key>id</Key>
+                <DKVariant type="string">Normal</DKVariant>
+              </Node>
+              <Node>
+                <Key>type</Key>
+                <DKVariant type="string">Unknown</DKVariant>
+              </Node>
+            </DKVariant>
+          </Node>
+          <Node>
+            <Key>position</Key>
+            <DKVariant type="pairs">
+              <Node>
+                <Key>components</Key>
+                <DKVariant type="integer">0</DKVariant>
+              </Node>
+              <Node>
+                <Key>id</Key>
+                <DKVariant type="string">Position</DKVariant>
+              </Node>
+              <Node>
+                <Key>type</Key>
+                <DKVariant type="string">Unknown</DKVariant>
+              </Node>
+            </DKVariant>
+          </Node>
+          <Node>
+            <Key>texcoord</Key>
+            <DKVariant type="pairs">
+              <Node>
+                <Key>components</Key>
+                <DKVariant type="integer">0</DKVariant>
+              </Node>
+              <Node>
+                <Key>id</Key>
+                <DKVariant type="string">TexCoord</DKVariant>
+              </Node>
+              <Node>
+                <Key>type</Key>
+                <DKVariant type="string">Unknown</DKVariant>
+              </Node>
+            </DKVariant>
+          </Node>
+        </DKVariant>
+      </Node>
+    </DKVariant>
+  </Local>
+  <Include key="super">
+    <DKSerializer class="DKResource">
+      <Local type="xml">
+        <DKVariant type="pairs">
+          <Node>
+            <Key>name</Key>
+            <DKVariant type="string">skin.DKMaterial</DKVariant>
+          </Node>
+          <Node>
+            <Key>tag</Key>
+            <DKVariant type="integer">0</DKVariant>
+          </Node>
+        </DKVariant>
+      </Local>
+    </DKSerializer>
+  </Include>
+  <ExternalMap key="textures" />
+</DKSerializer>
