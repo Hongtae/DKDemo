@@ -6,15 +6,16 @@ from .. import blendstate
 
 _DisplayFrames = namedtuple('_DisplayFrames', ('texture', 'renderer'))
 
+
 class Sprite:
     # sprite state
     STATE_NORMAL = 0,
     STATE_HIGHLIGHTED = 1,
     STATE_DISABLED = 2
 
-    TEXTURE_RECT = core.Rect(0,0,1,1)
+    TEXTURE_RECT = core.Rect(0, 0, 1, 1)
 
-    def __init__(self, center=(0,0), size=(1,1), texturePack=None, name=''):
+    def __init__(self, center=(0, 0), size=(1, 1), texturePack=None, name=''):
         self.name = name
         self.state = Sprite.STATE_NORMAL
         self.hidden = False
@@ -25,15 +26,15 @@ class Sprite:
         self.paused = False
 
         self.texturePack = texturePack
-        self._textureIdsForState = {Sprite.STATE_NORMAL:(),
-                                    Sprite.STATE_HIGHLIGHTED:(),
-                                    Sprite.STATE_DISABLED:()}
+        self._textureIdsForState = {Sprite.STATE_NORMAL: (),
+                                    Sprite.STATE_HIGHLIGHTED: (),
+                                    Sprite.STATE_DISABLED: ()}
 
-        #callback functions with argument Sprite(self)
+        # callback functions with argument Sprite(self)
         self.highlightCallback = None
         self.buttonCallback = None
 
-        #animated values
+        # animated values
         # three values tuple
         self.diffuse = (1.0, 1.0, 1.0)
 
@@ -43,14 +44,14 @@ class Sprite:
         self.offset = (0.0, 0.0)    # Sprite's position offset of parent space
         self.scale = (1.0, 1.0)     # Sprite's scale of parent space
 
-        #single value tuple
+        # single value tuple
         self.rotate = (0.0,)
         self.alpha = (1.0,)
         self.textureIndex = (0.0,)
 
         self._animators = {}
         self._mouseId = None
-        self.update(0,0)
+        self.update(0, 0)
 
     def update(self, delta, tick):
         if self.hidden or self.state == Sprite.STATE_DISABLED:
@@ -60,7 +61,7 @@ class Sprite:
             return
 
         finished = []
-        #update animations
+        # update animations
         for attr, anim in self._animators.items():
             anim.update(delta)
             self.__dict__[attr] = anim.value
@@ -68,7 +69,7 @@ class Sprite:
                 finished.append((attr, anim))
                 print('anim finished attr:{}'.format(attr))
 
-        #calculate transform
+        # calculate transform
         trans = core.AffineTransform2()
         trans.translate(self.size[0] * -0.5, self.size[1] * -0.5)
         linear = core.LinearTransform2()
@@ -81,15 +82,15 @@ class Sprite:
         trans.inverse()
         self.transformInverse = trans.matrix3()
 
-        #update children
+        # update children
         for c in self.children[:]:
             c.update(delta, tick)
 
-        #remove finished animation, invoke finish callback
+        # remove finished animation, invoke finish callback
         for attr, anim in finished:
             del self._animators[attr]
             if anim.callback:
-                anim.callback(anim)              
+                anim.callback(anim)
 
     def render(self, renderer):
         rc = renderer.contextForTexturedRects(texture=None, blend=blendstate.defaultAlpha)
@@ -194,7 +195,7 @@ class Sprite:
             raise ValueError('child is not belongs to self')
 
     def mouseDown(self, deviceId, pos):
-        if not self._mouseId:
+        if self._mouseId is None:
             if self.state == Sprite.STATE_NORMAL:
                 if self.isPointInside(pos):
                     for c in self.children[:]:
@@ -257,4 +258,4 @@ class Sprite:
         return core.Point(v)
 
     def bounds(self):
-        return core.Rect(0,0, self.size[0], self.size[1])
+        return core.Rect(0, 0, self.size[0], self.size[1])

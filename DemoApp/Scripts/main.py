@@ -24,10 +24,10 @@ class MainFrame(dk.ui.View):
         super().onLoaded()
         items = [
             (kine.Frame, '키네마틱 애니메이션'),
-            (shadow.Frame, '그림자 샘플'),
             (sprite.Frame, '2D 스프라이트'),
+            (ui.Frame, 'UI 위젯 샘플'),
             (car.Frame, '자동차 물리'),
-            (ui.Frame, 'UI 샘플'),
+            (shadow.Frame, '쉐도우맵 샘플'),
             (anim.Frame, '캐릭터 애니메이션'),
         ]
 

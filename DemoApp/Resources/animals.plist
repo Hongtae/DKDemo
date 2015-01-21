@@ -1,0 +1,458 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>frames</key>
+	<dict>
+		<key>brownbear_normal_0.png</key>
+		<dict>
+			<key>frame</key>
+			<string>{{1449, 1264}, {388, 303}}</string>
+			<key>offset</key>
+			<string>{-0.5, -0}</string>
+			<key>sourceColorRect</key>
+			<string>{{26, 25}, {388, 303}}</string>
+			<key>sourceSize</key>
+			<string>{441, 353}</string>
+		</dict>
+		<key>brownbear_normal_1.png</key>
+		<dict>
+			<key>frame</key>
+			<string>{{1060, 1264}, {388, 303}}</string>
+			<key>offset</key>
+			<string>{-0.5, -0}</string>
+			<key>sourceColorRect</key>
+			<string>{{26, 25}, {388, 303}}</string>
+			<key>sourceSize</key>
+			<string>{441, 353}</string>
+		</dict>
+		<key>cat_normal_0.png</key>
+		<dict>
+			<key>frame</key>
+			<string>{{1656, 234}, {252, 149}}</string>
+			<key>offset</key>
+			<string>{-0.5, -0}</string>
+			<key>sourceColorRect</key>
+			<string>{{15, 67}, {252, 149}}</string>
+			<key>sourceSize</key>
+			<string>{283, 283}</string>
+		</dict>
+		<key>cat_normal_1.png</key>
+		<dict>
+			<key>frame</key>
+			<string>{{1403, 234}, {252, 149}}</string>
+			<key>offset</key>
+			<string>{-0.5, -0}</string>
+			<key>sourceColorRect</key>
+			<string>{{15, 67}, {252, 149}}</string>
+			<key>sourceSize</key>
+			<string>{283, 283}</string>
+		</dict>
+		<key>deer_normal_0.png</key>
+		<dict>
+			<key>frame</key>
+			<string>{{344, 1}, {189, 219}}</string>
+			<key>offset</key>
+			<string>{0, -3}</string>
+			<key>sourceColorRect</key>
+			<string>{{47, 35}, {189, 219}}</string>
+			<key>sourceSize</key>
+			<string>{283, 283}</string>
+		</dict>
+		<key>deer_normal_1.png</key>
+		<dict>
+			<key>frame</key>
+			<string>{{534, 1}, {189, 229}}</string>
+			<key>offset</key>
+			<string>{0, -0}</string>
+			<key>sourceColorRect</key>
+			<string>{{47, 27}, {189, 229}}</string>
+			<key>sourceSize</key>
+			<string>{283, 283}</string>
+		</dict>
+		<key>dog_normal_0.png</key>
+		<dict>
+			<key>frame</key>
+			<string>{{1313, 1}, {207, 232}}</string>
+			<key>offset</key>
+			<string>{-7, 0.5}</string>
+			<key>sourceColorRect</key>
+			<string>{{31, 25}, {207, 232}}</string>
+			<key>sourceSize</key>
+			<string>{283, 283}</string>
+		</dict>
+		<key>dog_normal_1.png</key>
+		<dict>
+			<key>frame</key>
+			<string>{{1729, 1}, {221, 232}}</string>
+			<key>offset</key>
+			<string>{0, 0.5}</string>
+			<key>sourceColorRect</key>
+			<string>{{31, 25}, {221, 232}}</string>
+			<key>sourceSize</key>
+			<string>{283, 283}</string>
+		</dict>
+		<key>elephant_normal_0.png</key>
+		<dict>
+			<key>frame</key>
+			<string>{{923, 924}, {316, 324}}</string>
+			<key>offset</key>
+			<string>{-13.5, 0.5}</string>
+			<key>sourceColorRect</key>
+			<string>{{49, 14}, {316, 324}}</string>
+			<key>sourceSize</key>
+			<string>{441, 353}</string>
+		</dict>
+		<key>elephant_normal_1.png</key>
+		<dict>
+			<key>frame</key>
+			<string>{{1576, 924}, {342, 325}}</string>
+			<key>offset</key>
+			<string>{-0.5, -0}</string>
+			<key>sourceColorRect</key>
+			<string>{{49, 14}, {342, 325}}</string>
+			<key>sourceSize</key>
+			<string>{441, 353}</string>
+		</dict>
+		<key>fox_normal_0.png</key>
+		<dict>
+			<key>frame</key>
+			<string>{{1, 573}, {257, 129}}</string>
+			<key>offset</key>
+			<string>{5, 3}</string>
+			<key>sourceColorRect</key>
+			<string>{{18, 74}, {257, 129}}</string>
+			<key>sourceSize</key>
+			<string>{283, 283}</string>
+		</dict>
+		<key>fox_normal_1.png</key>
+		<dict>
+			<key>frame</key>
+			<string>{{1046, 573}, {268, 131}}</string>
+			<key>offset</key>
+			<string>{-0.5, 4}</string>
+			<key>sourceColorRect</key>
+			<string>{{7, 72}, {268, 131}}</string>
+			<key>sourceSize</key>
+			<string>{283, 283}</string>
+		</dict>
+		<key>giraffe_normal_0.png</key>
+		<dict>
+			<key>frame</key>
+			<string>{{1606, 573}, {294, 350}}</string>
+			<key>offset</key>
+			<string>{-8.5, 1.5}</string>
+			<key>sourceColorRect</key>
+			<string>{{65, 0}, {294, 350}}</string>
+			<key>sourceSize</key>
+			<string>{441, 353}</string>
+		</dict>
+		<key>giraffe_normal_1.png</key>
+		<dict>
+			<key>frame</key>
+			<string>{{1315, 573}, {290, 348}}</string>
+			<key>offset</key>
+			<string>{-24.5, 1.5}</string>
+			<key>sourceColorRect</key>
+			<string>{{51, 1}, {290, 348}}</string>
+			<key>sourceSize</key>
+			<string>{441, 353}</string>
+		</dict>
+		<key>gorilla_normal_0.png</key>
+		<dict>
+			<key>frame</key>
+			<string>{{305, 924}, {303, 334}}</string>
+			<key>offset</key>
+			<string>{-1, 0.5}</string>
+			<key>sourceColorRect</key>
+			<string>{{68, 9}, {303, 334}}</string>
+			<key>sourceSize</key>
+			<string>{441, 353}</string>
+		</dict>
+		<key>gorilla_normal_1.png</key>
+		<dict>
+			<key>frame</key>
+			<string>{{1, 924}, {303, 332}}</string>
+			<key>offset</key>
+			<string>{0, 1.5}</string>
+			<key>sourceColorRect</key>
+			<string>{{69, 9}, {303, 332}}</string>
+			<key>sourceSize</key>
+			<string>{441, 353}</string>
+		</dict>
+		<key>kangaroo_normal_0.png</key>
+		<dict>
+			<key>frame</key>
+			<string>{{452, 234}, {233, 287}}</string>
+			<key>offset</key>
+			<string>{-11, 24}</string>
+			<key>sourceColorRect</key>
+			<string>{{93, 9}, {233, 287}}</string>
+			<key>sourceSize</key>
+			<string>{441, 353}</string>
+		</dict>
+		<key>kangaroo_normal_1.png</key>
+		<dict>
+			<key>frame</key>
+			<string>{{1, 234}, {222, 338}}</string>
+			<key>offset</key>
+			<string>{1.5, 0.5}</string>
+			<key>sourceColorRect</key>
+			<string>{{111, 7}, {222, 338}}</string>
+			<key>sourceSize</key>
+			<string>{441, 353}</string>
+		</dict>
+		<key>lamb_normal_0.png</key>
+		<dict>
+			<key>frame</key>
+			<string>{{519, 573}, {259, 158}}</string>
+			<key>offset</key>
+			<string>{0, 2.5}</string>
+			<key>sourceColorRect</key>
+			<string>{{12, 60}, {259, 158}}</string>
+			<key>sourceSize</key>
+			<string>{283, 283}</string>
+		</dict>
+		<key>lamb_normal_1.png</key>
+		<dict>
+			<key>frame</key>
+			<string>{{259, 573}, {259, 163}}</string>
+			<key>offset</key>
+			<string>{0, -0}</string>
+			<key>sourceColorRect</key>
+			<string>{{12, 60}, {259, 163}}</string>
+			<key>sourceSize</key>
+			<string>{283, 283}</string>
+		</dict>
+		<key>lion_normal_0.png</key>
+		<dict>
+			<key>frame</key>
+			<string>{{704, 1264}, {355, 324}}</string>
+			<key>offset</key>
+			<string>{0, 0.5}</string>
+			<key>sourceColorRect</key>
+			<string>{{43, 14}, {355, 324}}</string>
+			<key>sourceSize</key>
+			<string>{441, 353}</string>
+		</dict>
+		<key>lion_normal_1.png</key>
+		<dict>
+			<key>frame</key>
+			<string>{{350, 1264}, {353, 324}}</string>
+			<key>offset</key>
+			<string>{-1, 0.5}</string>
+			<key>sourceColorRect</key>
+			<string>{{43, 14}, {353, 324}}</string>
+			<key>sourceSize</key>
+			<string>{441, 353}</string>
+		</dict>
+		<key>monkey_normal_0.png</key>
+		<dict>
+			<key>frame</key>
+			<string>{{1112, 1}, {200, 220}}</string>
+			<key>offset</key>
+			<string>{-13.5, 6.5}</string>
+			<key>sourceColorRect</key>
+			<string>{{28, 25}, {200, 220}}</string>
+			<key>sourceSize</key>
+			<string>{283, 283}</string>
+		</dict>
+		<key>monkey_normal_1.png</key>
+		<dict>
+			<key>frame</key>
+			<string>{{224, 234}, {227, 206}}</string>
+			<key>offset</key>
+			<string>{0, -2.5}</string>
+			<key>sourceColorRect</key>
+			<string>{{28, 41}, {227, 206}}</string>
+			<key>sourceSize</key>
+			<string>{283, 283}</string>
+		</dict>
+		<key>panda_normal_0.png</key>
+		<dict>
+			<key>frame</key>
+			<string>{{1240, 924}, {335, 313}}</string>
+			<key>offset</key>
+			<string>{-7, -0}</string>
+			<key>sourceColorRect</key>
+			<string>{{46, 20}, {335, 313}}</string>
+			<key>sourceSize</key>
+			<string>{441, 353}</string>
+		</dict>
+		<key>panda_normal_1.png</key>
+		<dict>
+			<key>frame</key>
+			<string>{{1, 1264}, {348, 313}}</string>
+			<key>offset</key>
+			<string>{0.5, -0}</string>
+			<key>sourceColorRect</key>
+			<string>{{47, 20}, {348, 313}}</string>
+			<key>sourceSize</key>
+			<string>{441, 353}</string>
+		</dict>
+		<key>pig_normal_0.png</key>
+		<dict>
+			<key>frame</key>
+			<string>{{686, 234}, {235, 146}}</string>
+			<key>offset</key>
+			<string>{-1, 0.5}</string>
+			<key>sourceColorRect</key>
+			<string>{{23, 68}, {235, 146}}</string>
+			<key>sourceSize</key>
+			<string>{283, 283}</string>
+		</dict>
+		<key>pig_normal_1.png</key>
+		<dict>
+			<key>frame</key>
+			<string>{{922, 234}, {237, 146}}</string>
+			<key>offset</key>
+			<string>{0, 0.5}</string>
+			<key>sourceColorRect</key>
+			<string>{{23, 68}, {237, 146}}</string>
+			<key>sourceSize</key>
+			<string>{283, 283}</string>
+		</dict>
+		<key>polarbear_normal_0.png</key>
+		<dict>
+			<key>frame</key>
+			<string>{{398, 1589}, {415, 224}}</string>
+			<key>offset</key>
+			<string>{5, 0.5}</string>
+			<key>sourceColorRect</key>
+			<string>{{18, 64}, {415, 224}}</string>
+			<key>sourceSize</key>
+			<string>{441, 353}</string>
+		</dict>
+		<key>polarbear_normal_1.png</key>
+		<dict>
+			<key>frame</key>
+			<string>{{1, 1589}, {396, 224}}</string>
+			<key>offset</key>
+			<string>{-4.5, 0.5}</string>
+			<key>sourceColorRect</key>
+			<string>{{18, 64}, {396, 224}}</string>
+			<key>sourceSize</key>
+			<string>{441, 353}</string>
+		</dict>
+		<key>rabbit_normal_0.png</key>
+		<dict>
+			<key>frame</key>
+			<string>{{169, 1}, {174, 230}}</string>
+			<key>offset</key>
+			<string>{1.5, 3.5}</string>
+			<key>sourceColorRect</key>
+			<string>{{56, 23}, {174, 230}}</string>
+			<key>sourceSize</key>
+			<string>{283, 283}</string>
+		</dict>
+		<key>rabbit_normal_1.png</key>
+		<dict>
+			<key>frame</key>
+			<string>{{1, 1}, {167, 218}}</string>
+			<key>offset</key>
+			<string>{-2, -2.5}</string>
+			<key>sourceColorRect</key>
+			<string>{{56, 35}, {167, 218}}</string>
+			<key>sourceSize</key>
+			<string>{283, 283}</string>
+		</dict>
+		<key>rooster_normal_0.png</key>
+		<dict>
+			<key>frame</key>
+			<string>{{917, 1}, {194, 184}}</string>
+			<key>offset</key>
+			<string>{-0.5, -6.5}</string>
+			<key>sourceColorRect</key>
+			<string>{{44, 56}, {194, 184}}</string>
+			<key>sourceSize</key>
+			<string>{283, 283}</string>
+		</dict>
+		<key>rooster_normal_1.png</key>
+		<dict>
+			<key>frame</key>
+			<string>{{724, 1}, {192, 200}}</string>
+			<key>offset</key>
+			<string>{0.5, 0.5}</string>
+			<key>sourceColorRect</key>
+			<string>{{46, 41}, {192, 200}}</string>
+			<key>sourceSize</key>
+			<string>{283, 283}</string>
+		</dict>
+		<key>squirrel_normal_0.png</key>
+		<dict>
+			<key>frame</key>
+			<string>{{1521, 1}, {207, 183}}</string>
+			<key>offset</key>
+			<string>{-18, 5}</string>
+			<key>sourceColorRect</key>
+			<string>{{20, 45}, {207, 183}}</string>
+			<key>sourceSize</key>
+			<string>{283, 283}</string>
+		</dict>
+		<key>squirrel_normal_1.png</key>
+		<dict>
+			<key>frame</key>
+			<string>{{1160, 234}, {242, 166}}</string>
+			<key>offset</key>
+			<string>{-0.5, -3.5}</string>
+			<key>sourceColorRect</key>
+			<string>{{20, 62}, {242, 166}}</string>
+			<key>sourceSize</key>
+			<string>{283, 283}</string>
+		</dict>
+		<key>tiger_normal_0.png</key>
+		<dict>
+			<key>frame</key>
+			<string>{{1238, 1589}, {432, 197}}</string>
+			<key>offset</key>
+			<string>{2.5, -0}</string>
+			<key>sourceColorRect</key>
+			<string>{{7, 78}, {432, 197}}</string>
+			<key>sourceSize</key>
+			<string>{441, 353}</string>
+		</dict>
+		<key>tiger_normal_1.png</key>
+		<dict>
+			<key>frame</key>
+			<string>{{814, 1589}, {423, 197}}</string>
+			<key>offset</key>
+			<string>{-2, -0}</string>
+			<key>sourceColorRect</key>
+			<string>{{7, 78}, {423, 197}}</string>
+			<key>sourceSize</key>
+			<string>{441, 353}</string>
+		</dict>
+		<key>zebra_normal_0.png</key>
+		<dict>
+			<key>frame</key>
+			<string>{{609, 924}, {313, 339}}</string>
+			<key>offset</key>
+			<string>{16, 2}</string>
+			<key>sourceColorRect</key>
+			<string>{{80, 5}, {313, 339}}</string>
+			<key>sourceSize</key>
+			<string>{441, 353}</string>
+		</dict>
+		<key>zebra_normal_1.png</key>
+		<dict>
+			<key>frame</key>
+			<string>{{779, 573}, {266, 339}}</string>
+			<key>offset</key>
+			<string>{-8.5, 1}</string>
+			<key>sourceColorRect</key>
+			<string>{{79, 6}, {266, 339}}</string>
+			<key>sourceSize</key>
+			<string>{441, 353}</string>
+		</dict>
+	</dict>
+	<key>metadata</key>
+	<dict>
+		<key>textureFileName</key>
+		<string>animals.png</string>
+		<key>format</key>
+		<integer>1</integer>
+		<key>size</key>
+		<string>{2048, 2048}</string>
+	</dict>
+</dict>
+</plist>

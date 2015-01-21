@@ -6,7 +6,11 @@ UNIFORM_CUBIC = 1
 HERMITE = 2
 BEZIER = 3
 
+
 Spline = core.Spline
+
+class Spline1(core.Spline):
+    pass
 
 class Spline2:
     '''spline for Vector2'''
@@ -16,10 +20,10 @@ class Spline2:
         self.p2 = p2
         self.p3 = p3
 
-    def interpolate(t, type):
+    def interpolate(self, t, type):
         x = Spline.splineInterpolate(self.p0.x, self.p1.x, self.p2.x, self.p3.x, t, type)
         y = Spline.splineInterpolate(self.p0.y, self.p1.y, self.p2.y, self.p3.y, t, type)
-        return core.Vector2(x,y)
+        return core.Vector2(x, y)
 
 class Spline3:
     '''spline for Vector3'''
@@ -29,11 +33,11 @@ class Spline3:
         self.p2 = p2
         self.p3 = p3
 
-    def interpolate(t, type):
+    def interpolate(self, t, type):
         x = Spline.splineInterpolate(self.p0.x, self.p1.x, self.p2.x, self.p3.x, t, type)
         y = Spline.splineInterpolate(self.p0.y, self.p1.y, self.p2.y, self.p3.y, t, type)
         z = Spline.splineInterpolate(self.p0.z, self.p1.z, self.p2.z, self.p3.z, t, type)
-        return core.Vector3(x,y,z)
+        return core.Vector3(x, y, z)
 
 class Spline4:
     '''spline for Vector4'''
@@ -43,9 +47,13 @@ class Spline4:
         self.p2 = p2
         self.p3 = p3
 
-    def interpolate(t, type):
+    def interpolate(self, t, type):
         x = Spline.splineInterpolate(self.p0.x, self.p1.x, self.p2.x, self.p3.x, t, type)
         y = Spline.splineInterpolate(self.p0.y, self.p1.y, self.p2.y, self.p3.y, t, type)
         z = Spline.splineInterpolate(self.p0.z, self.p1.z, self.p2.z, self.p3.z, t, type)
         w = Spline.splineInterpolate(self.p0.w, self.p1.w, self.p2.w, self.p3.w, t, type)
-        return core.Vector4(x,y,z,w)
+        return core.Vector4(x, y, z, w)
+
+
+def splineInterpolate(v1, v2, v3, v4, t, type):
+    return core.Spline.splineInterpolate(v1, v2, v3, v4, t, type)

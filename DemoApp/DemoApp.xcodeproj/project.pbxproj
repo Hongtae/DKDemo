@@ -10,7 +10,6 @@
 		84CADBE91A6AB60F0087774D /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84CADBE81A6AB60F0087774D /* main.cpp */; };
 		84CADBEB1A6AB60F0087774D /* Images_OSX.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 84CADBEA1A6AB60F0087774D /* Images_OSX.xcassets */; };
 		84CADC1C1A6AB8820087774D /* getpath.mm in Sources */ = {isa = PBXBuildFile; fileRef = 84CADC1B1A6AB8820087774D /* getpath.mm */; };
-		84CADC451A6ABB540087774D /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 84CADC431A6ABB540087774D /* LaunchScreen.xib */; };
 		84CADC5A1A6ABCF90087774D /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84CADBE81A6AB60F0087774D /* main.cpp */; };
 		84CADC5B1A6ABD000087774D /* Images_iOS.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 84CADC351A6ABB540087774D /* Images_iOS.xcassets */; };
 		84CADC5D1A6ABD1C0087774D /* getpath.mm in Sources */ = {isa = PBXBuildFile; fileRef = 84CADC1B1A6AB8820087774D /* getpath.mm */; };
@@ -34,6 +33,11 @@
 		84E076551A6D5D64000C1A38 /* koo.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 84E0764B1A6D5D64000C1A38 /* koo.jpg */; };
 		84E076701A6E4D2D000C1A38 /* tree.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 84E0766F1A6E4D2D000C1A38 /* tree.jpg */; };
 		84E076711A6E4D6D000C1A38 /* tree.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 84E0766F1A6E4D2D000C1A38 /* tree.jpg */; };
+		84EEC6B91A700B1E00D1D516 /* animals.plist in Resources */ = {isa = PBXBuildFile; fileRef = 84EEC6B71A700B1E00D1D516 /* animals.plist */; };
+		84EEC6BA1A700B1E00D1D516 /* animals.plist in Resources */ = {isa = PBXBuildFile; fileRef = 84EEC6B71A700B1E00D1D516 /* animals.plist */; };
+		84EEC6BB1A700B1E00D1D516 /* animals.png in Resources */ = {isa = PBXBuildFile; fileRef = 84EEC6B81A700B1E00D1D516 /* animals.png */; };
+		84EEC6BC1A700B1E00D1D516 /* animals.png in Resources */ = {isa = PBXBuildFile; fileRef = 84EEC6B81A700B1E00D1D516 /* animals.png */; };
+		84EEC6BD1A700E3200D1D516 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 84CADC431A6ABB540087774D /* LaunchScreen.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -332,6 +336,8 @@
 		84E076491A6D5D64000C1A38 /* desert */ = {isa = PBXFileReference; lastKnownFileType = folder; path = desert; sourceTree = "<group>"; };
 		84E0764B1A6D5D64000C1A38 /* koo.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = koo.jpg; sourceTree = "<group>"; };
 		84E0766F1A6E4D2D000C1A38 /* tree.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = tree.jpg; sourceTree = "<group>"; };
+		84EEC6B71A700B1E00D1D516 /* animals.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = animals.plist; sourceTree = "<group>"; };
+		84EEC6B81A700B1E00D1D516 /* animals.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = animals.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -750,11 +756,13 @@
 		84E076341A6D5B28000C1A38 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				84EEC6B71A700B1E00D1D516 /* animals.plist */,
+				84EEC6B81A700B1E00D1D516 /* animals.png */,
+				84E076481A6D5D64000C1A38 /* deathstar.png */,
 				84E076491A6D5D64000C1A38 /* desert */,
 				84E076471A6D5D64000C1A38 /* knights */,
 				84E0764B1A6D5D64000C1A38 /* koo.jpg */,
 				84E0766F1A6E4D2D000C1A38 /* tree.jpg */,
-				84E076481A6D5D64000C1A38 /* deathstar.png */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -841,8 +849,10 @@
 			files = (
 				84E076501A6D5D64000C1A38 /* desert in Resources */,
 				84E0764E1A6D5D64000C1A38 /* deathstar.png in Resources */,
+				84EEC6BB1A700B1E00D1D516 /* animals.png in Resources */,
 				84E0764C1A6D5D64000C1A38 /* knights in Resources */,
 				84E076701A6E4D2D000C1A38 /* tree.jpg in Resources */,
+				84EEC6B91A700B1E00D1D516 /* animals.plist in Resources */,
 				84E0762D1A6D0FBB000C1A38 /* Scripts in Resources */,
 				84CADBEB1A6AB60F0087774D /* Images_OSX.xcassets in Resources */,
 				84E076541A6D5D64000C1A38 /* koo.jpg in Resources */,
@@ -853,14 +863,16 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				84CADC451A6ABB540087774D /* LaunchScreen.xib in Resources */,
+				84EEC6BD1A700E3200D1D516 /* LaunchScreen.xib in Resources */,
 				84E0764D1A6D5D64000C1A38 /* knights in Resources */,
 				84CADC5B1A6ABD000087774D /* Images_iOS.xcassets in Resources */,
 				84E0764F1A6D5D64000C1A38 /* deathstar.png in Resources */,
 				84E0762E1A6D0FBB000C1A38 /* Scripts in Resources */,
+				84EEC6BC1A700B1E00D1D516 /* animals.png in Resources */,
 				84E076511A6D5D64000C1A38 /* desert in Resources */,
 				84E076551A6D5D64000C1A38 /* koo.jpg in Resources */,
 				84E076711A6E4D6D000C1A38 /* tree.jpg in Resources */,
+				84EEC6BA1A700B1E00D1D516 /* animals.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -918,6 +930,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "-";
+				COMPRESS_PNG_FILES = NO;
 				COPY_PHASE_STRIP = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -959,6 +972,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "-";
+				COMPRESS_PNG_FILES = NO;
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;

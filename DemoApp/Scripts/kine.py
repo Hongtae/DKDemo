@@ -4,7 +4,7 @@ import math
 
 def createRigidBody(mass, shape, transform=dk.NSTransform(), name=''):
     if mass == 0.0:
-        localInertia = dk.Vector3(0,0,0)
+        localInertia = dk.Vector3(0, 0, 0)
     else:
         localInertia = shape.calculateLocalInertia(mass)
 
@@ -95,9 +95,10 @@ class Frame(dk.ui.View):
         self.scene = None
 
     def updatePerspective(self):
-        w,h = self.contentResolution
-        self.cameraInfo.aspect = w/h
-        self.camera.setPerspective(self.cameraInfo.fov, self.cameraInfo.aspect, self.cameraInfo.near, self.cameraInfo.far)
+        w, h = self.contentResolution
+        self.cameraInfo.aspect = w / h
+        self.camera.setPerspective(self.cameraInfo.fov, self.cameraInfo.aspect, self.cameraInfo.near,
+                                   self.cameraInfo.far)
 
     def layout(self):
         super().layout()
@@ -111,7 +112,7 @@ class Frame(dk.ui.View):
         n = dk.random() % len(self.shootingShapes)
 
         box = createRigidBody(50.0, self.shootingShapes[n], start, name='a box')
-        box.setLinearFactor(dk.Vector3(1,1,1))
+        box.setLinearFactor(dk.Vector3(1, 1, 1))
         linVel = destination - start
         linVel.normalize()
         linVel *= speed
@@ -152,7 +153,7 @@ class Frame(dk.ui.View):
             rayBegin.transform(viewProjInv)
             rayEnd.transform(viewProjInv)
 
-            #target = self.cameraInfo.target
+            # target = self.cameraInfo.target
             self.shootBox(rayBegin, rayEnd)
             print('shooting Box!!')
 
@@ -161,8 +162,8 @@ class Frame(dk.ui.View):
         if deviceId == 0:
             if self.isMouseCapturedBySelf(deviceId):
                 dir = self.camera.direction()
-                #up = self.camera.up()
-                up = dk.Vector3(0,1,0)
+                # up = self.camera.up()
+                up = dk.Vector3(0, 1, 0)
                 left = dir.cross(up)
 
                 dX = delta.x * 0.01
@@ -178,7 +179,6 @@ class Frame(dk.ui.View):
                 minY = self.cameraInfo.target.y + self.cameraInfo.near + 2
                 if pos.y < minY: pos.y = minY
                 self.camera.setView(pos, self.cameraInfo.target - pos, up)
-
 
     def onMouseWheel(self, deviceId, pos, delta):
         super().onMouseWheel(deviceId, pos, delta)

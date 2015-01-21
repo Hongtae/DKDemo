@@ -4,6 +4,7 @@ import dk
 class Frame(dk.ui.View):
     def onLoaded(self):
         super().onLoaded()
+        self.backgroundColor = dk.Color(1.0, 1.0, 1.0)
 
         resourcePool = dk.ResourcePool()
         resourcePool.addSearchPath(dk.appInstance().resourceDir)

@@ -35,7 +35,13 @@ class TexturePack:
 
         if rootObject:
             metadata = rootObject.get('metadata')
+            if not metadata:
+                raise KeyError('metadata key is missing.')
             filename = metadata.get('realTextureFileName')
+            if not filename:
+                filename = metadata.get('textureFileName')
+            if not filename:
+                raise KeyError('metadata.realTextureFileName or metadata.textureFileName key is missing.')
             texture = pool.loadResource(filename)
 
             if texture:
@@ -78,6 +84,7 @@ class TexturePack:
 
                     frames[key] = Frame(texTM.matrix3(), core.Point(offsetX, offsetY), core.Size(scaleX, scaleY), srcSize)
 
+                print('texturepack:{} frames loaded.'.format(len(frames)))
                 return cls(texture, filename, resolution, frames)
             else:
                 raise FileNotFoundError('file:{} not found'.format(filename))

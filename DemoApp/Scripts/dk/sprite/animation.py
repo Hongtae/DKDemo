@@ -44,7 +44,7 @@ def _spline_interpolate(frames, t, type):
 
 
 def _get_spline_frames(frames, t):
-    index = bisect.bisect_left(frame, (t,))
+    index = bisect.bisect_left(frames, (t,))
     last = len(frames) - 1
     idx0 = _clamp(index - 2, 0, last)
     idx1 = _clamp(index - 1, 0, last)
@@ -66,10 +66,10 @@ def INTERPOLATE_CATMULL_ROM(frames, t):
 def INTERPOLATE_HERMITE(frames, t):
     frame0, frame1, frame2, frame3 = _get_spline_frames(frames, t)
 
-    #tangent vector (frame1 - frame0)
-    tv0 = [p1-p2 for p1, p2 in zip(frame1[1], frame0[1])]
-    #tangent vector (frame3 - frame2)
-    tv1 = [p1-p2 for p1, p2 in zip(frame3[1], frame2[1])]
+    # tangent vector (frame1 - frame0)
+    tv0 = [p1 - p2 for p1, p2 in zip(frame1[1], frame0[1])]
+    # tangent vector (frame3 - frame2)
+    tv1 = [p1 - p2 for p1, p2 in zip(frame3[1], frame2[1])]
 
     start = frame1[0]
     length = frame2[0] - start
