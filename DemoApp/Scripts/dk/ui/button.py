@@ -39,12 +39,14 @@ class Button(label.Label, control.Control, imageview.ImageView):
     borderWidth = 1
 
 
-    def __init__(self, text='Button', frame=None, **kwargs):
-        super().__init__(text=text, frame=frame, **kwargs)
+    def __init__(self, text='Button', *args, **kwargs):
+        super().__init__(text=text, *args, **kwargs)
 
         self.buttonPressed = False
         self.__mouseHover = False
         self.__capturedMouseId = None
+        if self.textureImage:
+            self.backgroundImage = self.textureImage
 
     def setTextColor(self, color, state=control.Control.STATE_ALL):
         assert isinstance(color, core.Color)

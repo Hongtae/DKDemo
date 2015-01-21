@@ -110,9 +110,8 @@ class MainFrame(dk.ui.View):
         rect = self.bounds()
         rect.origin = dk.Point(rect.origin) + dk.Point(leftMargin, bottomMargin)
         rect.size = dk.Size(rect.size) - dk.Size(leftMargin + rightMargin, bottomMargin + topMargin)
-        rows = int(len(self.buttons) / columns)
-        if len(self.buttons) % columns > 0:
-            rows += 1
+        from math import ceil
+        rows = ceil(len(self.buttons) / columns)
 
         btnSize = int((rect.width - padding * (columns-1)) / columns), int((rect.height - padding * (rows-1)) / rows)
         index = 0

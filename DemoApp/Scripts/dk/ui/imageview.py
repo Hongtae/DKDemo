@@ -6,8 +6,8 @@ class ImageView(view.View):
 
     textureTransform = core.Matrix3()
 
-    def __init__(self, image=None, frame=None, **kwargs):
-        super().__init__(frame=frame, **kwargs)
+    def __init__(self, image=None, *args, **kwargs):
+        super().__init__(*args, **kwargs)
         if image:
             assert isinstance(image, core.Texture2D)
 

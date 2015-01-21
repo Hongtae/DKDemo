@@ -31,8 +31,6 @@ class Frame(dk.ui.View):
         super().onLoaded()
         self.backgroundColor = dk.Color(0.22, 0.32, 1.0)
 
-        dk.ui.Menu.fontAttributes = dk.ui.font.attributes(14)
-
         charMenu = dk.ui.Menu()
         c1 = charMenu.addItem('캐릭터1')
         c1.filename = 'dil.DKMODEL'
@@ -96,7 +94,6 @@ class Frame(dk.ui.View):
         self.menuBar.addSeparator()
 
         self.addChild(self.menuBar)
-        menuBarSize = self.menuBar.calculateFrameSize()
 
         self.infoLabel = dk.ui.Label('  마우스 좌클릭: 시점 이동, 우클릭: 광원 이동 (모바일은 두손가락 터치 이동)')
         self.infoLabel.fontAttributes = dk.ui.font.attributes(14, outline=2)

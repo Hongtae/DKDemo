@@ -5,6 +5,7 @@ from . import view
 from . import font
 from . import control
 
+
 class RadioButton(control.Control, view.View):
 
     radius = 8

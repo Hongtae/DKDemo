@@ -7,6 +7,7 @@ from . import font
 
 DEFAULT_UI_SCALE = 1        # use 2 for retina-display
 
+
 class View(frame.Frame):
 
     fontAttributes = font.attributes(12)
@@ -19,16 +20,15 @@ class View(frame.Frame):
     minimumViewWidth = 1
     minimumViewHeight = 1
 
-    def __init__(self, frame=None, **kwargs):
-        super().__init__(**kwargs)
+    def __init__(self, frame=core.Rect(0, 0, 1, 1), *args, **kwargs):
+        super().__init__(*args, **kwargs)
         self.scaleFactor = DEFAULT_UI_SCALE
         assert self.scaleFactor > 0
+        assert isinstance(frame, core.Rect)
 
         self.layouter = None
         self.gestureRecognizers = []
 
-        if not frame:
-            frame = core.Rect(0, 0, self.minimumViewWidth, self.minimumViewHeight)
         self.setFrame(frame)
         self.setBlendState(blendstate.defaultOpaque)
         self.font = None

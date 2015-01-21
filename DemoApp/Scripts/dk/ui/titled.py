@@ -44,9 +44,10 @@ class TitledView(view.View):
     minimumViewWidth = borderWidth * 2 + contentBorder * 2 + contentMargin * 2 + 1
     minimumViewHeight = borderWidth * 2 + contentBorder * 2 + contentMargin * 2 + captionHeight + 1
 
-    def __init__(self, caption='', *args, **kwargs):
+    def __init__(self, caption=None, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.caption = str(caption)
+        if caption is not None:
+            self.caption = str(caption)
         self.__mouseTrackInfo = None
         self.__mouseHover = False
 

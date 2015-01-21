@@ -35,8 +35,8 @@ class Label(view.View):
     rightMargin = 0
     bottomMargin = 0
 
-    def __init__(self, text='', frame=None, **kwargs):
-        super().__init__(frame=frame, **kwargs)
+    def __init__(self, text='', *args, **kwargs):
+        super().__init__(*args, **kwargs)
         self.text = str(text)
         self.align = ALIGN_CENTER
         self.linebreak = LINE_BREAK_TRUNCATING_TAIL
