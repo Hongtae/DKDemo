@@ -176,7 +176,7 @@ namespace DKFramework
 		struct RenderSceneCallback
 		{
 			using MaterialCallback = DKMaterial::PropertyCallback;
-			using ObjectColorCallback = DKFoundation::DKFunctionSignature<void (const DKCollisionObject*, DKColor&, DKColor&, DKColor&)>;
+			using ObjectColorCallback = DKFoundation::DKFunctionSignature<bool (const DKCollisionObject*, DKColor&, DKColor&)>;
 			using MeshFilter = DKFoundation::DKFunctionSignature<void (DKFoundation::DKArray<const DKMesh*>&)>;
 
 			MaterialCallback* materialCallback = NULL;

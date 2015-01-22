@@ -42,7 +42,7 @@ namespace DKFramework
 			virtual void DrawLines(VertexArray&, const DKMatrix4&) = 0;
 			virtual void DrawPoints(VertexArray&, const DKMatrix4&) = 0;
 			virtual void DrawMeshes(MeshArray&, DKSceneState&) = 0;
-			virtual void ObjectColors(const DKCollisionObject*, DKColor&, DKColor&, DKColor&) {}
+			virtual bool ObjectColors(const DKCollisionObject*, DKColor&, DKColor&) { return true; }
 		};
 		void Render(const DKCamera& camera, int sceneIndex, bool enableCulling, DrawCallback& dc) const;
 		void Render(const DKCamera& camera, int sceneIndex, bool enableCulling, DrawCallback& dc, unsigned int modes) const;
