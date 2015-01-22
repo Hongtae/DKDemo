@@ -1,5 +1,7 @@
 import _dk_core as core
+from weakref import WeakKeyDictionary
 from . import view
+
 
 class Control(view.View):
 
@@ -14,7 +16,7 @@ class Control(view.View):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.__targets = {}
+        self.__targets = WeakKeyDictionary()
 
     def addTarget(self, key, callback):
         if callable(callback):
@@ -30,7 +32,7 @@ class Control(view.View):
             pass
 
     def removeAllTargets(self):
-        self.__targets = {}
+        self.__targets = WeakKeyDictionary()
 
     def invokeAllTargets(self, *args):
         for cb in self.__targets.values():

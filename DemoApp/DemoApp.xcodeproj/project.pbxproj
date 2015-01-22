@@ -81,7 +81,7 @@
 		84CADCEE1A6B8DA10087774D /* PyDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = PyDK.framework; sourceTree = "<group>"; };
 		84CADCF01A6B8DA10087774D /* DK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = DK.framework; sourceTree = "<group>"; };
 		84CADCF11A6B8DA10087774D /* PyDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = PyDK.framework; sourceTree = "<group>"; };
-		84CADCF51A6B8DA10087774D /* dk.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = dk.h; sourceTree = "<group>"; };
+		84CADCF51A6B8DA10087774D /* DK.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DK.h; sourceTree = "<group>"; };
 		84CADCF71A6B8DA10087774D /* DKAllocator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKAllocator.h; sourceTree = "<group>"; };
 		84CADCF81A6B8DA10087774D /* DKArray.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKArray.h; sourceTree = "<group>"; };
 		84CADCF91A6B8DA10087774D /* DKAtomicNumber32.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKAtomicNumber32.h; sourceTree = "<group>"; };
@@ -454,7 +454,7 @@
 		84CADCF41A6B8DA10087774D /* DK */ = {
 			isa = PBXGroup;
 			children = (
-				84CADCF51A6B8DA10087774D /* dk.h */,
+				84CADCF51A6B8DA10087774D /* DK.h */,
 				84CADCF61A6B8DA10087774D /* DKFoundation */,
 				84CADD391A6B8DA10087774D /* DKFoundation.h */,
 				84CADD3A1A6B8DA10087774D /* DKFoundation_msvc */,
