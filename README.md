@@ -44,3 +44,6 @@ https://bitbucket.org/tiff2766/dkdemo/downloads/DKDemoApp_Win32.zip
 
 ## 제작
     Copyright (C) 2015, Hongtae Kim
+~~~~
+tiff2766 골뱅이 gmail 닷컴
+~~~~
