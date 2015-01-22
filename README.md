@@ -16,6 +16,7 @@ https://bitbucket.org/tiff2766/dkdemo/downloads/DKDemoApp_Win32.zip
 * 데이터 마샬링
 * 애니메이션 리타게팅, 블렌딩.
 * 모듈러 디자인
+* 복셀 및 볼륨렌더링
 * 파이썬 스크립팅 (PyDK 모듈)
 
 ## 실행 플랫폼
