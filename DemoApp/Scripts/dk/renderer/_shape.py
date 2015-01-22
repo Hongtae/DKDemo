@@ -15,7 +15,7 @@ class RenderCollisionShape:
         self.objects = []
         self.colorTable = {}
 
-    def __objectColors(self, obj):
+    def __objectColors(self, obj, *args):
         return self.colorTable.get(obj)
 
     def __enter__(self):
@@ -24,12 +24,12 @@ class RenderCollisionShape:
     def __exit__(self, exc_type, exc_value, traceback):
         self.draw()
 
-    def add(self, shape, transform, faceColor, lineColor=core.Color(0.0, 0.0, 0.0), pointColor=core.Color(0.0, 0.0, 0.0)):
+    def add(self, shape, transform, faceColor, edgeColor=core.Color(0.0, 0.0, 0.0)):
         co = core.CollisionObject()
         co.setCollisionShape(shape)
         co.setWorldTransform(transform)
         self.objects.append(co)
-        self.colorTable[co] = (faceColor, lineColor, pointColor)
+        self.colorTable[co] = (faceColor, edgeColor)
 
     def draw(self):
         scene = None

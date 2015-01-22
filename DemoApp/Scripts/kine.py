@@ -32,7 +32,7 @@ class Frame(dk.ui.View):
 
     def onLoaded(self):
         super().onLoaded()
-        self.backgroundColor = dk.Color(0.22, 0.32, 1.0)
+        self.backgroundColor = dk.Color(0.25, 0.25, 0.25)
 
         self.infoLabel = dk.ui.Label('  마우스 좌클릭: 시점 이동, 우클릭: 장애물 투척 (모바일은 두손가락 터치 이동)')
         self.infoLabel.fontAttributes = dk.ui.font.attributes(14, outline=2)
@@ -45,23 +45,25 @@ class Frame(dk.ui.View):
         self.addChild(self.infoLabel)
 
         # 슈팅 박스
-        self.shootingShapes = (dk.BoxShape(0.5, 0.5, 0.5),
-                               dk.BoxShape(1.0, 0.5, 1.0),
-                               dk.BoxShape(2.0, 0.5, 1.0),
+        self.shootingShapes = (dk.BoxShape(0.85, 0.85, 0.85),
+                               dk.BoxShape(1.0, 1.0, 1.0),
+                               dk.BoxShape(2.0, 1.0, 2.0),
                                dk.CylinderShape(1.0, 1.0, 1.0),
                                dk.CylinderShape(1.5, 0.5, 1.5),
-                               dk.ConeShape(1.0, 1.5),
-                               dk.ConeShape(2.5, 1.5),
                                dk.SphereShape(1.0))
 
         self.resourcePool = dk.ResourcePool()
-        self.resourcePool.addSearchPath(dk.appInstance().resourceDir + "/knights")
+        self.resourcePool.addSearchPath(dk.appInstance().resourceDir + "/dao")
 
         # 씬 생성
-        self.model = self.resourcePool.loadResource('katana.DKMODEL')
+        self.model = self.resourcePool.loadResource('dao.DKMODEL')
+        animaiton = self.resourcePool.loadResource('dao.DKANIMATION')
+        animControl = animaiton.createLoopController()
+        animControl.play()
+        self.model.setAnimation(animControl)
 
         self.scene = dk.DynamicsScene()
-        self.scene.drawMode = dk.scene.DRAW_COLLISION_SHAPES
+        self.scene.drawMode = dk.scene.DRAW_COLLISION_SHAPES | dk.scene.DRAW_MESHES
         self.scene.ambientColor = dk.Color(0.45, 0.45, 0.45)
         self.scene.lights.append(dk.light.directional(dk.Vector3(0, -1, 0), dk.Color(1, 1, 1)))
         self.scene.updateLights()
@@ -75,11 +77,11 @@ class Frame(dk.ui.View):
         # 카메라 초기화.
         self.camera = dk.Camera()
         self.cameraInfo = CameraInfo(fov=math.radians(80),
-                                     near=10.0,
+                                     near=1.0,
                                      far=1000.0,
                                      aspect=1.0,
-                                     target=dk.Vector3(0, 0, 0))
-        pos = dk.Vector3(0, 20, -20)
+                                     target=dk.Vector3(0, 5, 0))
+        pos = dk.Vector3(0, 10, -20)
         up = dk.Vector3(0, 1, 0)
         self.camera.setView(pos, self.cameraInfo.target - pos, up)
 
@@ -111,6 +113,10 @@ class Frame(dk.ui.View):
 
         n = dk.random() % len(self.shootingShapes)
 
+        start = dk.Vector3(start)
+        if start.y < 1:
+            start.y = 1
+
         box = createRigidBody(50.0, self.shootingShapes[n], start, name='a box')
         box.setLinearFactor(dk.Vector3(1, 1, 1))
         linVel = destination - start
@@ -128,7 +134,12 @@ class Frame(dk.ui.View):
 
     def onRender(self, renderer):
         super().onRender(renderer)
-        renderer.renderScene(self.scene, self.camera, 0)
+        def objColorCb(obj, *args):
+            if obj.isKinematic():
+                return None
+            return dk.Color(1, 0.2, 0.2)
+
+        renderer.renderScene(self.scene, self.camera, 0, objectColorCallback=objColorCb)
 
     def onMouseDown(self, deviceId, buttonId, pos):
         super().onMouseDown(deviceId, buttonId, pos)
@@ -177,7 +188,7 @@ class Frame(dk.ui.View):
                 pos.transform(rot)
                 pos += self.cameraInfo.target
                 minY = self.cameraInfo.target.y + self.cameraInfo.near + 2
-                if pos.y < minY: pos.y = minY
+                pos.y = max(pos.y, self.cameraInfo.target.y)
                 self.camera.setView(pos, self.cameraInfo.target - pos, up)
 
     def onMouseWheel(self, deviceId, pos, delta):

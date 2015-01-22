@@ -380,11 +380,12 @@ class Frame(dk.ui.View):
     def onRender(self, renderer):
         super().onRender(renderer)
         renderer.polygonOffset = 1, 1
-        def chassisColor(co):
+        def chassisColor(co, *args):
             if co is self.carChassis:
                 return dk.Color(1.0, 1.0, 1.0), dk.Color(0.0, 0.0, 0.0)
             if co.mass() > 0:
                 return dk.Color(1.0, 0.0, 0.0), dk.Color(0.0, 0.0, 0.0)
+            return args
 
         renderer.renderScene(self.scene, self.camera, 0, objectColorCallback=chassisColor)
         with renderer.contextForCollisionShape(self.camera) as r:
