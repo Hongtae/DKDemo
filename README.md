@@ -7,8 +7,9 @@ DKDemo 프로젝트는 DKLib 데모용 샘플 입니다.
 ## 윈도우즈용 실행파일(샘플) 다운로드.  (2015년 1월 22일 빌드)
 https://bitbucket.org/tiff2766/dkdemo/downloads/DKDemoApp_Win32.zip
 
-# About DK
-크로스 플랫폼 게임 제작용 라이브러리 입니다.
+# About DKLib
+크로스 플랫폼 게임 제작용 라이브러리 입니다. 개인 프로젝트로 혼자 작업하고 있으며, C++ 로 제작되었습니다. 데모 프로젝트에는 빌드에 필요한 헤더파일 및 DLL / framework 등을 포함하고 있으며, 컨텐츠는 모두 스크립트로 제작되었습니다.
+
 ## 주요 기능
 * 3D 오디오
 * 게임 물리
@@ -16,6 +17,16 @@ https://bitbucket.org/tiff2766/dkdemo/downloads/DKDemoApp_Win32.zip
 * 애니메이션 리타게팅, 블렌딩.
 * 모듈러 디자인
 * 파이썬 스크립팅 (PyDK 모듈)
+
+## 실행 플랫폼
+* 윈도우 비스타 이상 (32, 64비트)
+* Mac OS X 10.8 이상
+* iOS 4.0 이상
+> 데모 버전에서는 용량 관계상 framework 형태로 배포 합니다. 따라서 framework 을 지원하는 iOS8 부터 실행이 가능합니다.
+* Android 2.1 이상
+* Linux
+
+    **데모 버전에서는 Android 와 Linux 는 지원하지 않습니다.**
 
 ## 빌드 환경
 * 윈도우
@@ -28,15 +39,6 @@ https://bitbucket.org/tiff2766/dkdemo/downloads/DKDemoApp_Win32.zip
     * Mac OS X 10.8 이상
     * Xcode 6
     > 프레임웍에는 심볼릭 링크가 포함되어 있습니다. 윈도우에서 압축된 파일로 빌드하지 마세요.
-## 실행 플랫폼
-* 윈도우 비스타 이상 (32, 64비트)
-* Mac OS X 10.8 이상
-* iOS 4.0 이상
-> 데모 버전에서는 용량 관계상 framework 형태로 배포 합니다. 따라서 framework 을 지원하는 iOS8 부터 실행이 가능합니다.
-* Android 2.1 이상
-* Linux
-
-    **데모 버전에서는 Android 와 Linux 는 지원하지 않습니다.**
 
 ## 하드웨어 요구 사항
 * OpenGL 3.1 이상
