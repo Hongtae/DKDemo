@@ -46,11 +46,11 @@ class ScrollView(view.View):
     zoomButtonColorActivated = _activatedColor
     zoomButtonColorDisabled = _disabledColor
 
-    def __init__(self, contentSize=None, frame=None, **kwargs):
-        super().__init__(frame=frame, **kwargs)
+    def __init__(self, contentSize=None, *args, **kwargs):
+        super().__init__(*args, **kwargs)
 
         self.__zoomScale = 1.0
-        self.__contentOffset = core.Point(0,0)
+        self.__contentOffset = core.Point(0, 0)
         if contentSize:
             assert isinstance(contentSize, core.Size)
             scaleX, scaleY = self.contentScale
