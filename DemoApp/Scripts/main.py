@@ -153,14 +153,21 @@ class MainFrame(dk.ui.View):
         def dismiss(*a):
             dk.ui.Modal.modalForView(self).dismiss(99)
 
+        def openSiteURL(*a):
+            import webbrowser
+            webbrowser.open('http://bitbucket.org/tiff2766/dkdemo')
+
         infoView = InfoView(caption='About DKDemo', frame=dk.Rect(0, 0, 300, 300))
-        btn = dk.ui.Button('확인', frame=dk.Rect(10, 10, 100, 40))
-        btn.addTarget(self, dismiss)
-        infoView.addChild(btn)
+        btn1 = dk.ui.Button('확인', frame=dk.Rect(10, 10, 100, 40))
+        btn1.addTarget(self, dismiss)
+        infoView.addChild(btn1)
+
+        btn2 = dk.ui.Button('홈페이지', frame=dk.Rect(190, 10, 100, 40))
+        btn2.addTarget(self, openSiteURL)
+        infoView.addChild(btn2)
 
         modal = dk.ui.Modal(infoView)
         modal.present(self)
-
 
     def openDemo(self, button):
         demoClass = button.demoClass
