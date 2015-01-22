@@ -34,9 +34,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\DKLib\DK\dk.h">
-      <Filter>DKLib\DK</Filter>
-    </ClInclude>
     <ClInclude Include="..\DKLib\DK\DKFoundation.h">
       <Filter>DKLib\DK</Filter>
     </ClInclude>
@@ -786,6 +783,9 @@
     </ClInclude>
     <ClInclude Include="targetver.h">
       <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\DKLib\DK\DK.h">
+      <Filter>DKLib\DK</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

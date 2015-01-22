@@ -203,7 +203,7 @@ xcopy /Y /D /E /R /Q $(ProjectDir)Resources $(OutDir)Resources\
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="..\DKLib\DK\dk.h" />
+    <ClInclude Include="..\DKLib\DK\DK.h" />
     <ClInclude Include="..\DKLib\DK\DKFoundation.h" />
     <ClInclude Include="..\DKLib\DK\DKFoundation\DKAllocator.h" />
     <ClInclude Include="..\DKLib\DK\DKFoundation\DKArray.h" />
