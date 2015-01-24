@@ -52,12 +52,37 @@ tiff2766 골뱅이 gmail 닷컴
 ~~~~
 
 ## 스크린샷 
+### 캐릭터 애니메이션
 ![anim.png](https://bitbucket.org/repo/keLaoe/images/2465982228-anim.png)
+
+* 애니메이션 제어 샘플
+
+### 자동차 물리
 ![car1.png](https://bitbucket.org/repo/keLaoe/images/1454161511-car1.png)
 ![car2.png](https://bitbucket.org/repo/keLaoe/images/736436422-car2.png)
+
+* 키보드 방향키: 차량 조종, 마우스 좌클릭: 카메라 조정, 우클릭: 오브젝트 투척
+* iOS 는 스크린 버튼으로 조종, 두손가락 터치시 오브젝트 투척
+
+### 키네마틱 애니메이션
 ![kine1.png](https://bitbucket.org/repo/keLaoe/images/1827184730-kine1.png)
 ![kine2.png](https://bitbucket.org/repo/keLaoe/images/540183168-kine2.png)
+
+* 마우스 좌클릭: 카메라 시점 조정, 우클릭: 오브젝트 투척
+* iOS 에서는 두손가락 터치시 오브젝트 투척
+
+### 쉐도우 맵 샘플
 ![sm1.png](https://bitbucket.org/repo/keLaoe/images/4172863041-sm1.png)
 ![sm2.png](https://bitbucket.org/repo/keLaoe/images/952550011-sm2.png)
+
+* 스크립트로 제작된 LiSPSM 알고리즘
+
+### 텍스쳐 아틀라스 및 스프라이트
 ![sp.png](https://bitbucket.org/repo/keLaoe/images/605784757-sp.png)
+
+* 2D 게임 제작용 스크립트 데모
+
+### 게임용 UI 콘트롤
 ![ui.png](https://bitbucket.org/repo/keLaoe/images/3182995816-ui.png)
+
+* 각종 UI 콘트롤 데모
