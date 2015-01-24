@@ -76,6 +76,7 @@ tiff2766 골뱅이 gmail 닷컴
 ![sm2.png](https://bitbucket.org/repo/keLaoe/images/952550011-sm2.png)
 
 * 스크립트로 제작된 LiSPSM 알고리즘
+* 좌측 하단 슬라이더로 광원 조정.
 
 ### 텍스쳐 아틀라스 및 스프라이트
 ![sp.png](https://bitbucket.org/repo/keLaoe/images/605784757-sp.png)
@@ -86,3 +87,4 @@ tiff2766 골뱅이 gmail 닷컴
 ![ui.png](https://bitbucket.org/repo/keLaoe/images/3182995816-ui.png)
 
 * 각종 UI 콘트롤 데모
+
