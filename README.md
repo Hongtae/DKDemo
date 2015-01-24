@@ -46,7 +46,18 @@ https://bitbucket.org/tiff2766/dkdemo/downloads/DKDemoApp_Win32.zip
 * OpenGL ES 2.0 이상
 
 ## 제작
-    Copyright (C) 2015, Hongtae Kim
+    Copyright (C) 2015, Hongtae Kim 김홍태
 ~~~~
 tiff2766 골뱅이 gmail 닷컴
 ~~~~
+
+## 스크린샷 
+![anim.png](https://bitbucket.org/repo/keLaoe/images/2465982228-anim.png)
+![car1.png](https://bitbucket.org/repo/keLaoe/images/1454161511-car1.png)
+![car2.png](https://bitbucket.org/repo/keLaoe/images/736436422-car2.png)
+![kine1.png](https://bitbucket.org/repo/keLaoe/images/1827184730-kine1.png)
+![kine2.png](https://bitbucket.org/repo/keLaoe/images/540183168-kine2.png)
+![sm1.png](https://bitbucket.org/repo/keLaoe/images/4172863041-sm1.png)
+![sm2.png](https://bitbucket.org/repo/keLaoe/images/952550011-sm2.png)
+![sp.png](https://bitbucket.org/repo/keLaoe/images/605784757-sp.png)
+![ui.png](https://bitbucket.org/repo/keLaoe/images/3182995816-ui.png)
