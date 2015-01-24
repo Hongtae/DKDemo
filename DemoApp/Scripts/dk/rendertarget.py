@@ -8,7 +8,7 @@ DEPTH_32 = 3
 
 class RenderTarget(core.RenderTarget):
     def __init__(self, width=0, height=0, depthFormat=DEPTH_NONE):
-        super().__init__(width, height, depthFormat)
+        super().__init__(int(width), int(height), depthFormat)
 
 
 # create depth-only render target

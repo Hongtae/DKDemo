@@ -45,7 +45,6 @@ class App(dk.App):
 
         if 'ios' in platform or 'android' in platform:
             contentSize = dk.Size(contentBounds.size)
-            dk.ui.view.DEFAULT_UI_SCALE = 2
         else:
             if contentSize.width > contentBounds.width:
                 contentSize.width = contentBounds.width
@@ -56,10 +55,10 @@ class App(dk.App):
 
         window = Window(self.appName, contentSize)
         if window:
-            dk.ui.DEFAULT_UI_SCALE = window.contentScaleFactor
+            dk.ui.view.DEFAULT_UI_SCALE = window.contentScaleFactor
             dk.ui.font.DEFAULT_FILENAME = 'NanumGothic.ttf'
             # dk.ui.font.DEFAULT_FILENAME = 'SeoulNamsanM.ttf'
-            print('dk.ui.DEFAULT_UI_SCALE:', dk.ui.DEFAULT_UI_SCALE)
+            print('dk.ui.view.DEFAULT_UI_SCALE:', dk.ui.view.DEFAULT_UI_SCALE)
         screen = dk.Screen(window, self.mainFrameClass())
         if not screen:
             print('screen error!?')
