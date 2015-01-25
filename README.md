@@ -4,6 +4,14 @@ DKDemo 프로젝트는 DKLib 데모용 샘플 입니다.
 
 이 데모의 로직은 모두 파이썬 스크립트로 되어있으며, 실행 파일을 빌드 할 수 있는 프로젝트 파일을 포함하고 있습니다. (Visual Studio 2013 / Xcode6 )
 
+* `DemoApp` *데모 프로그램 소스코드 디렉토리*
+* `DKLib` *엔진 디렉토리*
+    * `DKLib/DK`  *코어 엔진 헤더파일 폴더 (C++)*
+    * `DKLib/PyDK` *파이썬 바인딩 모듈 헤더파일 폴더 (C++)*
+    * `DKLib/Bin` *플랫폼 별 바이너리 폴더*
+* `DKDemo.sln` *Visual Studio 2013 솔루션 파일*
+* `DKDemo.xcworkspace` *Xcode 6 웍스페이스 파일*
+
 ## 윈도우즈용 실행파일(샘플) 다운로드.  (2015년 1월 22일 빌드)
 https://bitbucket.org/tiff2766/dkdemo/downloads/DKDemoApp_Win32.zip
 
@@ -47,15 +55,17 @@ https://bitbucket.org/tiff2766/dkdemo/downloads/DKDemoApp_Win32.zip
 
 ## 제작
     Copyright (C) 2015, Hongtae Kim 김홍태
-~~~~
-tiff2766 골뱅이 gmail 닷컴
-~~~~
+
+* 소스파일에 적힌 저작권 문구의 ICONDB.COM 은 제 개인 도메인입니다. (업체 아닙니다)
+* 이 엔진은 아무나 마음대로 사용하실 수 있습니다만, 소스코드의 수정 및 코드 재판매는 불허합니다.
+* tiff2766 골뱅이 gmail 닷컴
 
 ## 스크린샷 
 ### 캐릭터 애니메이션
 ![anim.png](https://bitbucket.org/repo/keLaoe/images/2465982228-anim.png)
 
 * 애니메이션 제어 샘플
+* 3개의 캐릭터, 3개의 애니메이션
 
 ### 자동차 물리
 ![car1.png](https://bitbucket.org/repo/keLaoe/images/1454161511-car1.png)
@@ -87,4 +97,3 @@ tiff2766 골뱅이 gmail 닷컴
 ![ui.png](https://bitbucket.org/repo/keLaoe/images/3182995816-ui.png)
 
 * 각종 UI 콘트롤 데모
-
