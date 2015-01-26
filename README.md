@@ -14,7 +14,10 @@ DKDemo 프로젝트는 DKLib 데모용 샘플 입니다.
 * `DKDemo.sln` *Visual Studio 2013 솔루션 파일*
 * `DKDemo.xcworkspace` *Xcode 6 웍스페이스 파일*
 
-## 윈도우즈용 실행파일(샘플) 다운로드.  (2015년 1월 22일 빌드)
+# 윈도우즈용 실행파일 다운로드
+* 빌드과정 없이 바로 실행시켜 보실분은 다운받으세요.
+* 이 페이지 아래에 스크린샷이 첨부되어 있습니다.
+* Build: 2015-01-22, win32_i386
 https://bitbucket.org/tiff2766/dkdemo/downloads/DKDemoApp_Win32.zip
 
 # About DKLib
