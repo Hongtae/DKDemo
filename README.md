@@ -6,11 +6,11 @@ DKDemo 프로젝트는 DKLib 데모용 샘플 입니다.
 
 * `DemoApp` *데모 프로그램 소스코드 디렉토리*
 * `DKLib` *엔진 디렉토리*
-    * `DKLib/DK`  *코어 엔진 헤더파일 폴더 (C++)*
-        * `DKLib/DK/DKFoundation` *템플릿, 파일, 쓰레딩, 데이터 구조 등, 기반 라이브러리*
-        * `DKLib/DK/DKFramework` *그래픽, 오디오, 수학, 복셀 등, 어플리케이션 라이브러리*
-    * `DKLib/PyDK` *파이썬 바인딩 모듈 헤더파일 폴더 (C++)*
-    * `DKLib/Bin` *플랫폼 별 바이너리 폴더*
+    * `DK`  *코어 엔진 헤더파일 폴더 (C++)*
+        * `DKFoundation` *템플릿, 파일, 쓰레딩, 데이터 구조 등, 기반 라이브러리*
+        * `DKFramework` *그래픽, 오디오, 수학, 복셀 등, 어플리케이션 라이브러리*
+    * `PyDK` *파이썬 바인딩 모듈 헤더파일 폴더 (C++)*
+    * `Bin` *플랫폼 별 바이너리 폴더*
 * `DKDemo.sln` *Visual Studio 2013 솔루션 파일*
 * `DKDemo.xcworkspace` *Xcode 6 웍스페이스 파일*
 
