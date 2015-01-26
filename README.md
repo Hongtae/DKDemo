@@ -37,6 +37,8 @@ https://bitbucket.org/tiff2766/dkdemo/downloads/DKDemoApp_Win32.zip
 * Mac OS X 10.8 이상
 * iOS 4.0 이상
 > 데모 버전에서는 용량 관계상 framework 형태로 배포 합니다. 따라서 framework 을 지원하는 iOS8 부터 실행이 가능합니다.
+>
+> i386, x64, armv7, arm64 유니버설 바이너리가 포함되어 있습니다.
 * Android 2.1 이상
 * Linux
 
