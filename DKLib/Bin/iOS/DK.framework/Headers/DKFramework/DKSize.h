@@ -1,14 +1,19 @@
 ﻿//
 //  File: DKSize.h
-//  Encoding: UTF-8 ☃
 //  Author: Hongtae Kim (tiff2766@gmail.com)
 //
-//  Copyright (c) 2004-2014 ICONDB.COM. All rights reserved.
+//  Copyright (c) 2004-2014 Hongtae Kim. All rights reserved.
 //
 
 #pragma once
 #include "../DKInclude.h"
 #include "DKVector2.h"
+
+///////////////////////////////////////////////////////////////////////////////
+// DKSize
+// a size object, which has width, height. It can be used measured unit size
+// of 2 dimensional logical coordinates.
+///////////////////////////////////////////////////////////////////////////////
 
 namespace DKFramework
 {

@@ -1,9 +1,8 @@
 ﻿//
 //  File: DKGeneric6DofConstraint.h
-//  Encoding: UTF-8 ☃
 //  Author: Hongtae Kim (tiff2766@gmail.com)
 //
-//  Copyright (c) 2012-2014 ICONDB.COM. All rights reserved.
+//  Copyright (c) 2012-2014 Hongtae Kim. All rights reserved.
 //
 
 #pragma once
@@ -11,9 +10,17 @@
 #include "DKConstraint.h"
 
 ////////////////////////////////////////////////////////////////////////////////
-//
 // DKGeneric6DofConstraint
-// 
+// generic 6 dof constraint. a joint can control 6 degree of freedom limits.
+// (3 linear axis limits, 3 angular axis limits.)
+// (see DKConstraint.h for axis 'ParamAxis')
+//
+// Note:
+//    angular limits have following ranges.
+//     AngularX: -pi ~ pi
+//     AngularY: -pi/2 ~ pi/2
+//     AngularZ: -pi ~ pi
+//
 ////////////////////////////////////////////////////////////////////////////////
 
 namespace DKFramework
@@ -23,12 +30,12 @@ namespace DKFramework
 	public:
 		enum AxisState
 		{
-			StateLocked = 0,
-			StateFree,
-			StateRanged,
+			StateLocked = 0,		// axis locked.
+			StateFree,				// axis free.
+			StateRanged,			// axis limited free (free within range)
 		};
 
-		// DKNSTransform 은 해당 객체(DKRigidBody) 상의 로컬 트랜스폼이다.
+		// DKNSTransform is rigid body's local transform.
 		DKGeneric6DofConstraint(DKRigidBody* bodyA, DKRigidBody* bodyB, const DKNSTransform& frameA, const DKNSTransform& frameB);
 		DKGeneric6DofConstraint(DKRigidBody* bodyB, const DKNSTransform& frameB);
 		DKGeneric6DofConstraint(void);

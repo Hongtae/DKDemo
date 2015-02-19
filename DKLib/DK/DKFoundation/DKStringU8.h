@@ -1,9 +1,8 @@
 //
 //  File: DKStringU8.h
-//  Encoding: UTF-8 ☃
 //  Author: Hongtae Kim (tiff2766@gmail.com)
 //
-//  Copyright (c) 2004-2014 ICONDB.COM. All rights reserved.
+//  Copyright (c) 2004-2014 Hongtae Kim. All rights reserved.
 //
 
 #pragma once
@@ -13,10 +12,8 @@
 #include "DKStringUE.h"
 
 ////////////////////////////////////////////////////////////////////////////////
-//
 // DKStringU8
-//
-// utf-8 문자열 클래스
+// a string class with UTF-8 encoded character string.
 ////////////////////////////////////////////////////////////////////////////////
 
 namespace DKFoundation
@@ -26,6 +23,7 @@ namespace DKFoundation
 	{
 	public:
 		static const DKStringU8& EmptyString();
+		// SystemEncoding returns 'DKStringEncoding::UTF8' always!
 		static DKStringEncoding SystemEncoding(void);
 
 		DKStringU8(void);
@@ -44,7 +42,7 @@ namespace DKFoundation
 		static DKStringU8 FormatV(const DKUniCharW* fmt, va_list v);
 
 		// append, set
-		DKStringU8& Append(const DKStringU8& str);			// 스트링 더함
+		DKStringU8& Append(const DKStringU8& str);
 		DKStringU8& Append(const DKUniChar8* str, size_t len = (size_t)-1);
 		DKStringU8& Append(const DKUniCharW* str, size_t len = (size_t)-1);
 		DKStringU8& Append(const void* str, size_t bytes, DKStringEncoding e);
@@ -100,7 +98,7 @@ namespace DKFoundation
 		bool operator != (const DKStringU8& str) const			{return Compare(str) != 0;}
 		bool operator != (const DKUniChar8* str) const			{return Compare(str) != 0;}
 
-		// 숫자형 타입으로 변환
+		// convert numeric values (like atoi, atof)
 		long long ToInteger(void) const;
 		unsigned long long ToUnsignedInteger(void) const;
 		double ToRealNumber(void) const;

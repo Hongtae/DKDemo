@@ -1,9 +1,8 @@
-﻿//
+//
 //  File: DKZipUnarchiver.h
-//  Encoding: UTF-8 ☃
 //  Author: Hongtae Kim (tiff2766@gmail.com)
 //
-//  Copyright (c) 2004-2014 ICONDB.COM. All rights reserved.
+//  Copyright (c) 2004-2014 Hongtae Kim. All rights reserved.
 //
 
 #pragma once
@@ -13,6 +12,12 @@
 #include "DKDateTime.h"
 #include "DKArray.h"
 #include "DKStream.h"
+
+////////////////////////////////////////////////////////////////////////////////
+// DKZipUnarchiver
+// a zip file reader.
+// read and decompress from zip-archive file.
+////////////////////////////////////////////////////////////////////////////////
 
 namespace DKFoundation
 {

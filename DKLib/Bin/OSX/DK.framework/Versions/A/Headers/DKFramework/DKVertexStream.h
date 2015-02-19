@@ -1,14 +1,19 @@
 //
 //  File: DKVertexStream.h
-//  Encoding: UTF-8 ☃
 //  Author: Hongtae Kim (tiff2766@gmail.com)
 //
-//  Copyright (c) 2004-2014 ICONDB.COM. All rights reserved.
+//  Copyright (c) 2004-2014 Hongtae Kim. All rights reserved.
 //
 
 #pragma once
 #include "../DKInclude.h"
 #include "../DKFoundation.h"
+
+///////////////////////////////////////////////////////////////////////////////
+// DKVertexStream
+// predefined stream type. stream type should be matched with defined in shader.
+// you can retrieve stream types from shader program. (see DKShaderProgram.h)
+///////////////////////////////////////////////////////////////////////////////
 
 namespace DKFramework
 {
@@ -16,16 +21,16 @@ namespace DKFramework
 	{
 		enum Stream : unsigned char
 		{
-			StreamUnknown = 0,					// error
+			StreamUnknown = 0,		// regard to error
 			StreamPosition,
 			StreamNormal,
 			StreamColor,
 			StreamTexCoord,
-			StreamTangent,						// float3 형식일땐 binormal 과 같이 있어야 하며, float4 형식이면 bitangent 는 필요없다
+			StreamTangent,
 			StreamBitangent,
 			StreamBlendIndices,
 			StreamBlendWeights,
-			StreamUserDefine,					// user-define
+			StreamUserDefine,		// user-define (you can access by name, at shader)
 			StreamMax,
 		};
 		enum Type : unsigned char
@@ -63,7 +68,7 @@ namespace DKFramework
 		size_t					components;
 		int						location;
 
-		// 유틸리티 함수들
+		// utils
 		static size_t TypeSize(Type t)
 		{
 			switch (t)
@@ -96,7 +101,6 @@ namespace DKFramework
 			}
 			return 0;
 		}
-		// 스트링 유틸리티
 		static DKFoundation::DKString StreamToString(Stream s)
 		{
 			switch (s)

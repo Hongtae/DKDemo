@@ -1,14 +1,20 @@
 //
 //  File: DKApplicationInterface.h
-//  Encoding: UTF-8 ☃
 //  Author: Hongtae Kim (tiff2766@gmail.com)
 //
-//  Copyright (c) 2013-2014 ICONDB.COM. All rights reserved.
+//  Copyright (c) 2013-2014 Hongtae Kim. All rights reserved.
 //
 
 #pragma once
 #include "../../DKFoundation.h"
 #include "../DKApplication.h"
+
+///////////////////////////////////////////////////////////////////////////////
+// DKApplicationInterface
+// An abstract class, interface for application environment controls.
+// You may need to subclass for your platform, If you have plan to use
+// DKApplication.
+///////////////////////////////////////////////////////////////////////////////
 
 namespace DKFramework
 {

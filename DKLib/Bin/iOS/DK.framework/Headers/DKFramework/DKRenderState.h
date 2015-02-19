@@ -1,9 +1,8 @@
 //
 //  File: DKRenderState.h
-//  Encoding: UTF-8 ☃
 //  Author: Hongtae Kim (tiff2766@gmail.com)
 //
-//  Copyright (c) 2004-2014 ICONDB.COM. All rights reserved.
+//  Copyright (c) 2004-2014 Hongtae Kim. All rights reserved.
 //
 
 #pragma once
@@ -11,11 +10,10 @@
 #include "../DKFoundation.h"
 
 ////////////////////////////////////////////////////////////////////////////////
-//
 // DKRenderState
-//
-// 현재 쓰레드의 OpenGL 상태 정보들
-//
+// Render state control, only for current bound OpenGL thread.
+// Render state not shared by threads. only for current thread.
+// Every OpenGL bound thread has one DKRenderState object at least.
 ////////////////////////////////////////////////////////////////////////////////
 
 namespace DKFramework

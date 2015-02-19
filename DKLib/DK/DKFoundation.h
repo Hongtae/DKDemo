@@ -1,12 +1,14 @@
 #pragma once
 
 #ifdef _MSC_VER
+// visual studio 2013 still not support some features of C++11.
+// DKFoundation_msvc.h is should be used for msvc (vs2013 for now)
 #include "DKFoundation_msvc.h"
 #else
 
 #include "DKInclude.h"
 
-// 기본 객체 및 메모리 관리
+// basic object templates and memory management.
 #include "DKFoundation/DKMemory.h"
 #include "DKFoundation/DKObject.h"
 #include "DKFoundation/DKAllocator.h"
@@ -16,11 +18,11 @@
 #include "DKFoundation/DKSingleton.h"
 #include "DKFoundation/DKSharedInstance.h"
 
-// 스트링
+// unicode string
 #include "DKFoundation/DKString.h"
 #include "DKFoundation/DKStringU8.h"
 
-// 데이터 콜렉션
+// data collections
 #include "DKFoundation/DKArray.h"
 #include "DKFoundation/DKCircularQueue.h"
 #include "DKFoundation/DKList.h"
@@ -32,11 +34,11 @@
 #include "DKFoundation/DKTuple.h"
 #include "DKFoundation/DKQueue.h"
 
-// 해쉬, UUID
+// hash, UUID
 #include "DKFoundation/DKHash.h"
 #include "DKFoundation/DKUUID.h"
 
-// 쓰레드, 뮤텍스, 동기화 객체
+// thread, mutex, synchronization objects.
 #include "DKFoundation/DKAtomicNumber32.h"
 #include "DKFoundation/DKAtomicNumber64.h"
 #include "DKFoundation/DKCriticalSection.h"
@@ -49,7 +51,7 @@
 #include "DKFoundation/DKThread.h"
 #include "DKFoundation/DKCondition.h"
 
-// 스트림, 파일, 데이터, 디렉토리
+// stream, file, buffer, directory (file-system)
 #include "DKFoundation/DKData.h"
 #include "DKFoundation/DKStream.h"
 #include "DKFoundation/DKDataStream.h"
@@ -65,25 +67,25 @@
 #include "DKFoundation/DKXMLParser.h"
 #include "DKFoundation/DKXMLDocument.h"
 
-// 날짜 시간, 타이머
+// date time, timer
 #include "DKFoundation/DKTimer.h"
 #include "DKFoundation/DKDateTime.h"
 #include "DKFoundation/DKRational.h"
 
-// 오퍼레이션, 인보케이션
+// operation, invocation (function utilities)
 #include "DKFoundation/DKFunction.h"
 #include "DKFoundation/DKInvocation.h"
 #include "DKFoundation/DKCallback.h"
 #include "DKFoundation/DKOperation.h"
 #include "DKFoundation/DKValue.h"
 
-// 런루프, 오퍼레이션 큐, 메시지 핸들러
+// run-loop, operation queue, message-handler
 #include "DKFoundation/DKMessageQueue.h"
 #include "DKFoundation/DKOperationQueue.h"
 #include "DKFoundation/DKRunLoop.h"
 #include "DKFoundation/DKRunLoopTimer.h"
 
-// 기타
+// etc
 #include "DKFoundation/DKEndianness.h"
 #include "DKFoundation/DKError.h"
 #include "DKFoundation/DKLog.h"

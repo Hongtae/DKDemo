@@ -1,13 +1,17 @@
 //
 //  File: DKQuaternion.h
-//  Encoding: UTF-8 ☃
 //  Author: Hongtae Kim (tiff2766@gmail.com)
 //
-//  Copyright (c) 2004-2014 ICONDB.COM. All rights reserved.
+//  Copyright (c) 2004-2014 Hongtae Kim. All rights reserved.
 //
 
 #pragma once
 #include "../DKInclude.h"
+
+////////////////////////////////////////////////////////////////////////////////
+// DKQuaternion
+// quaternion class.
+////////////////////////////////////////////////////////////////////////////////
 
 namespace DKFramework
 {
@@ -21,9 +25,10 @@ namespace DKFramework
 	public:
 		DKQuaternion(void);
 		DKQuaternion(const DKQuaternion& q);
-		DKQuaternion(const DKVector3& axis, float angle);		// angle 은 radian 값
-		DKQuaternion(float pitch, float yaw, float roll);		// radian 값이어야 함
-		DKQuaternion(const DKVector3& from, const DKVector3& to, float t = 1.0);	// t 가 1을 넘어서면 더 많이 회전함, 음수이면 반대로 회전함
+		DKQuaternion(const DKVector3& axis, float angle); // angle is radian
+		DKQuaternion(float pitch, float yaw, float roll); // radian
+		DKQuaternion(const DKVector3& from, const DKVector3& to, float t = 1.0); // t > 1 for over-rotate, < 0 for inverse
+
 		DKQuaternion(float _x, float _y, float _z, float _w);
 		~DKQuaternion(void);
 

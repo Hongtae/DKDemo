@@ -1,9 +1,8 @@
 //
 //  File: DKSerializer.h
-//  Encoding: UTF-8 ☃
 //  Author: Hongtae Kim (tiff2766@gmail.com)
 //
-//  Copyright (c) 2004-2014 ICONDB.COM. All rights reserved.
+//  Copyright (c) 2004-2014 Hongtae Kim. All rights reserved.
 //
 
 #pragma once
@@ -13,40 +12,61 @@
 
 
 ////////////////////////////////////////////////////////////////////////////////
-//
 // DKSerializer
+// Object serializer, deserializer class.
+// Using XML or binary formatted data, XML formatted data can be transferred on
+// text-based protocols.
+// Using DKVariant for internal components, You can also have external
+// resources. Each external resource can have separate serializer object.
+// You can embed any external resources in a single serializer object.
+// External resources could be single or array, map with String key.
+// You can also embed any serializer objects in a single serializer object.
 //
-// 리소스를 자동으로 XML데이터 형식으로 시리얼라이즈 한다.
-// DKVariant 로 저장하며, DKVariant 로 변환할수 있는 데이터는 모두 저장가능함.
+// Once a class object generates serializer object, then object can be
+// serializable, deserializable by single serializer object.
+// On generating serializer object, you need to define your components which
+// sould be embedded. You can define your components getter, setter with
+// DKFunction.
 //
-// External (DKResource) 객체를 포함할때 Include 로 하면, Deserialize 할때 객체를 새로 생성하여 넣는다.
-// Reference 로 설정하면, pool 에서 찾아서 넣는다. (기존객체가 있으면 그걸 사용함 - 공유가능한 객체)
+// For external resources, You can specify how resource can be refered.
+// see ExternalResource enums on class declarations below.
 //
-// Bind 함수를 사용하여 각각의 변수나 객체, 또는 다른 DKSerializer 객체를 바인딩 할수 있다.
+// You may need DKResourceLoader object for deserialize object. because of
+// referred external resources can be loaded separately by DKResourceLoader.
 //
-// 다른 DKSerializer 객체를 바인딩 할때를 제외한 나머지는 모두 getter, setter, 등을 설정해야 한다.
-// 다른 DKSerializer 객체를 바인딩 하면 하나의 파일에 모두 포함하게 된다. 상속받는 경우 부모 클래스의 DKSerializer 를 넣어줘야 함.
+// An external resource should have a name as file-name to be loaded separately.
+// Unnamed resource should be embedded and not valid as references which loads
+// separately while deserialize in progress.
 //
-// DKResource 객체를 바인딩 할때는 ExternalResource 상수에 따라 다르게 된다.
-//   - ExternalResourceInclude : 무조건 내부에 포함함
-//   - ExternalResourceReferenceIfPossible : 가능하다면 외부로 뺀다. (이경우 리소스는 ResourceName 이 존재하지 않으면 내부에 포함함)
-//   - ExternalResourceForceReference : 무조건 외부로 뺀다. (ResourceName 이 없으면 오류)
+// On any errors has occurred, serializer calls fault-handler, if not NULL.
+// You may need to provide fault-handler to control error by conditions.
+// If you don't provde fault-handler, deserialization process succeeded only if
+// no error has occurred. (missing files, file has wrong types will stop
+// deserialize process.)
 //
-// 모든 경우 오류 발생시 omissionHandler 가 있다면 대신 호출됨.
-// 
-// serialize
-//  - getter == NULL 이면 serialize 할때 처리되지 않음.
-//  - omission == NULL 이면 external 이 실패했을때 오류.
-//  - omission != NULL 이면 external 이 실패했을때 무시됨.
-// deserialize
-//  - setter == NULL 이면 deserialize 할때 처리되지 않음.
-//  - setter != NULL && omission == NULL 이면, 무조건 deserialize 되어야한다. (데이터가 없을경우 오류처리됨)
-//  - omission != NULL 이면, 누락된 데이터를 처리할때 사용됨.
-//  - omission == NULL 이일때, 데이터가 누락되면 오류. (무조건 동기화 되어야 할 항목으로 간주됨)
-//  - checker == NULL 이면 유효성 검사를 하지 않음.
-//  - checker != NULL 이면 true 를 리턴해야 유효한 값으로 간주함 (false 면 누락처리)
+// You can also privdes 'checker' operation, which will be called on
+// deserialization process. If operation provided and called, return true for
+// valid state, return false to invalid state and stop deserialize.
 //
-// Note: DKResource 타입이 아니라도 사용은 가능함.
+// Behaviors on serialize:
+//    if getter is NULL, entry ignored and will not be serialized.
+//    if faultHandler is NULL, error on external resource failed.
+// Behaviors on deserialize:
+//    if setter is NULL, entry ignored and will not be restored.
+//    if setter is not NULL and faultHandler is NULL, regarded as deserialized
+//    without any error.
+//    if faultHandler is not NULL, will be called when data is missing.
+//    if checker is NULL, will not validate entry.
+//    if checker is not NULL, will be called and returns true for validate,
+//    or generates an error if checker returns false. (error can be recovered
+//    by faultHandler, if available.)
+//
+//
+// Note:
+//    You can use this class for not only DKResource object but any types of
+//    object also. But external resources should be DKResource.
+//    (You need wrapper class for non DKResource object)
+//
 ////////////////////////////////////////////////////////////////////////////////
 
 
@@ -57,6 +77,16 @@ namespace DKFramework
 	class DKSerializer
 	{
 	public:
+		// SerializeForm
+		// - SerializeFormXML:
+		//     xml format plane text. (can be large)
+		// - SerializeFormBinXML:
+		//     xml format text with compressed contents.
+		//     useful for text based transfer protocols.
+		// - SerializeFormBinary:
+		//     uncompressed binary format. (faster loading)
+		// - SerializeFormCompressedBinary:
+		//     compressed binary format. (smallest, faster than xml)
 		enum SerializeForm : int
 		{
 			SerializeFormXML				= '_XML',
@@ -64,44 +94,57 @@ namespace DKFramework
 			SerializeFormBinary				= '_BIN',
 			SerializeFormCompressedBinary	= 'cBIN',
 		};
+		// serialize/deserialize callback state
 		enum State
 		{
-			StateSerializeBegin = 0,
-			StateSerializeSucceed,
-			StateSerializeFailed,
-			StateDeserializeBegin,
-			StateDeserializeSucceed,
-			StateDeserializeFailed,
+			StateSerializeBegin = 0,  // On serialization begins
+			StateSerializeSucceed,    // On serialization succeeded
+			StateSerializeFailed,     // On serialization failed
+			StateDeserializeBegin,    // On deserialization begins
+			StateDeserializeSucceed,  // On deserialization succeeded
+			StateDeserializeFailed,   // On deserialization failed
 		};
+		// defining referencing external resource
 		enum ExternalResource
 		{
-			ExternalResourceInclude = 0,			// 내부에 포함함
-			ExternalResourceReferenceIfPossible,	// 가능하면 외부로 뺀다
-			ExternalResourceForceReference,			// 무조건 외부로 뺀다
+			ExternalResourceInclude = 0,         // included in current serializer.
+			ExternalResourceReferenceIfPossible, // reference as external if possible.
+			ExternalResourceForceReference,      // force reference (never include)
 		};
 
+		// using DKVariant as components container.
 		typedef DKVariant ValueType;
+		// DKResource type can be reference to external resource.
+		// external resources not included in this serializer.
+		// external resources will be loaded separately with this serailizer.
 		typedef DKFoundation::DKObject<DKResource> ExternalType;
 		typedef DKFoundation::DKArray<ExternalType> ExternalArrayType;
 		typedef DKFoundation::DKMap<DKFoundation::DKString, ExternalType> ExternalMapType;
 
+		// component value getter, setter, checker
+		// when data needs to be validated, calling checker to validate if checker is not NULL.
 		typedef DKFoundation::DKFunctionSignature<void (ValueType&)> ValueGetter;
 		typedef DKFoundation::DKFunctionSignature<void (ValueType&)> ValueSetter;
 		typedef DKFoundation::DKFunctionSignature<bool (const ValueType&)> ValueChecker;
 
+		// external resource getter, setter, checker
 		typedef DKFoundation::DKFunctionSignature<void (ExternalType&)> ExternalGetter;
 		typedef DKFoundation::DKFunctionSignature<void (ExternalType&)> ExternalSetter;
 		typedef DKFoundation::DKFunctionSignature<bool (const ExternalType&)> ExternalChecker;
 
+		// external resource array
 		typedef DKFoundation::DKFunctionSignature<void (ExternalArrayType&)> ExternalArrayGetter;
 		typedef DKFoundation::DKFunctionSignature<void (ExternalArrayType&)> ExternalArraySetter;
 		typedef DKFoundation::DKFunctionSignature<bool (const ExternalArrayType&)> ExternalArrayChecker;
 
+		// external resource map (key-value pairs of String, Resource)
 		typedef DKFoundation::DKFunctionSignature<void (ExternalMapType&)> ExternalMapGetter;
 		typedef DKFoundation::DKFunctionSignature<void (ExternalMapType&)> ExternalMapSetter;
 		typedef DKFoundation::DKFunctionSignature<bool (const ExternalMapType&)> ExternalMapChecker;
 
-		typedef DKFoundation::DKOperation OmissionHandler;
+		// fault handler.
+		// if you provide fault-handler, called on error situation to recover.
+		typedef DKFoundation::DKOperation FaultHandler;
 		typedef DKFoundation::DKFunctionSignature<void (State)> Callback;
 
 		DKSerializer(void);
@@ -111,11 +154,11 @@ namespace DKFramework
 		void SetResourceClass(const DKFoundation::DKString& rc);
 		DKFoundation::DKString ResourceClass(void) const;
 
-		bool Bind(const DKFoundation::DKString& key, DKSerializer* s, OmissionHandler* omission);
-		bool Bind(const DKFoundation::DKString& key, ValueGetter* getter, ValueSetter* setter, ValueChecker* checker, OmissionHandler* omission);
-		bool Bind(const DKFoundation::DKString& key, ExternalGetter* getter, ExternalSetter* setter, ExternalChecker* checker, ExternalResource ext, OmissionHandler* omission);
-		bool Bind(const DKFoundation::DKString& key, ExternalArrayGetter* getter, ExternalArraySetter* setter, ExternalArrayChecker* checker, ExternalResource ext, OmissionHandler* omission);
-		bool Bind(const DKFoundation::DKString& key, ExternalMapGetter* getter, ExternalMapSetter* setter, ExternalMapChecker* checker, ExternalResource ext, OmissionHandler* omission);
+		bool Bind(const DKFoundation::DKString& key, DKSerializer* s, FaultHandler* faultHandler);
+		bool Bind(const DKFoundation::DKString& key, ValueGetter* getter, ValueSetter* setter, ValueChecker* checker, FaultHandler* faultHandler);
+		bool Bind(const DKFoundation::DKString& key, ExternalGetter* getter, ExternalSetter* setter, ExternalChecker* checker, ExternalResource ext, FaultHandler* faultHandler);
+		bool Bind(const DKFoundation::DKString& key, ExternalArrayGetter* getter, ExternalArraySetter* setter, ExternalArrayChecker* checker, ExternalResource ext, FaultHandler* faultHandler);
+		bool Bind(const DKFoundation::DKString& key, ExternalMapGetter* getter, ExternalMapSetter* setter, ExternalMapChecker* checker, ExternalResource ext, FaultHandler* faultHandler);
 		void Unbind(const DKFoundation::DKString& key);
 
 		DKFoundation::DKObject<DKFoundation::DKData> Serialize(SerializeForm sf) const;
@@ -138,7 +181,9 @@ namespace DKFramework
 		struct ExternalEntityMap;
 		struct Entity
 		{
-			DKFoundation::DKObject<OmissionHandler>	omission;		// 누락된 일반 데이터 핸들러 (NULL 일경우 무조건 동기화 되어야 됨)
+			// fault-handler, should be serialized without conditions if faultHandler is NULL.
+			DKFoundation::DKObject<FaultHandler> faultHandler;
+
 			virtual ~Entity(void)											{}
 			virtual const VariantEntity*		Variant(void) const			{return NULL;}
 			virtual const SerializerEntity*		Serializer(void) const		{return NULL;}
@@ -148,9 +193,9 @@ namespace DKFramework
 		};
 		struct VariantEntity : public Entity
 		{
-			DKFoundation::DKObject<ValueGetter>		getter;			// 일반 데이터 getter
-			DKFoundation::DKObject<ValueSetter>		setter;			// 일반 데이터 setter
-			DKFoundation::DKObject<ValueChecker>	checker;		// 타입체크 (deserialize 할때만 유효한지 검사함)
+			DKFoundation::DKObject<ValueGetter>		getter; // component getter
+			DKFoundation::DKObject<ValueSetter>		setter; // component setter
+			DKFoundation::DKObject<ValueChecker>	checker; // component checker, called on deserialize if not NULL.
 			const VariantEntity*	Variant(void) const				{return this;}
 		};
 		struct SerializerEntity : public Entity
@@ -160,25 +205,25 @@ namespace DKFramework
 		};
 		struct ExternalEntity : public Entity
 		{
-			DKFoundation::DKObject<ExternalGetter>	getter;			// 외부 데이터 getter
-			DKFoundation::DKObject<ExternalSetter>	setter;			// 외부 데이터 setter
-			DKFoundation::DKObject<ExternalChecker>	checker;		// 외부 데이터 checker (유효한 형식의 데이터인지 확인할때 사용함)
+			DKFoundation::DKObject<ExternalGetter>	getter; // external resource getter
+			DKFoundation::DKObject<ExternalSetter>	setter; // external resource setter
+			DKFoundation::DKObject<ExternalChecker>	checker; // checker, called on deserialize if not NULL.
 			ExternalResource			external;
 			const ExternalEntity*		External(void) const		{return this;}
 		};
 		struct ExternalEntityArray : public Entity
 		{
-			DKFoundation::DKObject<ExternalArrayGetter>		getter;		// 외부 데이터 getter
-			DKFoundation::DKObject<ExternalArraySetter>		setter;		// 외부 데이터 setter
-			DKFoundation::DKObject<ExternalArrayChecker>	checker;	// 외부 데이터 checker (유효한 형식의 데이터인지 확인할때 사용함)
+			DKFoundation::DKObject<ExternalArrayGetter>		getter; // getter for external resource array
+			DKFoundation::DKObject<ExternalArraySetter>		setter; // setter for external resource array
+			DKFoundation::DKObject<ExternalArrayChecker>	checker; // checker, called on deserialize if not NULL.
 			ExternalResource			external;
 			const ExternalEntityArray*	ExternalArray(void) const		{return this;}
 		};
 		struct ExternalEntityMap : public Entity
 		{
-			DKFoundation::DKObject<ExternalMapGetter>	getter;			// 외부 데이터 getter
-			DKFoundation::DKObject<ExternalMapSetter>	setter;			// 외부 데이터 setter
-			DKFoundation::DKObject<ExternalMapChecker>	checker;		// 외부 데이터 checker (유효한 형식의 데이터인지 확인할때 사용함)
+			DKFoundation::DKObject<ExternalMapGetter>	getter; // getter for external resource map
+			DKFoundation::DKObject<ExternalMapSetter>	setter; // setter for external resource map
+			DKFoundation::DKObject<ExternalMapChecker>	checker; // checker, called on deserialize if not NULL.
 			ExternalResource			external;
 			const ExternalEntityMap*	ExternalMap(void) const			{return this;}
 		};
@@ -189,10 +234,10 @@ namespace DKFramework
 		DKFoundation::DKObject<Callback> callback;
 		DKFoundation::DKSpinLock	lock;
 
-		struct DeserializerEntity		// 복구용 데이터
+		struct DeserializerEntity		// data for object restoration.
 		{
 			ValueType rootValue;
-			DKFoundation::DKMap<DKFoundation::DKString, ExternalType> externals;				// 외부 데이터들
+			DKFoundation::DKMap<DKFoundation::DKString, ExternalType> externals;
 			DKFoundation::DKMap<DKFoundation::DKString, ExternalArrayType> externalArrays;
 			DKFoundation::DKMap<DKFoundation::DKString, ExternalMapType> externalMaps;
 			DKFoundation::DKArray<DKFoundation::DKObject<DKFoundation::DKOperation>> operations;
@@ -205,7 +250,7 @@ namespace DKFramework
 		bool DeserializeBinary(DKFoundation::DKStream* s, DKResourceLoader* p) const;
 		static bool DeserializeBinary(DKFoundation::DKStream* s, DKResourceLoader* p, Selector* sel);
 		
-		// 복사 막음
+		// copy constructor not allowed.
 		DKSerializer(const DKSerializer&);
 		DKSerializer& operator = (const DKSerializer&);
 

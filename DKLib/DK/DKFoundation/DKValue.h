@@ -1,9 +1,8 @@
 //
 //  File: DKValue.h
-//  Encoding: UTF-8 ☃
 //  Author: Hongtae Kim (tiff2766@gmail.com)
 //
-//  Copyright (c) 2004-2014 ICONDB.COM. All rights reserved.
+//  Copyright (c) 2004-2014 Hongtae Kim. All rights reserved.
 //
 
 #pragma once
@@ -13,11 +12,10 @@
 #include "DKInvocation.h"
 
 ////////////////////////////////////////////////////////////////////////////////
-//
 // DKValue
 //
-// 변수나 상수를 바인딩 하여 DKInvocation 객체로 만든다.
-//
+// Binds variable or constant to DKInvocation object. (see DKInvocation.h)
+// a variable or constant bounds, will become result of invocation.
 ////////////////////////////////////////////////////////////////////////////////
 
 namespace DKFoundation

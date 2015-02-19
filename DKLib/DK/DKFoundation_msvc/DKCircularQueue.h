@@ -1,9 +1,8 @@
 //
 //  File: DKCircularQueue.h
-//  Encoding: UTF-8 ☃
 //  Author: Hongtae Kim (tiff2766@gmail.com)
 //
-//  Copyright (c) 2004-2014 ICONDB.COM. All rights reserved.
+//  Copyright (c) 2004-2014 Hongtae Kim. All rights reserved.
 //
 
 #pragma once
@@ -16,20 +15,25 @@
 #include "DKArray.h"
 
 ////////////////////////////////////////////////////////////////////////////////
-//
 // DKCircularQueue
+// circulate limited size of queue.
+// queue object never overflow.
 //
-// 정해진 크기를 순환하는 큐
-// 큐의 앞뒤로만 값을 추가,제거 할 수 있으며, 정해진 크기를 넘어서면 넣는 방향에 따라
-// 반대 방향의 값을 덮어 쓴다.
+// items can be added at head, tail only
+// if item count have reached to limited size when adding new item,
+// the item at opposite side will be overwritten.
 //
-// Append() : 큐의 뒤에 추가 (뒤로 순환)
-// Prepend() : 큐의 앞에 추가 (앞으로 순환)
+// Example:
+//   DKCircularQueue<int> queue(3);		// set maximum length to 3
+//   queue.Append(1);		// [1]
+//   queue.Append(2);		// [1, 2]
+//   queue.Append(3);		// [1, 2, 3]
+//   queue.Append(4);		// [2, 3, 4] item(1) has been truncated. (append)
+//   queue.Prepend(5);		// [5, 2, 3] item(4) has been truncated. (prepend)
+//   queue.Prepend(6);		// [6, 5, 2] item(3) has been truncated. (prepend)
 //
-// RemoveFront() : 큐의 맨 앞에 값 제거
-// RemoveBack() : 큐의 맨 뒤의 값 제거
-//
-// thread-safe 하게 값을 가져오려면 CopyValue 함수를 이용할것.
+// Note:
+//  using CopyValue() to retrieve item for thread-safe.
 ////////////////////////////////////////////////////////////////////////////////
 
 namespace DKFoundation
@@ -179,15 +183,15 @@ namespace DKFoundation
 			capacity = Max<size_t>(cap, MinimumCapacity);
 			container.Reserve(capacity);			
 		}
-
-		void Append(const VALUE& value)		// 뒤로 추가
+		// append item. if length exceed to limit, front item will be truncated.
+		void Append(const VALUE& value)
 		{
 			CriticalSection guard(lock);
 			AppendNL(value);
 			DKASSERT_DEBUG(container.Count() <= capacity);
 		}
-
-		void Prepend(const VALUE& value)		// 앞으로 추가
+		// prepend item, if length exceed to limit, last item will be truncated.
+		void Prepend(const VALUE& value)
 		{
 			CriticalSection guard(lock);
 			PrependNL(value);
@@ -278,8 +282,10 @@ namespace DKFoundation
 			return ValueNL(container.Count() - 1);
 		}
 
-		// EnumerateForward / EnumerateBackword: 모든 데이터 열거함수, 이 함수내에서는 배열객체에 값을 추가하거나 제거할 수 없다!! (read-only)
-		// lambda enumerator (VALUE&) 또는 (VALUE&, bool*) 형식의 함수객체
+		// EnumerateForward / EnumerateBackward: enumerate all items.
+		// You cannot insert, remove items while enumerating. (container is read-only)
+		// enumerator can be lambda or any function type that can receive arguments (VALUE&) or (VALUE&, bool*)
+		// (VALUE&, bool*) type can cancel iteration by set boolean value to true.
 		template <typename T> void EnumerateForward(T&& enumerator)
 		{
 			using Func = typename DKFunctionType<T&&>::Signature;
@@ -298,7 +304,7 @@ namespace DKFoundation
 			
 			EnumerateBackward(std::forward<T>(enumerator), typename Func::ParameterNumber());
 		}
-		// lambda enumerator (const VALUE&) 또는 (const VALUE&, bool*) 형식의 함수객체
+		// lambda enumerator (const VALUE&) or (const VALUE&, bool*) function type.
 		template <typename T> void EnumerateForward(T&& enumerator) const
 		{
 			using Func = typename DKFunctionType<T&&>::Signature;
@@ -408,7 +414,7 @@ namespace DKFoundation
 			}
 			return container.Value(index);
 		}
-		void AppendNL(const VALUE& value)		// 뒤로 추가
+		void AppendNL(const VALUE& value)
 		{
 			size_t count = container.Count();
 			DKASSERT_DEBUG(count <= capacity);
@@ -425,7 +431,7 @@ namespace DKFoundation
 			}
 			DKASSERT_DEBUG(container.Count() <= capacity);
 		}
-		void PrependNL(const VALUE& value)		// 앞으로 추가
+		void PrependNL(const VALUE& value)
 		{
 			size_t count = container.Count();
 			DKASSERT_DEBUG(count <= capacity);

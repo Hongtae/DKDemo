@@ -1,48 +1,50 @@
 //
 //  File: DKTimer.h
-//  Encoding: UTF-8 ☃
 //  Author: Hongtae Kim (tiff2766@gmail.com)
 //
-//  Copyright (c) 2004-2014 ICONDB.COM. All rights reserved.
+//  Copyright (c) 2004-2014 Hongtae Kim. All rights reserved.
 //
 
 #pragma once
 #include "../DKInclude.h"
 
 ////////////////////////////////////////////////////////////////////////////////
-//
 // DKTimer
-// 고해상도 타이머, 플랫폼에 따라 고해상도 지원 안할 수 있음
+// a high-resolution timer.
 //
-// Frequency : 1초당 틱 카운트
+// calculations
 //  - time = tick / frequency
 //  - tick = time * frequency
 //
-// 주의:
-//  시간 환산할 때 tick(64비트)가 double(가수부 52비트)의 정밀도 보다 크기 때문에 오차가 생길 수 있다.
-//  정밀한 계산이 필요할때는 그냥 DKTimeTick64 단위를 사용할 것.
-//  (DKTimer::Reset, DKTimer::Elapsed 는 기준시간 부터의 경과시간을 측정하기 때문에 오차가 작음)
+// Note:
+//  some bits could be lost while compute a real-number (double-precision) process,
+//  becouse of tick64 is 64 bits integer, but double has 52 bits fraction.
+//  (based on IEEE754)
 //
+//  DKTimer::Reset, DKTimer::Elapsed can produces good quality of result,
+//  it calculates time offset since Reset().
 ////////////////////////////////////////////////////////////////////////////////
 
 namespace DKFoundation
 {
-	typedef unsigned long		DKTimeTick;		// 일반 카운터
-	typedef unsigned int		DKTimeTick32;	// 32비트 카운터
-	typedef unsigned long long	DKTimeTick64;	// 64비트 카운터
+	typedef unsigned long		DKTimeTick;		// counter type default.
+	typedef unsigned int		DKTimeTick32;	// 32bit counter type.
+	typedef unsigned long long	DKTimeTick64;	// 64bit counter type.
 
 	class DKLIB_API DKTimer
 	{
 	public:
-		typedef DKTimeTick64 Tick;
+		typedef DKTimeTick64 Tick; // using 64 bit counter.
 		DKTimer(void);
 		~DKTimer(void);
 
-		double Reset(void);				// 타이머 리셋, 지난 리셋부터 경과시간 리턴
-		double Elapsed(void) const;		// 타이머 경과시간 리턴
+		// reset timer, returns time elapsed since previous reset.
+		double Reset(void);
+		// returns elapsed timer since time since last reset.
+		double Elapsed(void) const;
 
-		static Tick SystemTick(void);				// 시스템 틱
-		static Tick SystemTickFrequency(void);		// 초당 틱
+		static Tick SystemTick(void);          // system tick
+		static Tick SystemTickFrequency(void); // tick frequency (a sec)
 	private:
 		Tick timeStamp;
 	};

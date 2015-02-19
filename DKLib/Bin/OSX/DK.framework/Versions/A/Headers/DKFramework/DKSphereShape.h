@@ -1,15 +1,19 @@
 ﻿//
 //  File: DKSphereShape.h
-//  Encoding: UTF-8 ☃
 //  Author: Hongtae Kim (tiff2766@gmail.com)
 //
-//  Copyright (c) 2012-2014 ICONDB.COM. All rights reserved.
+//  Copyright (c) 2012-2014 Hongtae Kim. All rights reserved.
 //
 
 #pragma once
 #include "../DKInclude.h"
 #include "DKVector3.h"
 #include "DKConvexShape.h"
+
+///////////////////////////////////////////////////////////////////////////////
+// DKSphereShape
+// an implicit sphere class. centered local origin with radius.
+///////////////////////////////////////////////////////////////////////////////
 
 namespace DKFramework
 {

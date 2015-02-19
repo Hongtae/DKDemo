@@ -1,9 +1,8 @@
 //
 //  File: DKInvocation.h
-//  Encoding: UTF-8 ☃
 //  Author: Hongtae Kim (tiff2766@gmail.com)
 //
-//  Copyright (c) 2004-2014 ICONDB.COM. All rights reserved.
+//  Copyright (c) 2004-2014 Hongtae Kim. All rights reserved.
 //
 
 #pragma once
@@ -12,10 +11,9 @@
 #include "DKOperation.h"
 
 ////////////////////////////////////////////////////////////////////////////////
-//
 // DKInvocation<T>
-//
-//  이 객체는 DKOperation 으로 사용할 수 있으며, T 타입의 리턴값을 얻을 수 있다.
+// You can use this class as DKOperation type.
+// and you can query result (type T) with this Invocation object.
 //
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -28,6 +26,7 @@ namespace DKFoundation
 		void Perform(void) const {Invoke();}		
 		virtual T Invoke(void) const = 0;
 
+		// test type T is convertible to U
 		template <typename U> constexpr static bool CanAcceptResultTypeAs(void)
 		{
 			return DKTypeConversionTest<T, U>();

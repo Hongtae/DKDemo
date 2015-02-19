@@ -1,9 +1,8 @@
 //
 //  File: DKTypeTraits.h
-//  Encoding: UTF-8 ☃
 //  Author: Hongtae Kim (tiff2766@gmail.com)
 //
-//  Copyright (c) 2004-2014 ICONDB.COM. All rights reserved.
+//  Copyright (c) 2004-2014 Hongtae Kim. All rights reserved.
 //
 
 #pragma once
@@ -11,9 +10,14 @@
 #include "DKTypes.h"
 #include "DKTypeList.h"
 
+///////////////////////////////////////////////////////////////////////////////
+// DKTypeTraits
+// a template type traits class.
+///////////////////////////////////////////////////////////////////////////////
+
 namespace DKFoundation
 {
-	// 일반 함수
+	// type traits of global function pointer.
 	template <typename> struct DKFunctionPointerTraits
 	{
 		enum {IsFunctionPointer = false};
@@ -36,7 +40,7 @@ namespace DKFoundation
 		using GenericType = R (Args..., ...);
 		using PointerType = R (*)(Args..., ...);
 	};
-	// 클래스 멤버 함수
+	// type traits of class member functions.
 	template <typename> struct DKMemberFunctionPointerTraits
 	{
 		enum {IsFunctionPointer = false};

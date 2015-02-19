@@ -1,20 +1,18 @@
 //
 //  File: DKStream.h
-//  Encoding: UTF-8 ☃
 //  Author: Hongtae Kim (tiff2766@gmail.com)
 //
-//  Copyright (c) 2004-2014 ICONDB.COM. All rights reserved.
+//  Copyright (c) 2004-2014 Hongtae Kim. All rights reserved.
 //
 
 #pragma once
 #include "../DKinclude.h"
 
 ////////////////////////////////////////////////////////////////////////////////
-//
-// DKStream (추상 클래스)
-//
-// 위치를 지정하여 순차적으로 읽고 쓸수 있는 객체
-//
+// DKStream
+// an abstract class.
+// provide stream interface.
+// set/get position and read/write data at position of stream.
 ////////////////////////////////////////////////////////////////////////////////
 
 namespace DKFoundation

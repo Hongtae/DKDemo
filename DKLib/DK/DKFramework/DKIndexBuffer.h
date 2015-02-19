@@ -1,9 +1,8 @@
 //
 //  File: DKIndexBuffer.h
-//  Encoding: UTF-8 ☃
 //  Author: Hongtae Kim (tiff2766@gmail.com)
 //
-//  Copyright (c) 2004-2014 ICONDB.COM. All rights reserved.
+//  Copyright (c) 2004-2014 Hongtae Kim. All rights reserved.
 //
 
 #pragma once
@@ -11,6 +10,13 @@
 #include "../DKFoundation.h"
 #include "DKGeometryBuffer.h"
 #include "DKPrimitiveIndex.h"
+
+////////////////////////////////////////////////////////////////////////////////
+// DKIndexBuffer
+// a index buffer defines primitive type and have indices of vertices
+// (see DKPrimitive.h for primitive types)
+// (see DKGeometryBuffer.h for accessing content)
+////////////////////////////////////////////////////////////////////////////////
 
 namespace DKFramework
 {
@@ -20,7 +26,7 @@ namespace DKFramework
 		enum Type
 		{
 			TypeUByte,
-			TypeUShort,		// 가장 빠름
+			TypeUShort,		// fastest
 			TypeUInt,
 		};
 

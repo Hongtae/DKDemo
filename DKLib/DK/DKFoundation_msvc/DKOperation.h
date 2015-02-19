@@ -1,20 +1,19 @@
 //
 //  File: DKOperation.h
-//  Encoding: UTF-8 ☃
 //  Author: Hongtae Kim (tiff2766@gmail.com)
 //
-//  Copyright (c) 2004-2014 ICONDB.COM. All rights reserved.
+//  Copyright (c) 2004-2014 Hongtae Kim. All rights reserved.
 //
 
 #pragma once
 #include "../DKInclude.h"
 
 ////////////////////////////////////////////////////////////////////////////////
-//
 // DKOperation
+// an operation class, abstract class.
 //
-// 함수자 객체, 이 객체는 리턴값을 얻을 수 없다.
-//
+// You can perform operation with this object, but you cannot retrieve result.
+// You can use DKInvocation to retrieve result.
 ////////////////////////////////////////////////////////////////////////////////
 
 namespace DKFoundation

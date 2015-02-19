@@ -1,9 +1,8 @@
 ﻿//
 //  File: DKConeTwistConstraint.h
-//  Encoding: UTF-8 ☃
 //  Author: Hongtae Kim (tiff2766@gmail.com)
 //
-//  Copyright (c) 2012-2014 ICONDB.COM. All rights reserved.
+//  Copyright (c) 2012-2014 Hongtae Kim. All rights reserved.
 //
 
 #pragma once
@@ -11,9 +10,8 @@
 #include "DKConstraint.h"
 
 ////////////////////////////////////////////////////////////////////////////////
-//
 // DKConeTwistConstraint
-// 
+// cone-twist constraint, useful for simulate ragdoll joints.
 ////////////////////////////////////////////////////////////////////////////////
 
 namespace DKFramework
@@ -26,9 +24,9 @@ namespace DKFramework
 		DKConeTwistConstraint(void);
 		~DKConeTwistConstraint(void);
 
-		// softness : 0.0~1.0 사이의 값 (0.8~1.0 사이의 값 추천)
-		// biasFactor : 0.0~1.0 사이의 값 (0.3 추천)
-		// relaxationFactor : 0.0~1.0 사이의 값 (1.0 추천)
+		// softness : value in 0.0~1.0 (0.8~1.0 is recommended)
+		// biasFactor : value in 0.0~1.0 (0.3 is recommended)
+		// relaxationFactor : value in 0.0~1.0
 		void SetLimit(float swingSpan1, float swingSpan2, float twistSpan, float softness = 1.0f, float biasFactor = 0.3f, float relaxationFactor = 1.0f);
 
 		float SwingSpan1(void) const;

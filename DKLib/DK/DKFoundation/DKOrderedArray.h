@@ -1,9 +1,8 @@
 //
 //  File: DKOrderedArray.h
-//  Encoding: UTF-8 ☃
 //  Author: Hongtae Kim (tiff2766@gmail.com)
 //
-//  Copyright (c) 2004-2014 ICONDB.COM. All rights reserved.
+//  Copyright (c) 2004-2014 Hongtae Kim. All rights reserved.
 //
 
 #pragma once
@@ -16,17 +15,13 @@
 #include "DKArray.h"
 
 ////////////////////////////////////////////////////////////////////////////////
-//
 // DKOrderedArray
+// simple array class, items be ordered always.
+// provides fast bisectional search operation.
 //
-// 기본적인 배열 객체
-//
-// 값은 항상 순서대로 정렬되서 들어간다.
-// 해당 값에 대한 빠른 검색이 가능 (Find 함수)
-//
-// 생성자에서 값 비교함수 필요함.
-// (DKArraySortAscending<VALUE> 또는 DKArraySortDescending 사용가능)
-//
+// You must provide compare-function of your items
+// You can use DKArraySortAscending, DKArraySortDescending for your items
+// comparison function, if your item(VALUE) has comparison operators.
 ////////////////////////////////////////////////////////////////////////////////
 
 namespace DKFoundation
@@ -42,15 +37,23 @@ namespace DKFoundation
 		typedef DKCriticalSection<LOCK>		CriticalSection;
 		typedef DKTypeTraits<VALUE>			ValueTraits;
 
-		typedef bool (*OrderFunc)(const VALUE& lhs, const VALUE& rhs);	// 오름차순은 return lhs < rhs
-		typedef bool (*EqualFunc)(const VALUE& lhs, const VALUE& rhs);	// 같을때만 return true
+		// OrderFunc, comparison function returns boolean,
+		// for ascending array, return lhs < rhs,
+		// for descending array, return lhs > rhs.
+		typedef bool (*OrderFunc)(const VALUE& lhs, const VALUE& rhs);
+
+		// EqualFunc, test items are equal. return true if both items are equal.
+		typedef bool (*EqualFunc)(const VALUE& lhs, const VALUE& rhs);
 
 		static const Index invalidIndex = (Index)-1;
-		LOCK	lock;		// 외부에서 락을 걸수 있도록 함. (락을 건 상태에서는 형변환과 CountNoLock()만 사용가능)
+		// lock is public. lock object from outside!
+		// You can call type-casting operator and CountNoLock() only while object is locked.
+		LOCK	lock;
 
-		// range-based for loop 용 begin, end 멤버함수
-		// 주의: range-based 루프를 사용할때 값을 참조하는 동안은 락이 걸리지 않음.
-		// 값은 무조건 const VALUE& 로만 사용할 수 있다. (read-only)
+		// iterator class for range-based for loop
+		// Note:
+		//  while iterating by range-based-iterator, object is not locked state.
+		//  And you can retrieve item as const VALUE& type (READ-ONLY) while iterating.
 		typedef DKArrayRBIterator<DKOrderedArray, const VALUE&>			RBIterator;
 		typedef DKArrayRBIterator<const DKOrderedArray, const VALUE&>	ConstRBIterator;
 		RBIterator begin(void)				{return RBIterator(*this, 0);}
@@ -183,7 +186,8 @@ namespace DKFoundation
 			CriticalSection guard(lock);
 			return container.Count();
 		}
-		size_t CountNoLock(void) const		// 외부에서 락을 걸었을때 사용함
+		// CountNoLock: call this function when object has been locked already.
+		size_t CountNoLock(void) const
 		{
 			return container.Count();
 		}
@@ -197,12 +201,15 @@ namespace DKFoundation
 			CriticalSection guard(lock);
 			return container.Value(index);
 		}
-		operator const VALUE* (void) const	// 외부에서 락을 걸었을때 값을 직접 억세스 할 수 있도록 함.
+		// to access items directly, when object has been locked already.
+		operator const VALUE* (void) const
 		{
 			return (const VALUE*)container;
 		}
-		// EnumerateForward / EnumerateBackword: 모든 데이터 열거함수, 이 함수내에서는 배열객체에 값을 추가하거나 제거할 수 없다!! (read-only)
-		// lambda enumerator (VALUE&) 또는 (VALUE&, bool*) 형식의 함수객체
+		// EnumerateForward / EnumerateBackward: enumerate all items.
+		// You cannot insert, remove items while enumerating. (container is read-only)
+		// enumerator can be lambda or any function type that can receive arguments (VALUE&) or (VALUE&, bool*)
+		// (VALUE&, bool*) type can cancel iteration by set boolean value to true.
 		template <typename T> void EnumerateForward(T&& enumerator)
 		{
 			using Func = typename DKFunctionType<T&&>::Signature;
@@ -223,7 +230,7 @@ namespace DKFoundation
 			CriticalSection guard(lock);
 			container.EnumerateBackward(std::forward<T>(enumerator));
 		}
-		// lambda enumerator (const VALUE&) 또는 (const VALUE&, bool*) 형식의 함수객체
+		// lambda enumerator (const VALUE&) or (const VALUE&, bool*) function type.
 		template <typename T> void EnumerateForward(T&& enumerator) const
 		{
 			using Func = typename DKFunctionType<T&&>::Signature;
@@ -277,7 +284,8 @@ namespace DKFoundation
 			}
 			return invalidIndex;
 		}
-		// 근사값 찾음. (greater 가 true 이면 value 와 같거나 큰값의 인덱스, false 면 value 와 같거나 작은 값의 인덱스)
+		// Find approximal value. (returns Index of value found.)
+		// if greater is true, the result will be index of value or least greater value.
 		Index FindApprox(const VALUE& value, bool greater) const
 		{
 			CriticalSection guard(lock);
@@ -291,7 +299,7 @@ namespace DKFoundation
 			while (count > 2)
 			{
 				Index middle = begin + count / 2;
-				if (orderFunc(value, container.Value(middle)))		// value 가 middle 보다 더 작음
+				if (orderFunc(value, container.Value(middle))) // value < middle
 				{
 					count = middle - begin + 1;
 				}
@@ -323,7 +331,7 @@ namespace DKFoundation
 			return invalidIndex;
 		}
 	private:
-		// InsertContainer 값 하나를 c 만큼 넣는다.
+		// Insert one value 'VALUE', 'c' times. (value x c)
 		size_t InsertContainer(const VALUE& value, size_t c)
 		{
 			Index index = 0;

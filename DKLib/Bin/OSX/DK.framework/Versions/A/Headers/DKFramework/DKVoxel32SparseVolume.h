@@ -1,9 +1,8 @@
 ﻿//
 //  File: DKVoxel32SparseVolume.h
-//  Encoding: UTF-8 ☃
 //  Author: Hongtae Kim (tiff2766@gmail.com)
 //
-//  Copyright (c) 2009-2014 ICONDB.COM. All rights reserved.
+//  Copyright (c) 2009-2014 Hongtae Kim. All rights reserved.
 //
 
 #pragma once
@@ -13,12 +12,14 @@
 #include "DKVoxel32Storage.h"
 
 ////////////////////////////////////////////////////////////////////////////////
-//
 // DKVoxel32SparseVolume
+// voxel data storage interface, manages voxel with sparse volume.
+// this class uses DKVoxel32 as data unit for voxel.
+// You need to provide storage object, which can be file or memory that can
+// store voxel data. (see DKVoel32Storage.h)
 //
-// 복셀 스토리지 인터페이스
-// DKVoxel32 형식의 데이터를 기본 유닛으로 사용하며, 분할하여 저장하는 인터페이스를 제공함
-//
+// Note:
+//   If you want to polygonize voxels, see DKVoxelPolygonizer.h
 ////////////////////////////////////////////////////////////////////////////////
 
 namespace DKFramework
@@ -54,7 +55,7 @@ namespace DKFramework
 		struct VolumetricBlock
 		{
 			DKFoundation::DKSpinLock lock;
-			StorageId storageId;				// zero 이면 solid-block
+			StorageId storageId;			// zero for solid-block
 			TimeStamp ts;
 			union
 			{
@@ -67,11 +68,11 @@ namespace DKFramework
 		size_t height;
 		size_t depth;
 
-		size_t blocksLoaded;				// 로딩된 블록들
-		VolumetricBlock* volumeBlocks;		// 전체 블록들
+		size_t blocksLoaded;				// number of blocks loaded.
+		VolumetricBlock* volumeBlocks;		// all blocks
 
 		DKFoundation::DKObject<Storage> storage;
-		DKFoundation::DKSharedLock volumeLock;	// volume 변경할때 사용하는 rwlock
+		DKFoundation::DKSharedLock volumeLock;	// rw-lock for changing volume.
 		TimeStamp lastCompactedTS;
 
 		void UnloadOldBlocks(size_t);

@@ -1,9 +1,8 @@
 //
 //  File: DKCollisionObject.h
-//  Encoding: UTF-8 ☃
 //  Author: Hongtae Kim (tiff2766@gmail.com)
 //
-//  Copyright (c) 2012-2014 ICONDB.COM. All rights reserved.
+//  Copyright (c) 2012-2014 Hongtae Kim. All rights reserved.
 //
 
 #pragma once
@@ -13,9 +12,10 @@
 #include "DKCollisionShape.h"
 
 ////////////////////////////////////////////////////////////////////////////////
-//
 // DKCollisionObject
-//
+// collision object for scene (DKScene, DKDynamicsScene)
+// this is basic collision object not for dynamics.
+// for dynamics use DKRigidBody instead.
 ////////////////////////////////////////////////////////////////////////////////
 
 namespace DKFramework

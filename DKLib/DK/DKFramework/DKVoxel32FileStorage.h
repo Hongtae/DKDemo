@@ -1,9 +1,8 @@
 ﻿//
 //  File: DKVoxel32FileStorage.h
-//  Encoding: UTF-8 ☃
 //  Author: Hongtae Kim (tiff2766@gmail.com)
 //
-//  Copyright (c) 2009-2014 ICONDB.COM. All rights reserved.
+//  Copyright (c) 2009-2014 Hongtae Kim. All rights reserved.
 //
 
 #pragma once
@@ -11,8 +10,17 @@
 #include "../DKFoundation.h"
 #include "DKVoxel32Storage.h"
 
+////////////////////////////////////////////////////////////////////////////////
+// DKVoxel32FileStorage
+// a 32bit voxel storage, it store data into file.
+//
+// THIS CLASS NOT IMPLEMENTED YET.
+// Use DKVoxel32SparseVolume instead.
+////////////////////////////////////////////////////////////////////////////////
+
 namespace DKFramework
 {
+	// NOT IMPLEMENTED. (Use DKVoxel32SparseVolume)
 	class DKLIB_API DKVoxel32FileStorage : public DKVoxel32Storage
 	{
 	public:

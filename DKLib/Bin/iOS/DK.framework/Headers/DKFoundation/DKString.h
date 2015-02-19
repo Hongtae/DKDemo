@@ -1,9 +1,8 @@
 //
 //  File: DKString.h
-//  Encoding: UTF-8 ☃
 //  Author: Hongtae Kim (tiff2766@gmail.com)
 //
-//  Copyright (c) 2004-2014 ICONDB.COM. All rights reserved.
+//  Copyright (c) 2004-2014 Hongtae Kim. All rights reserved.
 //
 
 #pragma once
@@ -13,11 +12,10 @@
 #include "DKStringW.h"
 
 ////////////////////////////////////////////////////////////////////////////////
-//
 // DKString
-//
-// 윈도우(win32) 에서는 utf-8 이 아직 기본적으로 안되기 때문에 wchar_t 를 기본으로 사용한다.
-//
+// basic string class.
+// using utf-16 for Win32, else utf-32 (for Unix, Mac OS X) with current implementation.
+// using wchar_t for character type. (see DKStringW.h)
 ////////////////////////////////////////////////////////////////////////////////
 
 namespace DKFoundation

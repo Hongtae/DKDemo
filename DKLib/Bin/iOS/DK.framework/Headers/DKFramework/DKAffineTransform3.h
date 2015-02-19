@@ -1,9 +1,8 @@
 //
 //  File: DKAffineTransform3.h
-//  Encoding: UTF-8 ☃
 //  Author: Hongtae Kim (tiff2766@gmail.com)
 //
-//  Copyright (c) 2004-2014 ICONDB.COM. All rights reserved.
+//  Copyright (c) 2004-2014 Hongtae Kim. All rights reserved.
 //
 
 #pragma once
@@ -14,10 +13,8 @@
 #include "DKLinearTransform3.h"
 
 ////////////////////////////////////////////////////////////////////////////////
-//
 // DKAffineTransform3
-// 4x3 행렬
-// 
+// 4x3 matrix for affine transform on 3 dimensional coordinates.
 ////////////////////////////////////////////////////////////////////////////////
 
 namespace DKFramework
@@ -35,10 +32,9 @@ namespace DKFramework
 		bool IsIdentity(void) const;
 		bool IsDiagonal(void) const;
 
-		// 트랜스폼 연산
 		DKAffineTransform3& Translate(float x, float y, float z);
 		DKAffineTransform3& Translate(const DKVector3& v);
-		// 행렬 연산
+
 		DKAffineTransform3& Inverse(void);
 		DKAffineTransform3& Multiply(const DKLinearTransform3& t);
 		DKAffineTransform3& Multiply(const DKAffineTransform3& t);

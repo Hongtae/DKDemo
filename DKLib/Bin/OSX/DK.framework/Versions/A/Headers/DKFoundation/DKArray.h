@@ -1,9 +1,8 @@
 //
 //  File: DKArray.h
-//  Encoding: UTF-8 ☃
 //  Author: Hongtae Kim (tiff2766@gmail.com)
 //
-//  Copyright (c) 2004-2014 ICONDB.COM. All rights reserved.
+//  Copyright (c) 2004-2014 Hongtae Kim. All rights reserved.
 //
 
 #pragma once
@@ -19,38 +18,39 @@
 ////////////////////////////////////////////////////////////////////////////////
 //
 // DKArray
+// basic array class.
 //
-// 기본적인 배열 객체
+// thread-safe for element insertion or deletion.
+// but you may need to lock from outside to modify element directly,
 //
-// 기본적으로 데이터 추가와 제거에는 락을 건다. 하지만 값을 직접 수정하려면
-// 외부에서 따로 락을 걸어야 한다.
-//
-// 예:
+// ex:
 //	{
 //		typename MyArrayType::CriticalSection section(array.lock);	// lock with critical-section
 //		array[x] = .... // do something with array[]
 //	}	// auto-unlock by critical-section end
 //
-//  VALUE 가 같지만 LOCK 이 다른 경우 Add, Insert 만 가능하다.
+// NOTE:
+//  When two objects has same VALUE type and different LOCK type,
+//  ONLY Add(), Insert() can be used.
 //
-// 객체의 포인터나 레퍼런스를 가져오는 함수는 thread-safe 하지 않음.
-// 값의 추가 제거 또는 값을 복사하는 CopyValue는 thread-safe 함.
+//  If you have to obtain element's pointer or reference, beware of thread-safety.
+//  CopyValue() function is always thread-safe.
 ////////////////////////////////////////////////////////////////////////////////
 
 namespace DKFoundation
 {
 	template <typename T>
-	bool DKArraySortAscending(const T& lhs, const T& rhs)		// 오름차순, 작은게 앞
+	bool DKArraySortAscending(const T& lhs, const T& rhs) // ascending, smaller first
 	{
 		return lhs < rhs;
 	}
 	template <typename T>
-	bool DKArraySortDescending(const T& lhs, const T& rhs)		// 내림차순, 큰게 앞
+	bool DKArraySortDescending(const T& lhs, const T& rhs) // descending, bigger first
 	{
 		return lhs > rhs;
 	}
 	template <typename T>
-	bool DKArrayCompareEqual(const T& lhs, const T& rhs)		// equal 비교
+	bool DKArrayCompareEqual(const T& lhs, const T& rhs) // equal (comparision)
 	{
 		return lhs == rhs;
 	}
@@ -67,10 +67,11 @@ namespace DKFoundation
 		typedef ALLOC					Allocator;
 
 		static const Index invalidIndex = (size_t)-1;
-		Lock	lock;			// 외부에서 락을 걸수 있도록 한다. 값을 직접 수정할때 사용 (VALUE* 형변환과 CountNoLock() 만 사용 가능)
+		// lock is public. (object can be locked from outside, to use modify element directly.)
+		// in this case, You can use VALUE* casting-operator and CountNoLock() only.
+		Lock	lock;
 
-		// range-based for loop 용 begin, end 멤버함수
-		// 주의: range-based 루프를 사용할때 값을 참조하는 동안은 락이 걸리지 않음.
+		// implementation for range-based-for-loop.
 		typedef DKArrayRBIterator<DKArray, VALUE&>				RBIterator;
 		typedef DKArrayRBIterator<const DKArray, const VALUE&>	ConstRBIterator;
 		RBIterator begin(void)				{return RBIterator(*this, 0);}
@@ -132,13 +133,13 @@ namespace DKFoundation
 			CriticalSection guard(lock);
 			return count == 0;
 		}
-		// 배열의 끝에 배열 추가
+		// append other array's elements to tail.
 		template <typename T> Index Add(const DKArray<VALUE, T>& value)
 		{
 			typename DKArray<VALUE, T>::CriticalSection guard(value.lock);
 			return Add((const VALUE*)value, value.Count());
 		}
-		// 배열의 끝에 한개의 value 추가
+		// append one item to tail.
 		Index Add(const VALUE& value)
 		{
 			CriticalSection guard(lock);
@@ -146,7 +147,7 @@ namespace DKFoundation
 			::new(&data[count]) VALUE(value);
 			return count++;
 		}
-		// 배열의 끝에 s 개의 value 추가
+		// append 's' length of value to tail.
 		Index Add(const VALUE* value, size_t s)
 		{
 			CriticalSection guard(lock);
@@ -156,7 +157,7 @@ namespace DKFoundation
 			count += s;
 			return count - s;
 		}
-		// 배열의 끝에 value 를 s 개 추가
+		// append value to tail 's' times. (value x s)
 		Index Add(const VALUE& value, size_t s)
 		{
 			CriticalSection guard(lock);
@@ -166,7 +167,7 @@ namespace DKFoundation
 			count += s;
 			return count - s;
 		}
-		// 배열의 끝에 initializer-list 추가
+		// append initializer-list items to tail.
 		Index Add(std::initializer_list<VALUE> il)
 		{
 			size_t s = il.size();
@@ -179,13 +180,13 @@ namespace DKFoundation
 			}
 			return count - s;
 		}
-		// 배열의 pos 에 배열 추가
+		// insert array's elements into position 'pos'.
 		template <typename T> Index Insert(const DKArray<VALUE, T>& value, Index pos)
 		{
 			typename DKArray<VALUE, T>::CriticalSection guard(value.lock);
 			return Insert((const VALUE*)value, pos);
 		}
-		// 배열의 pos 에 한개의 value 추가
+		// insert one value into position 'pos'.
 		Index Insert(const VALUE& value, Index pos)
 		{
 			CriticalSection guard(lock);
@@ -198,7 +199,7 @@ namespace DKFoundation
 			count++;
 			return pos;
 		}
-		// 배열의 pos 에 s 개의 value 추가
+		// insert 's' length of value into position 'pos'.
 		Index Insert(const VALUE* value, size_t s, Index pos)
 		{
 			CriticalSection guard(lock);
@@ -212,7 +213,7 @@ namespace DKFoundation
 			count += s;
 			return pos;
 		}
-		// 배열의 pos 에 value 를 s 개 추가
+		// insert value 's' times into position 'pos'.
 		Index Insert(const VALUE& value, size_t s, Index pos)
 		{
 			CriticalSection guard(lock);
@@ -226,7 +227,7 @@ namespace DKFoundation
 			count += s;
 			return pos;
 		}
-		// 배열의 pos 에 initializer_list 추가
+		// insert initializer-list into position 'pos'.
 		Index Insert(std::initializer_list<VALUE> il, Index pos)
 		{
 			size_t s = il.size();
@@ -244,7 +245,7 @@ namespace DKFoundation
 			count += s;
 			return pos - s;
 		}
-		// pos 위치의 객체 제거
+		// remove one element at pos.
 		size_t Remove(Index pos)
 		{
 			CriticalSection guard(lock);
@@ -257,7 +258,7 @@ namespace DKFoundation
 			}
 			return count;
 		}
-		// pos 위치부터 c 만큼 제거
+		// remove 'c' items at pos. (c = count)
 		size_t Remove(Index pos, size_t c)
 		{
 			CriticalSection guard(lock);
@@ -293,12 +294,12 @@ namespace DKFoundation
 		void Resize(size_t s)
 		{
 			CriticalSection guard(lock);
-			if (count > s)			// 데이터 제거
+			if (count > s)			// shrink
 			{
 				for (Index i = s; i < count; i++)
 					data[i].~VALUE();
 			}
-			else if (count < s)		// 데이터 추가
+			else if (count < s)		// extend
 			{
 				ReserveNL(s);
 				for (Index i = count; i < s; i++)
@@ -309,12 +310,12 @@ namespace DKFoundation
 		void Resize(size_t s, const VALUE& val)
 		{
 			CriticalSection guard(lock);
-			if (count > s)			// 데이터 제거
+			if (count > s)			// shrink
 			{
 				for (Index i = s; i < count; i++)
 					data[i].~VALUE();
 			}
-			else if (count < s)		// 데이터 추가
+			else if (count < s)		// extend
 			{
 				ReserveNL(s);
 				for (Index i = count; i < s; i++)
@@ -351,13 +352,14 @@ namespace DKFoundation
 			DKASSERT_DEBUG(count > index);
 			return data[index];
 		}
-		operator VALUE* (void)					// 외부에서 락을 걸었을때 값을 직접 억세스 하기 위해 사용함.
+		// To use items directly (You may need lock array.)
+		operator VALUE* (void)
 		{
 			if (count > 0)
 				return data;
 			return NULL;
 		}
-		operator const VALUE* (void) const		// 외부에서 락을 걸었을때 값을 직접 억세스 하기 위해 사용함.
+		operator const VALUE* (void) const
 		{
 			if (count > 0)
 				return data;
@@ -485,8 +487,10 @@ namespace DKFoundation
 				DKStaticArray<VALUE>(&data[start], count).template Sort<CompareFunc>(cmp);
 			}
 		}
-		// EnumerateForward / EnumerateBackword: 모든 데이터 열거함수, 이 함수내에서는 배열객체에 값을 추가하거나 제거할 수 없다!! (read-only)
-		// lambda enumerator (VALUE&) 또는 (VALUE&, bool*) 형식의 함수객체
+		// EnumerateForward / EnumerateBackward: enumerate all items.
+		// You cannot insert, remove items while enumerating. (container is read-only)
+		// enumerator can be lambda or any function type that can receive arguments (VALUE&) or (VALUE&, bool*)
+		// (VALUE&, bool*) type can cancel iteration by set boolean value to true.
 		template <typename T> void EnumerateForward(T&& enumerator)
 		{
 			using Func = typename DKFunctionType<T&&>::Signature;
@@ -505,7 +509,7 @@ namespace DKFoundation
 
 			EnumerateBackward(std::forward<T>(enumerator), typename Func::ParameterNumber());
 		}
-		// lambda enumerator (const VALUE&) 또는 (const VALUE&, bool*) 형식의 함수객체
+		// lambda enumerator (const VALUE&) or (const VALUE&, bool*) function type.
 		template <typename T> void EnumerateForward(T&& enumerator) const
 		{
 			using Func = typename DKFunctionType<T&&>::Signature;

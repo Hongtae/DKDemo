@@ -1,15 +1,17 @@
 ﻿//
 //  File: DKMath.h
-//  Encoding: UTF-8 ☃
 //  Author: Hongtae Kim (tiff2766@gmail.com)
 //
-//  Copyright (c) 2004-2014 ICONDB.COM. All rights reserved.
+//  Copyright (c) 2004-2014 Hongtae Kim. All rights reserved.
 //
 
 #pragma once
 #include <math.h>
 #include <float.h>
 #include "../DKInclude.h"
+
+// DKMath.h
+// predefined math macros.
 
 #define DKL_MATH_E			2.71828182845904523536028747135266250   /* e */
 #define DKL_MATH_LOG2E		1.44269504088896340735992468100189214   /* log 2e */

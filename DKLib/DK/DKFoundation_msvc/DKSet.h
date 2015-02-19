@@ -1,9 +1,8 @@
 //
 //  File: DKSet.h
-//  Encoding: UTF-8 ☃
 //  Author: Hongtae Kim (tiff2766@gmail.com)
 //
-//  Copyright (c) 2004-2014 ICONDB.COM. All rights reserved.
+//  Copyright (c) 2004-2014 Hongtae Kim. All rights reserved.
 //
 
 #pragma once
@@ -16,20 +15,22 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 // DKSet
+// a set container class. using AVLTree (see DKAVLTree.h) internally.
 //
-// 밸런싱 트리(기본적으로 DKAVLTree 사용함) 를 이용한 객체 집합.
+// VALUE: value type
+// LOCK: thread-lock type
+// COMPARE: value comparison function
 //
-// VALUE: 기본 타입
-// LOCK: 억세스 락
-// COMPARE: VALUE 간 비교
-//
-// VALUE 만 같고 LOCK, CMP 가 다를 경우 Union, Intersect 만 가능
+// Note:
+//   if two set objects has same VALUE but different LOCK, COMPARE,
+//   Union(), Intersect() are available only.
 ////////////////////////////////////////////////////////////////////////////////
 
 
 namespace DKFoundation
 {
-	template <typename VALUE> struct DKSetComparison		// T 와 T 의 비교
+	// compare VALUE, VALUE
+	template <typename VALUE> struct DKSetComparison
 	{
 		int operator () (const VALUE& lhs, const VALUE& rhs) const
 		{
@@ -53,7 +54,9 @@ namespace DKFoundation
 		typedef DKCriticalSection<Lock>									CriticalSection;
 		typedef DKTypeTraits<Value>										ValueTraits;
 
-		Lock	lock;			// 외부에서 락을 걸수 있게 한다. ContainsNoLock(), CountNoLock() 만 사용 가능함.
+		// lock is public. allow object being locked manually.
+		// ContainsNoLock(), CountNoLock() is available when object has been locked.
+		Lock	lock;
 
 		DKSet(void)
 		{
@@ -62,7 +65,9 @@ namespace DKFoundation
 			: container(static_cast<Container&&>(s.container))
 		{
 		}
-		DKSet(const DKSet& s)		// copy constructor 에서는 같은 형식의 DKSet 만 받는다. (템플릿으로 만들면 사용할수 없게됨)
+		// copy constructor. same type of DKSet object are allowed only.
+		// template constructor not works on MSVC
+		DKSet(const DKSet& s)
 		{
 			CriticalSection guard(s.lock);
 			container = s.container;
@@ -175,7 +180,8 @@ namespace DKFoundation
 				container.Insert(v);
 			return *this;
 		}
-		// lambda enumerator (const VALUE&) 또는 (const VALUE&, bool*) 형식의 함수객체
+		// lambda enumerator (const VALUE&) or (const VALUE&, bool*) are allowed.
+		// enumerating objects are READ-ONLY. values cannot be modified.
 		template <typename T> void EnumerateForward(T&& enumerator) const
 		{
 			using Func = typename DKFunctionType<T&&>::Signature;

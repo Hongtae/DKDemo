@@ -1,14 +1,18 @@
 ﻿//
 //  File: DKPoint.h
-//  Encoding: UTF-8 ☃
 //  Author: Hongtae Kim (tiff2766@gmail.com)
 //
-//  Copyright (c) 2004-2014 ICONDB.COM. All rights reserved.
+//  Copyright (c) 2004-2014 Hongtae Kim. All rights reserved.
 //
 
 #pragma once
 #include "../DKInclude.h"
 #include "DKVector2.h"
+
+////////////////////////////////////////////////////////////////////////////////
+// DKPoint
+// a point unit. used by 2d graphics to represent a point.
+////////////////////////////////////////////////////////////////////////////////
 
 namespace DKFramework
 {

@@ -1,9 +1,8 @@
 //
 //  File: DKMesh.h
-//  Encoding: UTF-8 ☃
 //  Author: Hongtae Kim (tiff2766@gmail.com)
 //
-//  Copyright (c) 2004-2014 ICONDB.COM. All rights reserved.
+//  Copyright (c) 2004-2014 Hongtae Kim. All rights reserved.
 //
 
 #pragma once
@@ -16,21 +15,14 @@
 #include "DKSceneState.h"
 
 ////////////////////////////////////////////////////////////////////////////////
-//
 // DKMesh
+// Graphical polygon mesh class, an abstract class.
+// one mesh object can have one material, and one or more Buffers.
+// mesh object can have various material properties also.
+// sbuclass should define how buffers are used in rendering process.
 //
-// DKMeshStream, DKMaterial, DKDynamicMesh 를 이용하여 매쉬를 랜더링 한다.
-// 
-// DKMesh
-//  +-- DKMeshStream
-//  +-- DKMaterial
-//  +-- DKDynamicMesh (Material 에 정의된 stream 과 외부 데이터를 이용하여 매쉬 변경함)
-//  +-- Material Properties
-//  +-- Samplers
-//
-// DKScene 에서 실제로 사용하기 위해서는 Clone 을 호출하여 객체를 복사해야 한다.
-// (동적으로 변하는 것들도 있기 때문에, 개별적으로 Clone 을 구현해야 함)
-//
+// Note:
+//    Subclass should implement it's own Clone() function.
 ////////////////////////////////////////////////////////////////////////////////
 
 namespace DKFramework
@@ -53,35 +45,43 @@ namespace DKFramework
 		using PropertyArray = DKMaterial::PropertyArray;
 		using PropertyMap = DKFoundation::DKMap<DKFoundation::DKString, PropertyArray>;
 
-		// 머티리얼 설정
-		DKMaterial*			Material(void)								{return material;}
-		const DKMaterial*	Material(void) const						{return material;}
-		virtual bool		CanAdoptMaterial(const DKMaterial* m) const {return false;}
-		virtual void		SetMaterial(DKMaterial* m);
+		// material
+		DKMaterial* Material(void)								{return material;}
+		const DKMaterial* Material(void) const					{return material;}
+		// test whether material are adoptable
+		virtual bool CanAdoptMaterial(const DKMaterial* m) const {return false;}
+		virtual void SetMaterial(DKMaterial* m); // assigning material.
 
-		// 텍스쳐 설정
-		void					AppendSampler(const DKFoundation::DKString& name, DKTexture* texture);
-		void					SetSampler(const DKFoundation::DKString& name, const TextureArray& textures, DKTextureSampler* sampler);	// 샘플러에 텍스쳐 여러장 추가
-		void					SetSampler(const DKFoundation::DKString& name, DKTexture* texture, DKTextureSampler* sampler);		// 샘플러에 텍스쳐 한장 설정, null 이면 제거함
-		TextureSampler*			Sampler(const DKFoundation::DKString& name);
-		const TextureSampler*	Sampler(const DKFoundation::DKString& name) const;
-		size_t					SamplerCount(void) const;
-		void					RemoveSampler(const DKFoundation::DKString& name);
-		void					RemoveAllSamplers(void);
+		// Append texture to sampler for name.
+		void AppendSampler(const DKFoundation::DKString& name, DKTexture* texture);
+		// Set multiple textures and one sampler for name.
+		void SetSampler(const DKFoundation::DKString& name, const TextureArray& textures, DKTextureSampler* sampler);
+		// Set one texture and one sampler for name. (Remove sampler if texture is NULL)
+		void SetSampler(const DKFoundation::DKString& name, DKTexture* texture, DKTextureSampler* sampler);
+		// get sampler data
+		TextureSampler* Sampler(const DKFoundation::DKString& name);
+		const TextureSampler* Sampler(const DKFoundation::DKString& name) const;
+		size_t SamplerCount(void) const;
+		// remove sampler
+		void RemoveSampler(const DKFoundation::DKString& name);
+		void RemoveAllSamplers(void);
 
-		// 상수 설정
-		void					SetMaterialProperty(const DKFoundation::DKString& name, const PropertyArray& value);
-		size_t					MaterialPropertyCount(const DKFoundation::DKString& name) const;
-		const PropertyArray*	MaterialProperty(const DKFoundation::DKString& name) const;
-		PropertyArray*			MaterialProperty(const DKFoundation::DKString& name);
-		void					RemoveMaterialProperty(const DKFoundation::DKString& name);
-		void					RemoveAllMaterialProperties(void);
+		// Material Properties
+		void SetMaterialProperty(const DKFoundation::DKString& name, const PropertyArray& value);
+		size_t MaterialPropertyCount(const DKFoundation::DKString& name) const;
+		const PropertyArray* MaterialProperty(const DKFoundation::DKString& name) const;
+		PropertyArray* MaterialProperty(const DKFoundation::DKString& name);
+		void RemoveMaterialProperty(const DKFoundation::DKString& name);
+		void RemoveAllMaterialProperties(void);
 
-		const PropertyMap&			MaterialPropertyMap(void) const	{return materialProperties;}
-		const TextureSamplerMap&	SamplerMap(void) const			{ return samplers; }
-		PropertyMap&				MaterialPropertyMap(void)		{return materialProperties;}
-		TextureSamplerMap&			SamplerMap(void)				{ return samplers; }
+		// get property maps to access directly.
+		const PropertyMap& MaterialPropertyMap(void) const		{return materialProperties;}
+		const TextureSamplerMap& SamplerMap(void) const			{ return samplers; }
+		PropertyMap& MaterialPropertyMap(void)					{return materialProperties;}
+		TextureSamplerMap& SamplerMap(void)						{ return samplers; }
 
+		// set default polygon primitive type.
+		// If mesh has IndexBuffer, IndexBuffer's primitive type is used instead.
 		void SetDefaultPrimitiveType(DKPrimitive::Type t)		{ primitiveType = t; }
 		DKPrimitive::Type DefaultPrimitiveType(void) const		{ return primitiveType; }
 		virtual DKPrimitive::Type PrimitiveType(void) const		{ return primitiveType; }
@@ -96,12 +96,13 @@ namespace DKFramework
 		bool IsHidden(void) const				{ return hidden; }
 		void SetHidden(bool h)					{ hidden = h; }
 
-		// 바운딩 정보 (옵션)
+		// Bounding information for collision (optional)
 		void SetBoundingAABox(const DKAABox& box)		{boundingAABox = box;}
 		void SetBoundingSphere(const DKSphere& sphere)	{boundingSphere = sphere;}
 		const DKAABox& BoundingAABox(void) const		{return boundingAABox;}
 		const DKSphere& BoundingSphere(void) const		{return boundingSphere;}
 
+		// Bounding information applied by local-scale
 		DKAABox ScaledBoundingAABox(void) const;
 		DKSphere ScaledBoundingSphere(void) const;
 		const DKMatrix4& ScaledWorldTransformMatrix(void) const;
@@ -133,17 +134,17 @@ namespace DKFramework
 
 		bool		hidden;
 		DKVector3	scale;
-		DKAABox		boundingAABox;			// 바운딩 박스
-		DKSphere	boundingSphere;			// 바운딩 스피어
+		DKAABox		boundingAABox;
+		DKSphere	boundingSphere;
 		DKMatrix4	scaledTransformMatrix;
 
-		// materialProperties 는 렌더링시에 DKMaterial 에 정의되어있는 상수를 대체하게 된다.
-		// DKMaterial 에 정의된 상수중에 DKShaderConstant::UniformUserDefine 형식의 값만 대체할 수 있다.
-		// 여기 없는 값은 DKMaterial 안에 정의된 기본값이 사용된다.
+		// materialProperties is object own values, used when rendering.
+		// this values will overrides material's. (DKShaderConstant::UniformUserDefine only)
 		PropertyMap	materialProperties;
-		// textures 에 들어있는 텍스쳐가 머티리얼의 텍스쳐보다 우선한다.
+
+		// samplers will overrides material's
 		TextureSamplerMap	samplers;
 
-		DKFoundation::DKObject<DKMaterial>	material;	// 머티리얼
+		DKFoundation::DKObject<DKMaterial>	material;
 	};
 }

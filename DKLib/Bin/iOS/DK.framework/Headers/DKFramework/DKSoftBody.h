@@ -1,9 +1,8 @@
 ﻿//
 //  File: DKSoftBody.h
-//  Encoding: UTF-8 ☃
 //  Author: Hongtae Kim (tiff2766@gmail.com)
 //
-//  Copyright (c) 2012-2014 ICONDB.COM. All rights reserved.
+//  Copyright (c) 2012-2014 Hongtae Kim. All rights reserved.
 //
 
 #pragma once
@@ -12,14 +11,15 @@
 #include "DKCollisionObject.h"
 
 ////////////////////////////////////////////////////////////////////////////////
-//
 // DKSoftBody
-// 연체 물리 인터페이스
+// soft body is used to simulate cloth and volumetric soft bodies.
 //
+// This class is not implemented yet. DON'T USE.
 ////////////////////////////////////////////////////////////////////////////////
 
 namespace DKFramework
 {
+	// NOT IMPLEMENTED.
 	class DKLIB_API DKSoftBody : public DKCollisionObject
 	{
 	public:

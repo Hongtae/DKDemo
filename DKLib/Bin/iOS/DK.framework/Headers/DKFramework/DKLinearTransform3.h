@@ -1,9 +1,8 @@
 //
 //  File: DKLinearTransform3.h
-//  Encoding: UTF-8 ☃
 //  Author: Hongtae Kim (tiff2766@gmail.com)
 //
-//  Copyright (c) 2004-2014 ICONDB.COM. All rights reserved.
+//  Copyright (c) 2004-2014 Hongtae Kim. All rights reserved.
 //
 
 #pragma once
@@ -14,9 +13,8 @@
 #include "DKMatrix4.h"
 
 ////////////////////////////////////////////////////////////////////////////////
-//
 // DKLinearTransform3
-//
+// 3x3 matrix for linear transform on 3 dimensional coordinates.
 ////////////////////////////////////////////////////////////////////////////////
 
 namespace DKFramework
@@ -34,7 +32,6 @@ namespace DKFramework
 		bool IsIdentity(void) const;
 		bool IsDiagonal(void) const;
 
-		// 트랜스폼 연산
 		DKLinearTransform3& Scale(const DKVector3& v);
 		DKLinearTransform3& Scale(float x, float y, float z);
 		DKLinearTransform3& Scale(float s);
@@ -43,7 +40,7 @@ namespace DKFramework
 		DKLinearTransform3& RotateZ(float r);
 		DKLinearTransform3& Rotate(const DKVector3& axis, float r);
 		DKLinearTransform3& Rotate(const DKQuaternion& q);
-		// 행렬 연산
+
 		DKLinearTransform3& Inverse(void);
 		DKLinearTransform3& Multiply(const DKMatrix3& m);
 		DKLinearTransform3& Multiply(const DKLinearTransform3& t);
@@ -54,7 +51,7 @@ namespace DKFramework
 		bool operator == (const DKLinearTransform3& t) const;
 		bool operator != (const DKLinearTransform3& t) const;
 
-		// Decompose: scale * rotate 순서의 행렬로 분해함
+		// Decompose by scale, rotate order.
 		bool Decompose(DKVector3& scale, DKQuaternion& rotate) const;
 		DKQuaternion Rotation(void) const;
 

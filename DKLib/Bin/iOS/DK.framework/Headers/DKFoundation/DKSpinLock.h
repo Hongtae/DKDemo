@@ -1,9 +1,8 @@
 //
 //  File: DKSpinLock.h
-//  Encoding: UTF-8 ☃
 //  Author: Hongtae Kim (tiff2766@gmail.com)
 //
-//  Copyright (c) 2004-2014 ICONDB.COM. All rights reserved.
+//  Copyright (c) 2004-2014 Hongtae Kim. All rights reserved.
 //
 
 #pragma once
@@ -12,8 +11,10 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 // DKSpinLock
-//
-// 루프돌며 busy-waiting 을 한다. 아주 잠깐동안만 락을 걸때 사용한다.
+// a busy-waiting locking class.
+// atomic variable used internally.
+// use this class for short period locking.
+// (such as small computation, without I/O.)
 ////////////////////////////////////////////////////////////////////////////////
 
 namespace DKFoundation
@@ -28,8 +29,8 @@ namespace DKFoundation
 		void Unlock(void) const;
 
 	private:
-		DKSpinLock(const DKSpinLock&);					// 복사를 막기 위해 private 로 선언
-		DKSpinLock& operator = (const DKSpinLock&);		// 복사를 막기 위해 private 로 선언
+		DKSpinLock(const DKSpinLock&);
+		DKSpinLock& operator = (const DKSpinLock&);
 		mutable DKAtomicNumber32 state;
 	};
 }

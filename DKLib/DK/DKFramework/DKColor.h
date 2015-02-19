@@ -1,20 +1,25 @@
 ﻿//
 //  File: DKColor.h
-//  Encoding: UTF-8 ☃
 //  Author: Hongtae Kim (tiff2766@gmail.com)
 //
-//  Copyright (c) 2004-2014 ICONDB.COM. All rights reserved.
+//  Copyright (c) 2004-2014 Hongtae Kim. All rights reserved.
 //
 
 #pragma once
 #include "../DKInclude.h"
+
+////////////////////////////////////////////////////////////////////////////////
+// DKColor
+// color object contains a, r, g, b floats. (transferred to GPU directly)
+// object can create with 32bit integer also.
+////////////////////////////////////////////////////////////////////////////////
 
 namespace DKFramework
 {
 	class DKColor
 	{
 	public:
-		union RGBA32
+		union RGBA32  // 32bit int format (RGBA order).
 		{
 			struct {
 				unsigned char r, g, b, a;
@@ -22,7 +27,7 @@ namespace DKFramework
 			unsigned char bytes[4];
 			unsigned int value;
 		};
-		union ARGB32
+		union ARGB32  // 32bit int format (ARGB order).
 		{
 			struct {
 				unsigned char a, r, g, b;

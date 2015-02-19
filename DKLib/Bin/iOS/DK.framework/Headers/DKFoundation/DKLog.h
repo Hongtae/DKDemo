@@ -1,9 +1,8 @@
 //
 //  File: DKLog.h
-//  Encoding: UTF-8 ☃
 //  Author: Hongtae Kim (tiff2766@gmail.com)
 //
-//  Copyright (c) 2004-2014 ICONDB.COM. All rights reserved.
+//  Copyright (c) 2004-2014 Hongtae Kim. All rights reserved.
 //
 
 #pragma once
@@ -11,6 +10,12 @@
 #include "DKString.h"
 
 typedef void(*DKLogCallbackProc)(const DKFoundation::DKString &);
+
+////////////////////////////////////////////////////////////////////////////////
+// DKLogger
+// a logger class.
+// you can sublcass DKLogger to handle log text.
+////////////////////////////////////////////////////////////////////////////////
 
 namespace DKFoundation
 {
@@ -23,7 +28,7 @@ namespace DKFoundation
 	DKLIB_API void DKLoggerSet(DKLogger*);
 	DKLIB_API DKLogger* DKLoggerCurrent(void);
 
-	// 현재 설정된 Logger 가 cmp 면, repl 를 세팅함.
+	// if current logger is 'cmp', then set 'repl' to current logger.
 	DKLIB_API bool DKLoggerCompareAndReplace(DKLogger* cmp, DKLogger* repl);
 
 	DKLIB_API void DKLogInit(DKLogCallbackProc proc);	// deprecated

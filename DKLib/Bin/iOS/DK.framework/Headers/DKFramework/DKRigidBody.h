@@ -1,9 +1,8 @@
 //
 //  File: DKRigidBody.h
-//  Encoding: UTF-8 ☃
 //  Author: Hongtae Kim (tiff2766@gmail.com)
 //
-//  Copyright (c) 2012-2014 ICONDB.COM. All rights reserved.
+//  Copyright (c) 2012-2014 Hongtae Kim. All rights reserved.
 //
 
 #pragma once
@@ -13,10 +12,10 @@
 #include "DKCollisionShape.h"
 
 ////////////////////////////////////////////////////////////////////////////////
-//
 // DKRigidBody
-//
-// TODO: 자식 노드들간의 constraint 는 같이 serialize 되어야 한다.
+// a rigid body. a node object which can be used by DKScene.
+// object should have CollisionShape to interact.
+// this class not designed for subclassing.
 ////////////////////////////////////////////////////////////////////////////////
 
 namespace DKFramework
@@ -55,19 +54,22 @@ namespace DKFramework
 		DKNSTransform CenterOfMassTransform(void) const;
 		DKVector3 CenterOfMassPosition(void) const;
 
-		// 물리관련 데이터
+		// mass (0 for static object)
 		void SetMass(float mass);
 		float Mass(void) const;
 		float InverseMass(void) const;
 
+		// local inertia, can be calculated by CollisionShape
 		void SetLocalInertia(const DKVector3& inertia);
 		DKVector3 LocalInertia(void) const;
 		DKVector3 InverseDiagLocalInertia(void) const;
 		DKMatrix3 InverseWorldInertiaTensor(void) const;
 
+		// linear velocity
 		void SetLinearVelocity(const DKVector3&);
 		DKVector3 LinearVelocity(void) const;
 
+		// angular velocity
 		void SetAngularVelocity(const DKVector3&);
 		DKVector3 AngularVelocity(void) const;
 

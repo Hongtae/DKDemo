@@ -1,9 +1,8 @@
 //
 //  File: DKQueue.h
-//  Encoding: UTF-8 ☃
 //  Author: Hongtae Kim (tiff2766@gmail.com)
 //
-//  Copyright (c) 2004-2014 ICONDB.COM. All rights reserved.
+//  Copyright (c) 2004-2014 Hongtae Kim. All rights reserved.
 //
 
 #pragma once
@@ -16,14 +15,13 @@
 #include "DKFunction.h"
 
 ////////////////////////////////////////////////////////////////////////////////
-//
 // DKQueue
+// queue class, items can be added or removed from both sides (head, tail).
 //
-// 앞뒤로 값을 넣거나 뺄수 있는 큐 (DKArray 보다 복사 오버헤드가 적음)
-// 중간에 값을 넣거나 뺄수는 없다.
-//
-// PushFront() : 넣은 값들의 맨 처음 값의 포인터 리턴 (임시 포인터)
-// PushBack() : 넣은 값들의 맨 마지막 값의 포인터 리턴 (임시 포인터)
+// Note:
+//   PushFront() with multiple items: returns first item's pointer. (temporal)
+//   PushBack() with multiple items: returns last item's pointer. (temporal)
+//   Do not store pointer address returned by above functions!
 ////////////////////////////////////////////////////////////////////////////////
 
 namespace DKFoundation
@@ -36,7 +34,10 @@ namespace DKFoundation
 		typedef LOCK						Lock;
 		typedef DKCriticalSection<Lock>		CriticalSection;
 		typedef ALLOC						Allocator;
-		Lock	lock;			// 외부에서 락을 걸수 있게 한다. (const VALUE* 형변환과 CountNoLock() 만 사용 가능)
+
+		// lock is public. enables object could be locked from outside.
+		// casting to const VALUE*, CountNoLock(), are allowed when object has been locked.
+		Lock	lock;
 
 		DKQueue(void)
 			: begin(0)
@@ -230,7 +231,7 @@ namespace DKFoundation
 		VALUE PopFront(void)
 		{
 			CriticalSection guard(lock);
-			DKASSERT_DEBUG(count > 0);		// 에러!! 큐가 비었음
+			DKASSERT_DEBUG(count > 0);	// Error! queue is empty!
 
 			VALUE ret = data[begin];
 			data[begin].~VALUE();
@@ -256,7 +257,7 @@ namespace DKFoundation
 		VALUE PopBack(void)
 		{
 			CriticalSection guard(lock);
-			DKASSERT_DEBUG(count > 0);		// 에러!! 큐가 비었음
+			DKASSERT_DEBUG(count > 0);	// Error! queue is empty!
 
 			VALUE ret = data[begin+count-1];
 			data[begin+count-1].~VALUE();
@@ -267,13 +268,13 @@ namespace DKFoundation
 		VALUE& Front(void)
 		{
 			CriticalSection guard(lock);
-			DKASSERT_DEBUG(count > 0);		// 에러!! 큐가 비었음
+			DKASSERT_DEBUG(count > 0);	// Error! queue is empty!
 			return data[begin];
 		}
 		const VALUE& Front(void) const
 		{
 			CriticalSection guard(lock);
-			DKASSERT_DEBUG(count > 0);		// 에러!! 큐가 비었음
+			DKASSERT_DEBUG(count > 0);	// Error! queue is empty!
 			return data[begin];
 		}
 		bool Front(VALUE& ret) const
@@ -289,13 +290,13 @@ namespace DKFoundation
 		VALUE& Back(void)
 		{
 			CriticalSection guard(lock);
-			DKASSERT_DEBUG(count > 0);		// 에러!! 큐가 비었음
+			DKASSERT_DEBUG(count > 0);	// Error! queue is empty!
 			return data[begin+count-1];
 		}
 		const VALUE& Back(void) const
 		{
 			CriticalSection guard(lock);
-			DKASSERT_DEBUG(count > 0);		// 에러!! 큐가 비었음
+			DKASSERT_DEBUG(count > 0);	// Error! queue is empty!
 			return data[begin+count-1];
 		}
 		bool Back(VALUE& ret) const
@@ -308,6 +309,7 @@ namespace DKFoundation
 			}
 			return false;
 		}
+		// copy value. thread-safe.
 		bool CopyValue(VALUE& value, unsigned long index) const
 		{
 			CriticalSection guard(lock);
@@ -318,6 +320,9 @@ namespace DKFoundation
 			}
 			return false;
 		}
+		// since Value() returns reference,
+		// be aware of items modifications by other threads.
+		// Use CopyValue() for multi-threaded.
 		VALUE& Value(unsigned long index)
 		{
 			CriticalSection guard(lock);
@@ -330,13 +335,15 @@ namespace DKFoundation
 			DKASSERT_DEBUG(count > index);
 			return data[begin+index];
 		}
-		operator VALUE* (void)					// 외부에서 락을 걸고 값을 직접 억세스 할때 사용함
+		// type-casting, object should be locked before calling this operator.
+		operator VALUE* (void)
 		{
 			if (count > 0)
 				return &data[begin];
 			return NULL;
 		}
-		operator const VALUE* (void) const		// 외부에서 락을 걸고 값을 직접 억세스 할때 사용함
+		// type-casting, object should be locked before calling this operator.
+		operator const VALUE* (void) const
 		{
 			if (count > 0)
 				return &data[begin];
@@ -347,7 +354,9 @@ namespace DKFoundation
 			CriticalSection guard(lock);
 			return count;
 		}
-		size_t CountNoLock(void) const		// 외부에서 락을 걸었을때 사용함.
+		// CountNoLock: counting objects without locking.
+		// Usable when objects has been locked.
+		size_t CountNoLock(void) const
 		{
 			return count;
 		}
@@ -395,7 +404,10 @@ namespace DKFoundation
 			PushBack(il);
 			return *this;
 		}
-		// lambda enumerator (VALUE&) 또는 (VALUE&, bool*) 형식의 함수객체
+		// EnumerateForward / EnumerateBackward: enumerate all items.
+		// You cannot insert, remove items while enumerating. (container is read-only)
+		// enumerator can be lambda or any function type that can receive arguments (VALUE&) or (VALUE&, bool*)
+		// (VALUE&, bool*) type can cancel iteration by set boolean value to true.
 		template <typename T> void EnumerateForward(T&& enumerator)
 		{
 			using Func = typename DKFunctionType<T&&>::Signature;
@@ -414,7 +426,7 @@ namespace DKFoundation
 
 			EnumerateBackward(std::forward<T>(enumerator), typename Func::ParameterNumber());
 		}
-		// lambda enumerator (const VALUE&) 또는 (const VALUE&, bool*) 형식의 함수객체
+		// lambda enumerator (const VALUE&) or (const VALUE&, bool*) function type.
 		template <typename T> void EnumerateForward(T&& enumerator) const
 		{
 			using Func = typename DKFunctionType<T&&>::Signature;

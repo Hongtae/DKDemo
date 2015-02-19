@@ -1,9 +1,8 @@
 //
 //  File: DKResource.h
-//  Encoding: UTF-8 ☃
 //  Author: Hongtae Kim (tiff2766@gmail.com)
 //
-//  Copyright (c) 2004-2014 ICONDB.COM. All rights reserved.
+//  Copyright (c) 2004-2014 Hongtae Kim. All rights reserved.
 //
 
 #pragma once
@@ -13,14 +12,11 @@
 #include "DKVariant.h"
 
 ////////////////////////////////////////////////////////////////////////////////
-//
 // DKResource
-//
-// 시스템에서 사용되는 리소스이며, 파일 또는 네트워크로 전송이 가능한 객체이다.
-// DKResourceLoader 를 이용하여 객체를 복원하거나, Serializer 를 이용하여 복원 할 수 있다.
-//
+// Resource for system, you can transfer resource data via file of network.
+// You can use DKResourceLoader, DKSerializer to serialize object.
+// A lots of serializable objects inherited from DKResource.
 ////////////////////////////////////////////////////////////////////////////////
-
 
 namespace DKFramework
 {
@@ -42,8 +38,7 @@ namespace DKFramework
 		virtual bool Deserialize(const DKFoundation::DKData*, DKResourceLoader*);
 		virtual bool Deserialize(const DKFoundation::DKXMLElement*, DKResourceLoader*);
 
-		// 리소스 Validation
-		virtual bool Validate(void);
+		virtual bool Validate(void); // resource validation
 
 		DKVariant::VPairs metadata;
 

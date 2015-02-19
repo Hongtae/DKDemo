@@ -1,24 +1,20 @@
 //
 //  File: DKMatrix4.h
-//  Encoding: UTF-8 ☃
 //  Author: Hongtae Kim (tiff2766@gmail.com)
 //
-//  Copyright (c) 2004-2014 ICONDB.COM. All rights reserved.
+//  Copyright (c) 2004-2014 Hongtae Kim. All rights reserved.
 //
 
 #pragma once
 #include "../DKInclude.h"
 
 ////////////////////////////////////////////////////////////////////////////////
-//
 // DKMatrix4
+// 4x4 matrix
 //
-// V' = V * Mat
-//
-// Row-Major 행렬을 사용하지만, GLSL 로 들어갈땐 Transpose 되서 들어간다!
-//
-// Vector3 와의 곱은 Homogeneous Transform 행렬이 된다.
-// Vector4 와의 곱은 Linear Transform 행렬이 된다.
+// Note:
+//   This matrix order is Row-major.
+//   transform of Vector4 V is V' = V * Matrix
 ////////////////////////////////////////////////////////////////////////////////
 
 namespace DKFramework
@@ -38,7 +34,6 @@ namespace DKFramework
 		bool IsIdentity(void) const;
 		bool IsDiagonal(void) const;
 
-		// 행렬 연산
 		DKMatrix4& Inverse(void);
 		DKMatrix4& Transpose(void);
 		DKMatrix4& Multiply(const DKMatrix4& m);
@@ -86,6 +81,6 @@ namespace DKFramework
 			float val[16];
 		};
 
-		static const DKMatrix4 identity;		// 단위행렬
+		static const DKMatrix4 identity;
 	};
 }

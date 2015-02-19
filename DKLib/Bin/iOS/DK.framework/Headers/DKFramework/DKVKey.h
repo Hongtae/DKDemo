@@ -1,14 +1,18 @@
 ﻿//
 //  File: DKVKey.h
-//  Encoding: UTF-8 ☃
 //  Author: Hongtae Kim (tiff2766@gmail.com)
 //
-//  Copyright (c) 2004-2014 ICONDB.COM. All rights reserved.
+//  Copyright (c) 2004-2014 Hongtae Kim. All rights reserved.
 //
 
 #pragma once
 
-// virtual key for DK
+////////////////////////////////////////////////////////////////////////////////
+// DKVirtualKey
+// virtual key map.
+// keyboard event can contains key-info mapped with Virtual-Key.
+// this Virtual-Key make easy to build cross-platform.
+////////////////////////////////////////////////////////////////////////////////
 
 namespace DKFramework
 {

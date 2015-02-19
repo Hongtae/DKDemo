@@ -1,9 +1,8 @@
 //
 //  File: DKRunLoop.h
-//  Encoding: UTF-8 ☃
 //  Author: Hongtae Kim (tiff2766@gmail.com)
 //
-//  Copyright (c) 2004-2014 ICONDB.COM. All rights reserved.
+//  Copyright (c) 2004-2014 Hongtae Kim. All rights reserved.
 //
 
 #pragma once
@@ -20,24 +19,27 @@
 #include "DKCondition.h"
 
 ////////////////////////////////////////////////////////////////////////////////
-//
 // DKRunLoop
+// Installs Run-Loop system into internal thread, and provides control interfaces.
+// The Run-Loop is running loops and invoke operations.
+// Operations can be scheduled by specifed date or delayed by specified delay value.
 //
-// 현재 쓰레드 또는 다른 쓰레드에서 런루프를 실행한다.
+// If you call 'Run()', the RunLoop creates internal worker-thread and running.
+// It runs with thread which RunLoop has ownership.
+// You need to call 'Terminate()' to terminate RunLoop loops by internal thread.
 //
-// Run 을 호출하여 새 쓰레드에서 런루프가 돌고 있는 경우에는 새 쓰레드에도 객체의 소유권이 생긴다.
-// 따라서 객체를 완전히 소거하려면 명시적으로 Terminate()를 꼭 호출해야 한다.
+// On main thread, application should waits RunLoop's beging terminated by
+// calling 'Terminate(true)' on application exits.
 //
-// 메인 쓰레드가 종료될때는 꼭 Terminate(true) 를 호출하여 종료를 기다려야 한다.
+// You can control individual operation would be process or not by overrides in
+// subclass. You can call 'ProcessOne', 'ProcessInTime' for process one operation,
+// process multiple operations in time, they should be called in worker-thread.
+// (a worker-thread which is IsWorkingThread() returns true.)
 //
-// 개별적으로 처리하는 함수 ProcessOne, ProcessInTime 을 사용하려면, 반드시 Run 을 통해 생성된 
-// 쓰레드 내부에서 사용해야 한다. (IsWorkingThread 가 true 를 리턴하는 쓰레드여야 함)
-//
-//
-// PostOperation 에는 두가지 버전이 있다.
-//  tick 기준: 시스템 틱 기반으로 현재로부터 몇 초 후 실행 여부 판단. 시스템 시간과 상관 없음
-//  time 기준: 날짜 시간 기준으로 실행 여부 판단. 시스템 시간이 바뀌면 거기에 따른다.
-//
+// PostOperation has two version with overloaded.
+//   tick-based: system-tick based, calling operation with delayed time.
+//   time-based: system time based, calling operation at specified system time.
+//               if system time has changed, calling operation wills adjusted.
 ////////////////////////////////////////////////////////////////////////////////
 
 namespace DKFoundation
@@ -68,15 +70,17 @@ namespace DKFoundation
 		void WaitNextLoop(void);
 		bool WaitNextLoopTimeout(double t);
 
-		// PostOperation: operation 을 주고 바로 리턴한다.
+		// PostOperation: insert operation and return immediately.
 		DKObject<OperationResult> PostOperation(const DKOperation* operation, double delay = 0);			// tick base
 		DKObject<OperationResult> PostOperation(const DKOperation* operation, const DKDateTime& runAfter);	// time base
 
-		// ProcessOperation: operation 을 수생하고 나서 리턴한다.
+		// ProcessOperation: insert operation and wait until done.
 		bool ProcessOperation(const DKOperation* operation);
 
-		static DKRunLoop* CurrentRunLoop(void);							// 현재 쓰레드에 바인딩 된 RunLoop 리턴함.
-		static DKRunLoop* RunLoopForThreadID(DKThread::ThreadId id);	// 해당 쓰레드의 런루프
+		// returns RunLoop object which runs on current thread as worker-thread.
+		static DKRunLoop* CurrentRunLoop(void);
+		// returns RunLoop for specified thread-id.
+		static DKRunLoop* RunLoopForThreadID(DKThread::ThreadId id);
 		static bool IsRunning(DKRunLoop* runloop);
 
 	protected:
@@ -105,10 +109,6 @@ namespace DKFoundation
 		DKCondition								commandQueueCond;
 		DKOrderedArray<InternalCommandTick>		commandQueueTick;
 		DKOrderedArray<InternalCommandTime>		commandQueueTime;
-
-		//DKSpinLock				internalQueueLock;
-		//DKArray<InternalCommand>	internalQueue;
-		//size_t					internalQueueIndex;
 
 		DKObject<DKThread>	thread;
 		DKThread::ThreadId	threadId;

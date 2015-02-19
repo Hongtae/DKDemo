@@ -1,9 +1,8 @@
 //
 //  File: DKList.h
-//  Encoding: UTF-8 ☃
 //  Author: Hongtae Kim (tiff2766@gmail.com)
 //
-//  Copyright (c) 2004-2014 ICONDB.COM. All rights reserved.
+//  Copyright (c) 2004-2014 Hongtae Kim. All rights reserved.
 //
 
 #pragma once
@@ -15,29 +14,31 @@
 #include "DKMemory.h"
 
 ////////////////////////////////////////////////////////////////////////////////
-//
 // DKList
-// 기본적인 링크드 리스트
+// a simple linked list.
 //
-// 주의: Range-based for loop 를 사용할때는 lock 을 걸지 않는다.
-// 멀티쓰레드 환경에서 사용할때는 lock 을 걸어야 한다.
+// Note:
+//  When using range-based-for-loop, object does not locked by default.
+//  You should lock list from outside of loop.
 //
-// DKList<MyObject> myList;
-// DKList<MyObject>::CriticalSection(myList.lock);	// 현재 scope 내에서 락이 걸린다.
-// for (MyObject& obj : myList)
+// Range based for loop example:
+//  DKList<MyObject> myList;
+//  // lock within current scope for range-based-for-loop
+//  DKList<MyObject>::CriticalSection(myList.lock);
+//  for (MyObject& obj : myList)
 //     // do something with obj..
 //
-// range-based for loop 를 사용하지 않을때
-// DKList<MyObject> myList;
-// for (auto it = myList.LockHead(); it.IsValid(); ++it)
-// {
+// Iterator iteration example:
+//  DKList<MyObject> myList;
+//  for (auto it = myList.LockHead(); it.IsValid(); ++it)
+//  {
 //       MyObject& obj = it.Value();
 //       // do something with obj..
-// }
-// myList.Unlock();
+//  }
+//  myList.Unlock();
 //
-//
-// NOTE: 이 클래스는 테스트 하지 않았음. (버그가 많을것임)
+// Note:
+//  This class does not tested fully. (may have bugs?)
 ////////////////////////////////////////////////////////////////////////////////
 
 namespace DKFoundation
@@ -80,7 +81,8 @@ namespace DKFoundation
 		typedef IteratorT<Node, VALUE&> Iterator;
 		typedef IteratorT<const Node, const VALUE&> ConstIterator;
 
-		Lock lock;		// 외부에서 잠글 수 있도록 함.
+		// lock is public. to provde lock object from outside!
+		Lock lock;
 
 		DKList(void) : firstNode(NULL), lastNode(NULL), count(0)
 		{
@@ -207,7 +209,7 @@ namespace DKFoundation
 			return AddTailNL(v);
 		}
 
-		// range-based for loop 용 iterator.
+		// Iterator class for range-based for loop.
 		Iterator begin(void)				{return firstNode;}
 		ConstIterator begin(void) const		{return firstNode;}
 		Iterator end(void)					{return NULL;}
@@ -315,8 +317,10 @@ namespace DKFoundation
 				AddTailNL(v);
 			return *this;
 		}
-		// EnumerateForward / EnumerateBackword: 모든 데이터 열거함수, 이 함수내에서는 배열객체에 값을 추가하거나 제거할 수 없다!! (read-only)
-		// lambda enumerator (VALUE&) 또는 (VALUE&, bool*) 형식의 함수객체
+		// EnumerateForward / EnumerateBackward: enumerate all items.
+		// You cannot insert, remove items while enumerating. (container is read-only)
+		// enumerator can be lambda or any function type that can receive arguments (VALUE&) or (VALUE&, bool*)
+		// (VALUE&, bool*) type can cancel iteration by set boolean value to true.
 		template <typename T> void EnumerateForward(T&& enumerator)
 		{
 			using Func = typename DKFunctionType<T&&>::Signature;
@@ -335,7 +339,7 @@ namespace DKFoundation
 			
 			EnumerateBackward(std::forward<T>(enumerator), typename Func::ParameterNumber());
 		}
-		// lambda enumerator (const VALUE&) 또는 (const VALUE&, bool*) 형식의 함수객체
+		// lambda enumerator (const VALUE&) or (const VALUE&, bool*) function type.
 		template <typename T> void EnumerateForward(T&& enumerator) const
 		{
 			using Func = typename DKFunctionType<T&&>::Signature;

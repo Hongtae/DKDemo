@@ -1,9 +1,8 @@
 //
 //  File: DKDynamicsScene.h
-//  Encoding: UTF-8 ☃
 //  Author: Hongtae Kim (tiff2766@gmail.com)
 //
-//  Copyright (c) 2012-2014 ICONDB.COM. All rights reserved.
+//  Copyright (c) 2012-2014 Hongtae Kim. All rights reserved.
 //
 
 #pragma once
@@ -16,10 +15,9 @@
 #include "DKActionController.h"
 
 ////////////////////////////////////////////////////////////////////////////////
-//
 // DKDynamicsScene
-//
-// 충돌처리와 물리가 적용된 scene
+// a scene with dynamics.
+// You can extend physical behavior with DKActionController.
 //
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -36,8 +34,10 @@ namespace DKFramework
 
 		void Update(double tickDelta, DKFoundation::DKTimeTick tick) override;
 
-		// FixedFrameRate 가 0 보다 크면 물리엔진을 고정 프레임으로 작동시킨다.
-		// 네트웍이나 다른 기기간 동기화 해야할때 꼭 필요함. (determinism)
+		// if FixedFrameRate is greater than 0,
+		// it works as fixed-frame rate in physics. (determinism)
+		// You need to use fixed frame rate when sharing scene with
+		// other simulator. (ex: connected via network or subprocesses)
 		void SetFixedFrameRate(double fps);
 		double FixedFrameRate(void) const;
 
@@ -62,7 +62,7 @@ namespace DKFramework
 		virtual bool NeedResponse(DKCollisionObject* objA, DKCollisionObject* objB);
 
 	private:
-		double dynamicsFixedFPS;	// 물리엔진 determinism, fixed time stepping 단위
+		double dynamicsFixedFPS; // fixed time stepping unit.
 		static void PreTickCallback(void*, float);
 		static void PostTickCallback(void*, float);
 		class btActionInterface* actionInterface;

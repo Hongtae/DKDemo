@@ -1,9 +1,8 @@
 //
 //  File: DKRect.h
-//  Encoding: UTF-8 ☃
 //  Author: Hongtae Kim (tiff2766@gmail.com)
 //
-//  Copyright (c) 2004-2014 ICONDB.COM. All rights reserved.
+//  Copyright (c) 2004-2014 Hongtae Kim. All rights reserved.
 //
 
 #pragma once
@@ -12,12 +11,10 @@
 #include "DKSize.h"
 
 ////////////////////////////////////////////////////////////////////////////////
-//
 // DKRect
-//
-// 2D 상 직사각형을 표시하기 위한 클래스이며 왼쪽 하단이 origin
-// 우측 상단이 origin + size 가 된다.
-// size 가 음수가 되면 유효하지 않음.
+// represents rectangle on 2D graphics.
+// origin of rect is left-bottom corner and origin is DKPoint object.
+// size of rect is DKSize object and can not be negative.
 ////////////////////////////////////////////////////////////////////////////////
 
 namespace DKFramework

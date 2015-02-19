@@ -1,9 +1,8 @@
 //
 //  File: DKAllocator.h
-//  Encoding: UTF-8 ☃
 //  Author: Hongtae Kim (tiff2766@gmail.com)
 //
-//  Copyright (c) 2004-2014 ICONDB.COM. All rights reserved.
+//  Copyright (c) 2004-2014 Hongtae Kim. All rights reserved.
 //
 
 #pragma once
@@ -11,9 +10,10 @@
 #include "DKMemory.h"
 
 ////////////////////////////////////////////////////////////////////////////////
+//
 // DKAllocator
 //
-// 메모리를 할당하고 소거하는 역활을 한다.
+// memory allocation management. (currently wrapper of malloc)
 //
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -41,9 +41,9 @@ namespace DKFoundation
 ////////////////////////////////////////////////////////////////////////////////
 // operator new, delete
 //
-// DKAllocator 객체를 이용하여 메모리를 할당하고, 참조관리를 한다.
-// DKObject 클래스로만 사용해야 한다.
+// allocate memory and tracking reference-count by DKAllocator object.
+// You need DKAllocator or inherited object.
 ////////////////////////////////////////////////////////////////////////////////
 
-DKLIB_API void* operator new (size_t, DKFoundation::DKAllocator&);	// 내부 참조카운터 객체 생성용
-DKLIB_API void operator delete (void*, DKFoundation::DKAllocator&);	// 객체 생성시 예외처리용 (예외 발생하면 자동으로 호출됨)
+DKLIB_API void* operator new (size_t, DKFoundation::DKAllocator&);	// to generation internal ref-count.
+DKLIB_API void operator delete (void*, DKFoundation::DKAllocator&);	// invoked when allocation failed.

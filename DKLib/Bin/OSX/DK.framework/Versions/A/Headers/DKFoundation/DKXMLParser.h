@@ -1,9 +1,8 @@
 //
 //  File: DKXMLParser.h
-//  Encoding: UTF-8 ☃
 //  Author: Hongtae Kim (tiff2766@gmail.com)
 //
-//  Copyright (c) 2004-2014 ICONDB.COM. All rights reserved.
+//  Copyright (c) 2004-2014 Hongtae Kim. All rights reserved.
 //
 
 #pragma once
@@ -14,12 +13,9 @@
 #include "DKArray.h"
 
 ////////////////////////////////////////////////////////////////////////////////
-//
 // DKXMLParser
-//
-// DKXMLDocument 에서 xml 을 읽어서 DOM 을 생성할 때 사용된다.
-// SAX 를 사용하기 위해서는 이 객체를 상속받아서 핸들링 해주어야 한다!
-//
+// a SAX parser, You need subclass to define behaviors while parsing.
+// this class provides parsing DTD.
 ////////////////////////////////////////////////////////////////////////////////
 
 namespace DKFoundation
@@ -121,7 +117,8 @@ namespace DKFoundation
 		};
 	public:
 		static DKString FormatElementContent(const DKXMLParser::ElementContentDecl& content);
-		// SAX 로 사용시 override 할것들
+
+		// following virtual functions should be overridden.
 		virtual void OnProcessingInstruction(const DKString& target, const DKString& data);
 		virtual void OnInternalSubsetDeclaration(const DKString& name, const DKString& externalID, const DKString& systemID);
 		virtual void OnExternalSubsetDeclaration(const DKString& name, const DKString& externalID, const DKString& systemID);
@@ -133,8 +130,8 @@ namespace DKFoundation
 		virtual void OnStartElement(const Element& element, const DKArray<Namespace>& namespaces, const DKArray<Attribute>& attributes);
 		virtual void OnEndElement(const Element& element);
 		virtual void OnComment(const DKString& comment);
-		virtual void OnCharacters(const char* ch, size_t len);				// UTF8 캐릭터 스트링
-		virtual void OnCharacterDataBlock(const char* ch, size_t len);		// UTF8 캐릭터 스트링
+		virtual void OnCharacters(const char* ch, size_t len);         // UTF-8 string.
+		virtual void OnCharacterDataBlock(const char* ch, size_t len); // UTF-8 string.
 		virtual void OnWarning(const DKString& mesg);
 		virtual void OnError(const DKString& mesg);
 		virtual void OnFatalError(const DKString& mesg);

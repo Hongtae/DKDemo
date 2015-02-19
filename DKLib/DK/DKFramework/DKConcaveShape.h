@@ -1,14 +1,18 @@
 ﻿//
 //  File: DKConcaveShape.h
-//  Encoding: UTF-8 ☃
 //  Author: Hongtae Kim (tiff2766@gmail.com)
 //
-//  Copyright (c) 2012-2014 ICONDB.COM. All rights reserved.
+//  Copyright (c) 2012-2014 Hongtae Kim. All rights reserved.
 //
 
 #pragma once
 #include "../DKInclude.h"
 #include "DKCollisionShape.h"
+
+////////////////////////////////////////////////////////////////////////////////
+// DKConcaveShape
+// a concave shape, for collision object or static rigid body.
+////////////////////////////////////////////////////////////////////////////////
 
 namespace DKFramework
 {

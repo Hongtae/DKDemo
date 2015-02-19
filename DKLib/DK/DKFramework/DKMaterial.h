@@ -1,9 +1,8 @@
 //
 //  File: DKMaterial.h
-//  Encoding: UTF-8 ☃
 //  Author: Hongtae Kim (tiff2766@gmail.com)
 //
-//  Copyright (c) 2004-2014 ICONDB.COM. All rights reserved.
+//  Copyright (c) 2004-2014 Hongtae Kim. All rights reserved.
 //
 
 #pragma once
@@ -21,24 +20,22 @@
 #include "DKTextureSampler.h"
 
 ////////////////////////////////////////////////////////////////////////////////
-//
 // DKMaterial
+// Material for DKMesh.
+// One material object can have several shader programs.
+// (defined in RenderingProperty), It makes one material to be used in multiple
+// rendering passes.
+// Material object's rendering properties can be accessed by index.
+// Material object can define additional properties which used if property has
+// been omitted from mesh object.
+// One material object can be shared by multiple mesh objects.
 //
-// 하나의 씬(Scene)을 위한 머티리얼이다.
-// 하나의 머티리얼 객체는 여러개의 쉐이더를 가질 수 있다 (RenderingProperty)
+// This class is low-level shader and shader programs manager, and does not
+// provides any of shader composing feature. You need to write your own shader
+// code. (codes can be serialized)
 //
-// 예:
-//   pass1:라이트 위치에서 그림자 찍기,
-//   pass2:뎁스버퍼 기록,
-//   pass3:컬러 렌더링 (그림자, 노멀범프, 환경매핑 등),
-//   pass4:특수효과 (불타는 효과, 얼어붙은 효과 등),
-//
-// Note: 머리티얼 객체의 렌더링 패스는 순서대로 되어있다.
-// 따라서 그 순서에 맞는 인덱스를 사용하여 바인딩해야 한다.
-// 해당 모델이 가지지 않은 쉐이딩을 렌더링 하기 위해서는 해당 쉐이더를 가진
-// 머티리얼을 바인딩 해서 사용해야 한다. 머티리얼은 모델과 독립적이다.
-//
-// 주의: 행렬은 쉐이더로 보낼때 열우선(Column-Major) 행렬로 변환된다! 
+// Note:
+//   Matrix will be transposed (as Column-major order) when transfer to shader.
 ////////////////////////////////////////////////////////////////////////////////
 
 namespace DKFramework
@@ -47,8 +44,8 @@ namespace DKFramework
 	{
 	public:
 
-		////////////////////////////////////////////////////////////////////////////////
-		// PropertyArray : ShadingProperty 로 값을 넘기기 위한 객체
+		// PropertyArray
+		// Property value object that can be used by ShadingProperty.
 		struct PropertyArray
 		{
 			DKFoundation::DKArray<int> integers;
@@ -68,8 +65,8 @@ namespace DKFramework
 			DKFoundation::DKObject<DKTextureSampler>	sampler;
 		};
 
-		////////////////////////////////////////////////////////////////////////////////
-		// SamplerProperty : 텍스쳐 및 샘플링 정보가 들어있는 객체
+		// SamplerProperty
+		// Textures and sampler object.
 		struct SamplerProperty
 		{
 			DKShaderConstant::Uniform					id;				// sampler
@@ -77,26 +74,31 @@ namespace DKFramework
 			TextureArray								textures;
 			DKFoundation::DKObject<DKTextureSampler>	sampler;
 		};
-		////////////////////////////////////////////////////////////////////////////////
-		// ShadingProperty : 쉐이더 상수 매칭에 사용되며 DKMaterial 안에 정의된 값은 기본값이다.
-		// 실제 렌더링 할때는 DKModel 에서 모델 고유의 값을 넘겨 받으며, 고유의 값이 없을때 기본값을 사용한다.
-		// 모델 고유의 값은 전부 UniformUserDefine 타입만 사용된다. 나머지는 DKSceneState 에서 사용된다.
+
+		// ShadingProperty
+		// Used when shader uniform matching, default value can be defined.
+		// uniform values can be acquired from mesh object when rendering.
+		// if value is missing, default value used.
+		// You can define your own uniform with UniformUserDefine type id.
+		// Predefined Uniform IDs are used in DKSceneState object.
 		struct ShadingProperty
 		{
 			DKShaderConstant::Uniform		id;
 			DKShaderConstant::Type			type;
-			PropertyArray					value;			// 기본값, UniformUserDefine 타입일때만 사용됨
+			PropertyArray					value; // default value, can be used if id is 'UniformUserDefine'
 		};
-		////////////////////////////////////////////////////////////////////////////////
-		// StreamProperty : 버텍스 스트림을 매칭하기 위한 객체
+		// StreamProperty
+		// Object for shader attribute stream matching.
+		// (see DKVertexStream.h)
 		struct StreamProperty
 		{
 			DKVertexStream::Stream		id;
 			DKVertexStream::Type		type;
 			size_t						components;
 		};
-		////////////////////////////////////////////////////////////////////////////////
-		// ShaderSource : 쉐이더 소스 (여러 소스를 합쳐서 하나의 프로그램으로 만든다)
+		// ShaderSource
+		// a shader source, can have multiple sources combines to one program.
+		// sources can be shared by multiple programs (in RenderingProperty)
 		struct ShaderSource
 		{
 			DKFoundation::DKString				name;
@@ -104,9 +106,10 @@ namespace DKFramework
 			DKShader::Type						type;
 			DKFoundation::DKObject<DKShader>	shader;
 		};
-		////////////////////////////////////////////////////////////////////////////////
-		// RenderingProperty : 실제 렌더링 할때 사용된다. 하나의 씬에는 하나의 RenderingProperty 를 사용하게 된다.
-		// 한개의 쉐이더 프로그램과 여러개의 쉐이더소스를 가지고 있다.
+		// RenderingProperty
+		// Used when rendering. This class has shader program which used by
+		// scene drawing. This class can have shader sources also.
+		// sources are subordinate to program.
 		struct RenderingProperty
 		{
 			enum DepthFunc : unsigned char
@@ -170,7 +173,8 @@ namespace DKFramework
 		typedef DKFoundation::DKArray<ShaderSource>								ShaderSourceArray;
 		typedef DKFoundation::DKArray<RenderingProperty>						RenderingPropertyArray;
 
-		// 머티리얼의 기본 속성 (Callback에서 얻어오지 못하면, 이 데이터를 사용하게 된다)
+		// Default properties of material object.
+		// This is fallback values, used if property callbacks did not returns proper value.
 		ShadingPropertyMap				shadingProperties;
 		SamplerPropertyMap				samplerProperties;
 		StreamPropertyMap				streamProperties;

@@ -1,9 +1,8 @@
 //
 //  File: DKFunction.h
-//  Encoding: UTF-8 ☃
 //  Author: Hongtae Kim (tiff2766@gmail.com)
 //
-//  Copyright (c) 2004-2014 ICONDB.COM. All rights reserved.
+//  Copyright (c) 2004-2014 Hongtae Kim. All rights reserved.
 //
 
 #pragma once
@@ -14,20 +13,56 @@
 #include "DKObject.h"
 
 ////////////////////////////////////////////////////////////////////////////////
-//
 // DKFunctionSignature
+// a prototype of function object. template parameter must be function type.
+//  (ex: DKFunctionSignature<void (int)> for 'void func(int)' )
+// provide DKOperation, DKInvocation object generation for later use.
+// very useful to implement script system or reflection features.
 //
-// 함수객체 형식, 템플릿 파라메터는 함수여야 한다. (예: DKFunctionSignature<void (int)>)
+// The purpose of this class is to provide common type of Function-object.
 //
-// 아래의 함수를 이용하여 DKFunctionSignature 객체를 생성할 수 있다.
-// DKFunction(일반 함수 포인터)
-// DKFunction(함수객체)
-// DKFunction(객체 레퍼런스 또는 포인터, 객체의 멤버함수 포인터)
+// You can create DKFunctionSignature object with following ways.
+//  DKFunction( with function pointer )
+//  DKFunction( with function object or lambda )
+//  DKFunction( an object reference or pointer, member function pointer )
+//
+// Example:
+//
+//   void func(int) {..}
+//
+//   // generate DKFunctionSignature object from function.
+//   auto sig = DKFunction(&func);
+//   sig->Invoke(3);  // direct call
+//
+//   // generate operation object.
+//   auto op = sig->Invocation(3);
+//   sig = NULL;  // delete sig object. but 'op' is still alive.
+//   op->Perform();  // call func.
+//
+//   // you can generate from lambda also.
+//   auto sig = DKFunction( [](int) { ... } );
+//   sig->Invoke(3);
+//
+//   // generate from class object.
+//   auto sig = DKFunction(MyObject, &MyClass::Function);
+//
+//   // create object on the fly
+//   auto sig = DKFunction(AClass(), &AClass::Function);
+//
+// Note:
+//  You can create DKOperation object from DKFunctionSignature
+//  and you can store that into array or list for later use.
+//
+//  DKFunctionSignature< function-type > template parameters affects only
+//  function parameters. function and member function are same type.
+//    void func(int) ==> DKFunctionSignature<void (int)>
+//    void AClass::Func(int) ==> DKFunctionSignature<void (int)>
+//
 ////////////////////////////////////////////////////////////////////////////////
 
 namespace DKFoundation
 {
-	// DKFunctionSignature 인터페이스
+	// DKFunctionSignature interface (abstract class)
 	template <typename Function> struct DKFunctionSignature;
 	template <typename R, typename... Ps> struct DKFunctionSignature<R (Ps...)>
 	{
@@ -55,7 +90,7 @@ namespace DKFoundation
 	namespace Private
 	{
 		////////////////////////////////////////////////////////////////////////////////
-		// 튜플을 함수의 파라메터로 넣어주는 클래스
+		// use tuple as function arguments (variadic templates)
 		template <int N, int Count, int... Ns> struct _TupleInvoker
 		{
 			using Result = typename _TupleInvoker<N+1, Count-1, Ns..., N>::Result;
@@ -64,13 +99,13 @@ namespace DKFoundation
 		{
 			struct _Result
 			{
-				// 일반 함수 포인터, 또는 함수객체
+				// regular function pointer or function object (functor).
 				template <typename Ret, typename Func, typename Tuple>
 				static auto Invoke(Func&& fn, Tuple&& tuple)->Ret
 				{
 					return fn( tuple.template Value<Ns>()... );
 				}
-				// 클래스 멤버 함수 (클래스 인스턴스는 포인터로 사용함)
+				// class member function. (using class object as pointer)
 				template <typename Ret, class Obj, typename Func, typename Tuple>
 				static auto Invoke(Obj&& obj, Func fn, Tuple&& tuple)->Ret
 				{
@@ -82,7 +117,8 @@ namespace DKFoundation
 		template <size_t Length> using TupleInvoker = typename _TupleInvoker<0, Length>::Result;
 
 		////////////////////////////////////////////////////////////////////////////////
-		// 일반 함수, 함수객체의 Invocation 을 생성하는 객체 (DKFunctionSignature 의 implementation)
+		// generate Invocation object from regular function, function object.
+		// implementation of DKFunctionSignature. (sublcass)
 		template <typename Function, typename R, typename... Ps> class FunctionObjectInvoker
 		: public DKFunctionSignature<R (Ps...)>
 		{
@@ -140,7 +176,8 @@ namespace DKFoundation
 			Function function;
 		};
 		////////////////////////////////////////////////////////////////////////////////
-		// 클래스 멤버함수 Invocation 생성하는 객체 (DKFunctionSignature 의 implementation)
+		// generate Invocation object from class member function.
+		// implementation of DKFunctionSignature. (sublcass)
 		template <class Object, typename Function, typename R, typename... Ps> class FunctionMemberObjectInvoker
 		: public DKFunctionSignature<R (Ps...)>
 		{
@@ -195,8 +232,8 @@ namespace DKFoundation
 			}
 
 			using ObjectTraits = DKTypeTraits<Object>;
-			// Object 타입은 T*, const T*, DKObject<T>, Wrapper<T>, Wrapper<const T> 여야한다.
-			// 레퍼런스타입은 올수 없다.
+			// Object type should be one of T*, const T*, DKObject<T>, Wrapper<T>, Wrapper<const T>
+			// reference type cannot be used.
 			static_assert(ObjectTraits::IsReference == 0, "Object must not be a reference type!");
 
 			using UnqualifedObjectType = typename ObjectTraits::UnqualifiedReferredType;
@@ -209,8 +246,8 @@ namespace DKFoundation
 		};
 
 		////////////////////////////////////////////////////////////////////////////////
-		// 일반 함수 또는 함수 객체의 DKFunctionSignature (implements) 객체를 판별하는 클래스
-		template <typename T> struct FunctionTypeSelector			// 함수객체
+		// validate regular function or function object callable.
+		template <typename T> struct FunctionTypeSelector // function object.
 		{
 			template <typename U> static DKTrue HasFunctionOperator(decltype(&U::operator()));
 			template <typename U> static DKFalse HasFunctionOperator(...);
@@ -225,7 +262,7 @@ namespace DKFoundation
 			using Invoker = typename ParameterTypeList::template TypesInto<_Invoker>;
 			using Signature = typename Invoker::Signature;
 		};
-		template <typename T> struct FunctionTypeSelector<T*>		// 함수포인터
+		template <typename T> struct FunctionTypeSelector<T*> // function pointer.
 		{
 			static_assert( DKTypeTraits<T*>::IsFunctionPointer, "Type is not function!");
 
@@ -235,7 +272,7 @@ namespace DKFoundation
 			using Invoker = typename ParameterTypeList::template TypesInto<_Invoker>;
 			using Signature = typename Invoker::Signature;
 		};
-		template <typename T, typename Func> struct MemberFunctionTypeSelector		// 멤버함수
+		template <typename T, typename Func> struct MemberFunctionTypeSelector // member function.
 		{
 			static_assert( DKTypeTraits<Func>::IsMemberFunctionPointer, "Type is not member function!");
 
@@ -247,7 +284,8 @@ namespace DKFoundation
 		};
 
 		////////////////////////////////////////////////////////////////////////////////
-		// 일반 함수인지, 함수객체인지 판별함 (클래스 멤버함수는 판별하지 않음)
+		// determine regular function or function object (functor),
+		// not applicable to class member function.
 		template <typename T> struct IdentifyFunction
 		{
 			template <typename U> static DKTrue HasFunctionOperator(decltype(&U::operator()));
@@ -256,9 +294,9 @@ namespace DKFoundation
 			template <typename U> struct _FunctionTraits<U, true>
 			{
 				using Traits = typename DKTypeTraits<decltype(&U::operator())>::MemberFunctionTraits;
-				enum {IsObjectConst = DKTypeTraits<U>::IsConst};	// 객체가 const 인지
-				enum {IsFunctionConst = Traits::IsConst};			// 함수가 const 인지
-				// 객체가 const 면 함수도 const 여야 호출 가능하다.
+				enum {IsObjectConst = DKTypeTraits<U>::IsConst}; // test object is const or not.
+				enum {IsFunctionConst = Traits::IsConst};        // test function is const or not.
+				// if object is const, member function must be const.
 				enum {IsCallable = DKCondEnum<IsObjectConst, IsFunctionConst, true>()};
 			};
 			template <typename U> struct _FunctionTraits<U, false>
@@ -273,14 +311,14 @@ namespace DKFoundation
 			enum {IsFunctionPointer = TypeTraits::IsFunctionPointer};
 			enum {IsFunctionObject = decltype(HasFunctionOperator<Ref>(0))::Value};
 
-			// 함수이면 함수포인터로 변경함
+			// if function is reference type, convert to pointer type.
 			using Callable = DKCondType<IsFunction, Ref*, Ref>;
 			using FunctionTraits = typename _FunctionTraits<Callable, IsFunctionObject>::Traits;
 			enum {IsCallable = _FunctionTraits<Callable, IsFunctionObject>::IsCallable};
 		};
 
 		////////////////////////////////////////////////////////////////////////////////
-		// 멤버 함수 호출 가능여부 판별함.
+		// determine class member function callable.
 		template <typename T, typename Func> struct IdentifyMemberFunction
 		{
 			template <typename U> struct _Wrapper
@@ -308,7 +346,7 @@ namespace DKFoundation
 				enum {IsConst = DKTypeTraits<ObjectType>::IsConst};
 				using Wrapper = DKCondType<IsPointer, ObjectType*, _Wrapper<ObjectType>>;
 			};
-			// special-case DKObject : DKObject 는 Wrapper 로 간주함.
+			// special-case DKObject : DKObject regards as Wrapper.
 			template <typename U> struct _ObjectTraits<DKObject<U>>
 			{
 				using ObjectType = U;
@@ -342,7 +380,7 @@ namespace DKFoundation
 				enum {IsObjectConst = IsConst};
 				enum {IsFunctionConst = FunctionTraits::IsConst};
 
-				// U 가 Func 를 호출 가능한지 확인.
+				// determine 'U' can call 'Func'.
 				enum {ConversionTest = DKTypeConversionTest<ObjectType*, ClassType*>()};
 				enum {ConstTest = DKCondEnum<IsObjectConst, IsFunctionConst, true>()};
 

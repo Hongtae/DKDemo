@@ -1,9 +1,8 @@
 ﻿//
 //  File: DKHingeConstraint.h
-//  Encoding: UTF-8 ☃
 //  Author: Hongtae Kim (tiff2766@gmail.com)
 //
-//  Copyright (c) 2012-2014 ICONDB.COM. All rights reserved.
+//  Copyright (c) 2012-2014 Hongtae Kim. All rights reserved.
 //
 
 #pragma once
@@ -11,9 +10,9 @@
 #include "DKConstraint.h"
 
 ////////////////////////////////////////////////////////////////////////////////
-//
 // DKHingeConstraint
-// 
+// a hinge constraint between two rigid bodies each with local axis as
+// orientation of the hinge axis.
 ////////////////////////////////////////////////////////////////////////////////
 
 namespace DKFramework
@@ -21,7 +20,7 @@ namespace DKFramework
 	class DKLIB_API DKHingeConstraint : public DKConstraint
 	{
 	public:
-		// DKNSTransform 으로 생성할때는 z 축이 힌지의 축으로 가정한다.
+		// Using DKNSTransform, z-axis is orientation of hinge axis.
 		DKHingeConstraint(DKRigidBody* bodyA, DKRigidBody* bodyB, const DKNSTransform& frameA, const DKNSTransform& frameB);
 		DKHingeConstraint(DKRigidBody* bodyA, const DKNSTransform& frameA);
 

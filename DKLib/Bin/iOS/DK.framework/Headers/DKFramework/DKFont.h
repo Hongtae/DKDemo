@@ -1,9 +1,8 @@
 //
 //  File: DKFont.h
-//  Encoding: UTF-8 ☃
 //  Author: Hongtae Kim (tiff2766@gmail.com)
 //
-//  Copyright (c) 2004-2014 ICONDB.COM. All rights reserved.
+//  Copyright (c) 2004-2014 Hongtae Kim. All rights reserved.
 //
 
 #pragma once
@@ -13,13 +12,14 @@
 #include "DKSize.h"
 #include "DKRect.h"
 
-
 ////////////////////////////////////////////////////////////////////////////////
-//
 // DKFont
+// font object which contains glyph data.
+// glyph data saved as OpenGL texture internally.
 //
-// 폰트 파일이나 데이터(DKBuffer) 로부터 읽어들여서 텍스쳐 폰트를 생성한다.
-// 데이터로 읽는 경우에는 입력 데이터(DKBuffer) 가 변경되면 안된다.
+// Note:
+//   If object created with font data as DKData object,
+//   the data object must not be modified after object created.
 ////////////////////////////////////////////////////////////////////////////////
 
 namespace DKFramework
@@ -39,17 +39,25 @@ namespace DKFramework
 		DKFont(void);
 		~DKFont(void);
 
+		// create object from file (path)
 		static DKFoundation::DKObject<DKFont> Create(const DKFoundation::DKString& file);
-		static DKFoundation::DKObject<DKFont> Create(void* data, size_t size);			// 데이터 사본을 메모리에 저장하게 된다.
-		static DKFoundation::DKObject<DKFont> Create(DKFoundation::DKData* data);		// data 가 외부에서 변형되면 안된다.
-		static DKFoundation::DKObject<DKFont> Create(DKFoundation::DKStream* stream);	// 필요에 따라 사본을 저장 할 수 있음
+		// create object from data pointer. (data will be copied inside)
+		static DKFoundation::DKObject<DKFont> Create(void* data, size_t size);
+		// create object from DKData object. (data must not be modified by outside)
+		static DKFoundation::DKObject<DKFont> Create(DKFoundation::DKData* data);
+		// create object from stream, stream can be copied if necessary.
+		static DKFoundation::DKObject<DKFont> Create(DKFoundation::DKStream* stream);
 
 		const GlyphData* GetGlyphData(wchar_t c) const;
-		float LineWidth(const DKFoundation::DKString& str) const;		// 원점 (baseline) 기준 너비 (픽셀, 아웃라인 영역 포함 안함)
-		float LineHeight(void) const;									// 원점 기준 높이 (픽셀, 아웃라인 영역 포함 안함)
-		float Baseline(void) const;										// baseline 높이 (픽셀, 아웃라인 영역은 포함하지 않음)
-		DKRect Bounds(const DKFoundation::DKString& str) const;			// 바운딩 박스 (픽셀, 0,0이 원점-baseline)
-		DKPoint	KernAdvance(wchar_t left, wchar_t right) const;
+
+		// LineWidth: text pixel-width from baseline. not includes outline.
+		float LineWidth(const DKFoundation::DKString& str) const;
+		// LineHeight: pixel-height from baseline. not includes outline.
+		float LineHeight(void) const;
+
+		float Baseline(void) const;	// baseline offset (in pixel unit)
+		DKRect Bounds(const DKFoundation::DKString& str) const; // text bounding box.
+		DKPoint	KernAdvance(wchar_t left, wchar_t right) const; // calculate kern advance between characters.
 
 		int				PointSize(void) const							{ return pointSize; }
 		const DKPoint&	Resolution(void) const							{ return resolution; }
@@ -61,20 +69,20 @@ namespace DKFramework
 		DKFoundation::DKString FamilyName(void) const;
 		DKFoundation::DKString StyleName(void) const;
 
-		// point 와 embolden 은 point-size, outline 은 픽셀 사이즈임.
+		// point, embolden is point-size, outline is pixel-size.
 		bool SetStyle(int point, float embolden = 0, float outline = 0, DKPoint dpi = DKPoint(72,72), bool enableKerning = true, bool forceBitmap = false);
 		bool IsValid(void) const;
 
-		float Height(void) const;		// 폰트의 높이 (아웃라인 픽셀 포함)
-		float Width(void) const;		// 폰트의 너비 (아웃라인 픽셀 포함)
+		float Height(void) const;  // font pixel-height (includes outline)
+		float Width(void) const;   // font pixel-width (includes outline)
 
 	private:
-		float		outline;			// 0 이면 아웃라인 아님
-		float		embolden;			// 0 이면 보통
-		int			pointSize;			// 해당dpi 기준 포인트 크기
-		DKPoint		resolution;			// dpi 해상도
-		bool		kerningEnabled;		// 텍스트 커닝 on/off
-		bool		forceBitmap;		// 강제 비트맵 로딩
+		float		outline;			// 0 for no-outline
+		float		embolden;			// 0 for regular font
+		int			pointSize;			// point size based DPI
+		DKPoint		resolution;			// DPI resolution
+		bool		kerningEnabled;		// kerning on/off
+		bool		forceBitmap;		// force bitmap loads
 
 		struct SharedTextures
 		{

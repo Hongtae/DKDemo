@@ -1,9 +1,8 @@
 //
 //  File: DKScene.h
-//  Encoding: UTF-8 ☃
 //  Author: Hongtae Kim (tiff2766@gmail.com)
 //
-//  Copyright (c) 2004-2014 ICONDB.COM. All rights reserved.
+//  Copyright (c) 2004-2014 Hongtae Kim. All rights reserved.
 //
 
 #pragma once
@@ -17,11 +16,9 @@
 #include "DKCollisionObject.h"
 
 ////////////////////////////////////////////////////////////////////////////////
-//
 // DKScene
-//
-// DKModel 들을 이용하여 장면 구성을 한다.
-//
+// compose scene with DKModel tree.
+// you can detect collision with DKModel nodes.
 ////////////////////////////////////////////////////////////////////////////////
 
 namespace DKFramework
@@ -104,8 +101,7 @@ namespace DKFramework
 		virtual bool AddSingleObject(DKModel* obj);
 		virtual void RemoveSingleObject(DKModel* obj);
 
-		// 객체 update 중에 add/remove 가 가능하도록 사본을 미리 준비해야 한다.
-		// 객체 update 는 사본을 가지고 한다.
+		// picking out nodes to protect between update sequence.
 		void PrepareUpdateNode(void);
 		void CleanupUpdateNode(void);
 

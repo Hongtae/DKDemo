@@ -1,14 +1,20 @@
 //
 //  File: DKWindowInterface.h
-//  Encoding: UTF-8 ☃
 //  Author: Hongtae Kim (tiff2766@gmail.com)
 //
-//  Copyright (c) 2013-2014 ICONDB.COM. All rights reserved.
+//  Copyright (c) 2013-2014 Hongtae Kim. All rights reserved.
 //
 
 #pragma once
 #include "../../DKFoundation.h"
 #include "../DKRect.h"
+
+////////////////////////////////////////////////////////////////////////////////
+// DKWindowInterface
+// An abstract class, interface for GUI window.
+// You may need to subclass for your platform, If you have plan to use
+// DKWindow.
+////////////////////////////////////////////////////////////////////////////////
 
 namespace DKFramework
 {
@@ -36,16 +42,14 @@ namespace DKFramework
 		virtual void Activate(void) = 0;
 		virtual void Minimize(void) = 0;
 
-		// Origin, Resize 은 OS 의 포인트 유닛 단위.
+		// Window's origin, size is based on system GUI coordinates.
 		DKPoint Origin(void) const;
 		virtual void SetOrigin(const DKPoint&) = 0;
 		virtual void Resize(const DKSize&, const DKPoint* optionalOrigin) = 0;
 
-		// ContentSize 는 내부 픽셀수 기준임.
-		DKSize ContentSize(void) const;
+		DKSize ContentSize(void) const;  // pixel based coords
 
-		// 내부 픽셀수 대비 OS 포인트 유닛 비율
-		virtual double ContentScaleFactor(void) const = 0;
+		virtual double ContentScaleFactor(void) const = 0;  // logical coords by pixel ratio.
 
 		virtual void SetTitle(const DKFoundation::DKString& title) = 0;
 		virtual DKFoundation::DKString Title(void) const = 0;

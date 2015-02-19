@@ -1,9 +1,8 @@
 //
 //  File: DKMap.h
-//  Encoding: UTF-8 ☃
 //  Author: Hongtae Kim (tiff2766@gmail.com)
 //
-//  Copyright (c) 2004-2014 ICONDB.COM. All rights reserved.
+//  Copyright (c) 2004-2014 Hongtae Kim. All rights reserved.
 //
 
 #pragma once
@@ -16,36 +15,31 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 // DKMap
+// balancing tree class (using AVLTree internally, see DKAVLTree.h).
+// this is simple wrapper of DKAVLTree.
 //
-// 밸런싱 트리(기본적으로 DKAVLTree 사용)를 이용한 Key-Value Pair 맵
+// Insert: insert value if key is not exists.
+// Update: set value for key whether key is exists or not.
 //
-// Insert: 값이 없다면 새로 추가하고 값이 존재한다면 실패
-// Update: 값이 없다면 새로 추가하고 있다면 갱신한다.
+// insertion, deletion, lookup is thread-safe.
+// If you need to modify value directly, you should have lock object.
 //
-// 쓰레드 동기화: 기본적으로 추가,삭제,검색 에 대해서 락을 사용한다.
-// 검색결과에 대한 값을 수정하기 위해서는 사전에 락을 걸어놓아야 한다.
-//
-// 예:
+// Example:
 //	{
 //		typename MyMapType::CriticalSection section(map.lock);	// lock with critical-section
 //		MyMapType::Pair* p = map.Find(something);
 //		.... // do something with p
 //	}	// auto-unlock by critical-section end
 //
-// KEY: 검색용 키
-// VALUE: 자료형 (KEY, VALUE 가 한쌍으로 저장된다)
-// LOCK: 자료 억세스용 락
-// COMPARE: KEY 의 비교를 위한 객체
+// To enumerate items:
 //
-// KEY, VALUE 만 같고 LOCK, COMPARE 가 다를경우, Insert, Update 만 가능
+//  typedef DKMap<Key,Value> MyMap;
+//  MyMap map;
+//  auto enumerator1 = [](const MyMap::Pair& pair) {...}
+//  auto enumerator2 = [](const MyMap::Pair& pair, bool* stop) {...}
+//  map.EnumerateForward(enumerator1);
+//  map.EnumerateForward(enumerator2);	// cancellable by set bool to true.
 //
-// 데이터 열거 방식.
-// typedef DKMap<Key,Value> MyMap;
-// MyMap map;
-// auto enumerator1 = [](const MyMap::Pair& pair) {...}
-// auto enumerator2 = [](const MyMap::Pair& pair, bool* stop) {...}
-// map.EnumerateForward(enumerator1);
-// map.EnumerateForward(enumerator2);	// bool* 으로 중간에 취소 가능함.
 ////////////////////////////////////////////////////////////////////////////////
 
 namespace DKFoundation
@@ -81,12 +75,12 @@ namespace DKFoundation
 	};
 
 	template <
-		typename KEY,										// 키
-		typename VALUE,										// 값
-		typename LOCK = DKDummyLock,						// 락
-		typename COMPARE = DKMapKeyComparison<KEY>,			// 키 비교형식
-		typename COPY = DKMapValueCopy<VALUE>,				// 값 복사형식
-		typename ALLOC = DKMemoryDefaultAllocator			// 메모리 할당
+		typename KEY,								// key type
+		typename VALUE,								// value type
+		typename LOCK = DKDummyLock,				// lock
+		typename COMPARE = DKMapKeyComparison<KEY>,	// key comparison
+		typename COPY = DKMapValueCopy<VALUE>,		// copy value
+		typename ALLOC = DKMemoryDefaultAllocator	// memory allocator
 	>
 	class DKMap
 	{
@@ -126,7 +120,9 @@ namespace DKFoundation
 		};
 		typedef DKAVLTree<Pair, KEY, PairComparison, KeyComparison, PairCopy, Allocator> Container;
 
-		Lock	lock;			// 외부에서 락을 걸수 있게 한다. FindNoLock(), CountNoLock() 만 사용가능함
+		// lock is public. to provde lock object from outside!
+		// FindNoLock, CountNoLock is usable regardless of locking.
+		Lock	lock;
 
 		DKMap(void)
 		{
@@ -149,7 +145,7 @@ namespace DKFoundation
 		{
 			Clear();
 		}
-		// Update: 기존 아이템은 갱신하고 없는것은 새로 추가
+		// Update: overwrite value if key is exists, or insert item.
 		void Update(const Pair& p)
 		{
 			CriticalSection guard(lock);
@@ -179,7 +175,7 @@ namespace DKFoundation
 			for (const Pair& p : il)
 				container.Update(p);
 		}
-		// Insert: 존재하지 않는 아이템만 추가
+		// Insert: insert item if key is not exist, fails otherwise.
 		bool Insert(const Pair& p)
 		{
 			CriticalSection guard(lock);
@@ -245,7 +241,8 @@ namespace DKFoundation
 			CriticalSection guard(lock);
 			return FindNoLock(k);
 		}
-		// 락을 걸지 않음 (외부에서 미리 락 걸고 사용, 검색 결과 값을 수정할 때 사용한다.)
+		// Perform search operation without locking.
+		// useful if you have locked already in your context.
 		Pair* FindNoLock(const KEY& k)
 		{
 			return const_cast<Pair*>(static_cast<const DKMap&>(*this).FindNoLock(k));
@@ -254,7 +251,8 @@ namespace DKFoundation
 		{
 			return container.Find(k);
 		}
-		VALUE& Value(const KEY& k)			// k 값이 없으면 새로 만들어진다.
+		// if key 'k' is not exist, an new value inserted and returns.
+		VALUE& Value(const KEY& k)
 		{
 			CriticalSection guard(lock);
 			Pair* p = FindNoLock(k);
@@ -304,7 +302,10 @@ namespace DKFoundation
 				container.Insert(p);
 			return *this;
 		}
-		// lambda enumerator (VALUE&) 또는 (VALUE&, bool*) 형식의 함수객체
+		// EnumerateForward / EnumerateBackward: enumerate all items.
+		// You cannot insert, remove items while enumerating. (container is read-only)
+		// enumerator can be lambda or any function type that can receive arguments (VALUE&) or (VALUE&, bool*)
+		// (VALUE&, bool*) type can cancel iteration by set boolean value to true.
 		template <typename T> void EnumerateForward(T&& enumerator)
 		{
 			using Func = typename DKFunctionType<T&&>::Signature;
@@ -323,7 +324,7 @@ namespace DKFoundation
 
 			EnumerateBackward(std::forward<T>(enumerator), typename Func::ParameterNumber());
 		}
-		// lambda enumerator (const VALUE&) 또는 (const VALUE&, bool*) 형식의 함수객체
+		// lambda enumerator (const VALUE&) or (const VALUE&, bool*) function type.
 		template <typename T> void EnumerateForward(T&& enumerator) const
 		{
 			using Func = typename DKFunctionType<T&&>::Signature;

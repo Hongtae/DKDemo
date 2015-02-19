@@ -1,9 +1,8 @@
 //
 //  File: DKError.h
-//  Encoding: UTF-8 ☃
 //  Author: Hongtae Kim (tiff2766@gmail.com)
 //
-//  Copyright (c) 2004-2014 ICONDB.COM. All rights reserved.
+//  Copyright (c) 2004-2014 Hongtae Kim. All rights reserved.
 //
 
 #pragma once
@@ -13,26 +12,32 @@
 #include "DKStream.h"
 
 ////////////////////////////////////////////////////////////////////////////////
+// DKError
+// an exception object.
+// you can review call-stack info with this object.
+// you can write error description to file also.
 //
-// DKError 는 예외처리를 위한 객체이며, 콜스택 정보를 조회하거나 파일로 저장할 수 있다.
 //
-// DKError 를 사용한 예외 처리
-// SetDefaultDescriptor() 를 호출하여, 에러 발생시 관련 정보를 어떻게 처리할지 정할 수 있다.
-// (예를들면, 서버로 보내거나, 다른 프로그램을 띄우거나 할수 있음)
-//
+// Usage:
 //	try
 //	{
-//		.... 어딘가에서 예외 발생함 (DKERROR_THROW 사용)
+//      .. exception occurred in somewhere ..
 //	}
 //	catch (DKError& e)
 //	{
-//		// 복구 시도함..
+//      // print call stack
+//		e.PrintDescriptionWithStackFrames();
+//      // descript error info with default descriptor (may be console)
+//		e.WriteToDefaultDescriptor();
+//      // write error info into myLogFile
+//		e.WriteToFile(myLogFile);
 //
-//		e.PrintDescriptionWithStackFrames();	// 콘솔에 콜스택 출력
-//		e.WriteToDefaultDescriptor();			// 사용자 정의 에러 파일에 정보 기록함
-//		e.WriteToFile(myLogFile);				// myLogFile 에 정보 기록함
+//      .. try to recover or do something useful.
+//
 //	}
 //
+// Note:
+//   tracing call stack not works on some platforms.
 ////////////////////////////////////////////////////////////////////////////////
 
 #define DKERROR_DEFAULT_CALLSTACK_TRACE_DEPTH	1024
@@ -41,9 +46,16 @@ namespace DKFoundation
 {
 	typedef DKFunctionSignature<void (class DKError&)> DKCriticalErrorHandler;
 
+	// test debugger attached or not. (may not works on some platforms)
 	DKLIB_API bool IsDebuggerPresent(void);
+
+	// test build configuration
 	DKLIB_API bool IsDebugBuild(void);
-	DKLIB_API void SetCriticalErrorHandler(DKCriticalErrorHandler*);	// 일부 플랫폼에서는 작동 안함
+
+	// set critical error handler. (may not works on some platforms)
+	DKLIB_API void SetCriticalErrorHandler(DKCriticalErrorHandler*);
+
+	// raise exception manually. use DKERROR_THROW() macro instead.
 	DKLIB_API void DKErrorRaiseException(const char*, const char*, unsigned int, const char*);
 
 	namespace Private { struct UnexpectedError; }
@@ -51,7 +63,7 @@ namespace DKFoundation
 	class DKLIB_API DKError
 	{
 	public:
-		static int DefaultCallstackTraceDepth(void) {return 1024;}
+		constexpr static int DefaultCallstackTraceDepth(void) {return 1024;}
 
 		struct StackFrame
 		{
@@ -91,23 +103,26 @@ namespace DKFoundation
 		const StackFrame* StackFrameAtIndex(unsigned int index) const;
 		size_t CopyStackFrames(StackFrame* s, size_t maxCount) const;
 
-		// 콜스택 데이터 재생성
-		size_t RetraceStackFrames(size_t skip = 0, size_t maxDepth = DKERROR_DEFAULT_CALLSTACK_TRACE_DEPTH);
+		// retrace call stack frame info.
+		size_t RetraceStackFrames(int skip = 0, int maxDepth = DKERROR_DEFAULT_CALLSTACK_TRACE_DEPTH);
 
-		// 에러 정보 기록
+		// writing error info
 		void PrintDescription(void) const;
 		void PrintDescription(const StringOutput*) const;
 		void PrintStackFrames(void) const;
 		void PrintStackFrames(const StringOutput*) const;
 		void PrintDescriptionWithStackFrames(void) const;
 		void PrintDescriptionWithStackFrames(const StringOutput*) const;
-		// 파일 또는 스트림에 정보 기록
+
+		// writing error info into file or stream
 		void WriteToDescriptor(const Descriptor*) const;
 		void WriteToDefaultDescriptor(void) const;
 		bool WriteToFile(const DKString& file) const;
 		bool WriteToStream(DKStream* stream) const;
 
-		// 기본 에러 저장 설정. SetDefaultDescriptor(데이터, 크기) 가 호출된다.
+		// set default descriptor.
+		// descriptor is function or function object. (lambda is ok)
+		// see 'Descriptor' typedef above.
 		static void SetDefaultDescriptor(const Descriptor* output);
 
 	private:
@@ -117,7 +132,7 @@ namespace DKFoundation
 		unsigned int lineNo;
 		DKString description;
 
-		// 콜스택
+		// callstack
 		size_t numFrames;
 		StackFrame* stackFrames;
 		void* threadId;

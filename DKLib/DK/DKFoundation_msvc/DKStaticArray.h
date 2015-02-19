@@ -1,9 +1,8 @@
 //
 //  File: DKStaticArray.h
-//  Encoding: UTF-8 ☃
 //  Author: Hongtae Kim (tiff2766@gmail.com)
 //
-//  Copyright (c) 2004-2014 ICONDB.COM. All rights reserved.
+//  Copyright (c) 2004-2014 Hongtae Kim. All rights reserved.
 //
 
 #pragma once
@@ -12,11 +11,15 @@
 #include "DKFunction.h"
 
 #ifndef DKSTATICARRAY_USE_STL_SORT
-#define DKSTATICARRAY_USE_STL_SORT	0	// 1 이면 stl의 sort 사용함
+// Set 1 if you want to use stl sort (std::sort) as your default sort function.
+// std::sort could be faster.
+#define DKSTATICARRAY_USE_STL_SORT	0
 #endif
 
 #ifndef DKSTATICARRAY_USE_STATIC_ROTATE
-#define DKSTATICARRAY_USE_STATIC_ROTATE	0	// 1 이면 메모리 할당하지 않고 로테이션 함.
+// Set 1 if you don't want additional memory allocation for item rotation.
+// For lots of elements, memory allocated rotation is faster normally.
+#define DKSTATICARRAY_USE_STATIC_ROTATE	0
 #endif
 
 #if DKSTATICARRAY_USE_STL_SORT
@@ -24,14 +27,13 @@
 #endif
 
 ////////////////////////////////////////////////////////////////////////////////
-//
 // DKStaticArray
+// A simple array with fixed length (non-allocationg).
+// This class provides sorting algorithm.
+// You can use std::sort for default sorting algorithm
+// by defining DKSTATICARRAY_USE_STL_SORT=1
 //
-// 고정 데이터 배열 객체
-// 값을 수정할 수 있지만, 추가 삭제는 안된다. 정렬은 가능
-//
-// 이 클래스는 외부의 메모리 배열을 사용하므로 thread-safe 하지 않다.
-//
+// This class using external array (by pointer), of course, not thread safe.
 ////////////////////////////////////////////////////////////////////////////////
 
 namespace DKFoundation
@@ -74,7 +76,7 @@ namespace DKFoundation
 
 		static const Index invalidIndex = (size_t)-1;
 
-		// range-based for loop 용 begin, end 멤버함수
+		// Iterator class for range-based for loop
 		typedef DKArrayRBIterator<DKStaticArray, VALUE&>				RBIterator;
 		typedef DKArrayRBIterator<const DKStaticArray, const VALUE&>	ConstRBIterator;
 		RBIterator begin(void)				{return RBIterator(*this, 0);}
@@ -237,7 +239,9 @@ namespace DKFoundation
 #endif
 			}
 		}
-		// lambda enumerator (VALUE&) 또는 (VALUE&, bool*) 형식의 함수객체
+		// enumerate all items.
+		// enumerator can be lambda or any function type that can receive arguments (VALUE&) or (VALUE&, bool*)
+		// (VALUE&, bool*) type can cancel iteration by set boolean value to true.
 		template <typename T> void EnumerateForward(T&& enumerator)
 		{
 			using Func = typename DKFunctionType<T&&>::Signature;
@@ -256,7 +260,7 @@ namespace DKFoundation
 
 			EnumerateBackward(std::forward<T>(enumerator), typename Func::ParameterNumber());
 		}
-		// lambda enumerator (const VALUE&) 또는 (const VALUE&, bool*) 형식의 함수객체
+		// lambda enumerator (const VALUE&) or (const VALUE&, bool*) function type.
 		template <typename T> void EnumerateForward(T&& enumerator) const
 		{
 			using Func = typename DKFunctionType<T&&>::Signature;
@@ -350,7 +354,8 @@ namespace DKFoundation
 			Swap(end, store);
 			return store;
 		}
-		// 퀵소트의 피봇 위치를 결정하는 함수. - 개선이 필요!
+		// determines position of sorting pivot.
+		// TODO: a better algorithm needed.
 		template <typename CompareFunc> Index PivotMedian(Index begin, Index end, CompareFunc cmp)
 		{
 			Index pivot = begin + (end - begin)/2;

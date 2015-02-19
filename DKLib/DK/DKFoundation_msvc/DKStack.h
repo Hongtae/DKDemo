@@ -1,9 +1,8 @@
 //
 //  File: DKStack.h
-//  Encoding: UTF-8 ☃
 //  Author: Hongtae Kim (tiff2766@gmail.com)
 //
-//  Copyright (c) 2004-2014 ICONDB.COM. All rights reserved.
+//  Copyright (c) 2004-2014 Hongtae Kim. All rights reserved.
 //
 
 #pragma once
@@ -13,6 +12,11 @@
 #include "DKCriticalSection.h"
 #include "DKQueue.h"
 #include "DKMemory.h"
+
+////////////////////////////////////////////////////////////////////////////////
+// DKStack
+// a stack implemented template class.
+////////////////////////////////////////////////////////////////////////////////
 
 namespace DKFoundation
 {
@@ -38,8 +42,10 @@ namespace DKFoundation
 		
 		size_t Count(void)				{return container.Count();}
 
-		// EnumerateForward / EnumerateBackword: 모든 데이터 열거함수, 이 함수내에서는 배열객체에 값을 추가하거나 제거할 수 없다!! (read-only)
-		// lambda enumerator (VALUE&) 또는 (VALUE&, bool*) 형식의 함수객체
+		// EnumerateForward / EnumerateBackward: enumerate all items.
+		// You cannot insert, remove items while enumerating. (container is read-only)
+		// enumerator can be lambda or any function type that can receive arguments (VALUE&) or (VALUE&, bool*)
+		// (VALUE&, bool*) type can cancel iteration by set boolean value to true.
 		template <typename T> void EnumerateForward(T&& enumerator)
 		{
 			using Func = typename DKFunctionType<T&&>::Signature;
@@ -58,7 +64,7 @@ namespace DKFoundation
 
 			container.EnumerateBackward(static_cast<T&&>(enumerator));
 		}
-		// lambda enumerator (const VALUE&) 또는 (const VALUE&, bool*) 형식의 함수객체
+		// lambda enumerator (const VALUE&) or (const VALUE&, bool*) function type.
 		template <typename T> void EnumerateForward(T&& enumerator) const
 		{
 			using Func = typename DKFunctionType<T&&>::Signature;

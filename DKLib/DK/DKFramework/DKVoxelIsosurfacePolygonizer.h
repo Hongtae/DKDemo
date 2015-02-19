@@ -1,9 +1,8 @@
 //
 //  File: DKVoxelIsosurfacePolygonizer.h
-//  Encoding: UTF-8 ☃
 //  Author: Hongtae Kim (tiff2766@gmail.com)
 //
-//  Copyright (c) 2009-2014 ICONDB.COM. All rights reserved.
+//  Copyright (c) 2009-2014 Hongtae Kim. All rights reserved.
 //
 
 #pragma once
@@ -12,12 +11,10 @@
 #include "DKVoxelPolygonizer.h"
 
 ////////////////////////////////////////////////////////////////////////////////
-//
 // DKVoxelIsosurfacePolygonizer
-//
-// Marching Cubes 알고리즘을 이용하여 폴리곤을 생성한다.
-// isosurface-level 을 기준으로 표면 정점을 보간함.
-//
+// voxel polygonizer class, using 'Marching Cubes' algorithm.
+// generating polygon surfaces with interpolate between each voxel's
+// isosurface level.
 ////////////////////////////////////////////////////////////////////////////////
 
 namespace DKFramework
@@ -27,7 +24,7 @@ namespace DKFramework
 	public:
 		struct Cube
 		{
-			float levels[8];	// 해당 복셀의 surface-level
+			float levels[8]; // surface level from 8 voxels (cubic)
 		};
 		DKVoxelIsosurfacePolygonizer(void);
 		virtual ~DKVoxelIsosurfacePolygonizer(void);

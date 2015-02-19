@@ -1,9 +1,8 @@
 //
 //  File: DKSharedLock.h
-//  Encoding: UTF-8 ☃
 //  Author: Hongtae Kim (tiff2766@gmail.com)
 //
-//  Copyright (c) 2004-2014 ICONDB.COM. All rights reserved.
+//  Copyright (c) 2004-2014 Hongtae Kim. All rights reserved.
 //
 
 #pragma once
@@ -11,11 +10,14 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 // DKSharedLock
+// rw-lock implementation with common interface.
 //
-// 두종류의 Lock 을 지원한다.
-// LockShared (Read-lock, shared), 여러 쓰레드가 공유할 수 있음
-// Lock (Write-lock, exclusive), 한 쓰레드만 락을 가짐
+// LockShared(), read-lock, can be locked by some threads concurrently.
+// Lock (write-lock, exclusive), only one thread can have lock.
 //
+// Note:
+//  Only exclusive locking works with DKCriticalSecton.
+//  Use DKSharedLockReadOnlySecton instead for shared-locking with scoped context.
 ////////////////////////////////////////////////////////////////////////////////
 
 namespace DKFoundation
@@ -33,13 +35,13 @@ namespace DKFoundation
 		void Unlock(void) const;	// exclusive
 
 	private:
-		DKSharedLock(const DKSharedLock&);					// 복사를 막기 위해 private 로 선언
-		DKSharedLock& operator = (const DKSharedLock&);		// 복사를 막기 위해 private 로 선언
+		DKSharedLock(const DKSharedLock&);
+		DKSharedLock& operator = (const DKSharedLock&);
 		void* impl;
 	};
 
-	// shared lock 의 critical-section 객체
-	// exclusive lock 은 그냥 DKCriticalSection 사용
+	// context scope based helper class.
+	// use DKCriticalSecton for exclusive lock.
 	class DKSharedLockReadOnlySection
 	{
 	public:

@@ -1,9 +1,8 @@
 //
 //  File: DKTypes.h
-//  Encoding: UTF-8 ☃
 //  Author: Hongtae Kim (tiff2766@gmail.com)
 //
-//  Copyright (c) 2004-2014 ICONDB.COM. All rights reserved.
+//  Copyright (c) 2004-2014 Hongtae Kim. All rights reserved.
 //
 
 #pragma once
@@ -12,7 +11,9 @@
 #include <utility>
 
 ////////////////////////////////////////////////////////////////////////////////
-// 템플릿에서 사용되는 기본 타입들
+// DKTypes.h
+// basic types for template.
+////////////////////////////////////////////////////////////////////////////////
 
 namespace DKFoundation
 {
@@ -85,8 +86,7 @@ namespace DKFoundation
 		{
 			enum {Result = N2};
 		};
-		////////////////////////////////////////////////////////////////////////////////
-		// Ns 들의 합계
+		// sum of given integers in Ns...
 		// _Sum<1,2,3>::Result = 6
 		template <int... Ns> struct Sum
 		{
@@ -96,7 +96,7 @@ namespace DKFoundation
 		{
 			enum {Result = N1 + Sum<Ns...>::Result};
 		};
-		// 타입T1 을 T2 로 변환 가능한지 여부 확인
+		// check T1 is convertible into T2.
 		template <typename T1, typename T2> struct ConversionTest
 		{
 			template <typename U> struct _IsPointerOrReference		{enum {Result = false};};
@@ -104,7 +104,8 @@ namespace DKFoundation
 			template <typename U> struct _IsPointerOrReference<U&>	{enum {Result = true};};
 			template <typename U> struct _IsPointerOrReference<U&&>	{enum {Result = true};};
 
-			// 타입이 포인터이거나 레퍼런스이면 그냥 쓰고 그외엔 레퍼런스로 바꾼다.
+			// Use given type if type is pointer or reference,
+			// otherwise change into reference-type.
 			using Type1Ref = typename CondType<_IsPointerOrReference<T1>::Result, T1, T1&>::Result;
 			using Type2Ref = typename CondType<_IsPointerOrReference<T2>::Result, T2, const T2&>::Result;
 
@@ -120,28 +121,29 @@ namespace DKFoundation
 		template <> struct ConversionTest<void, void>			{enum {Result = true};};
 	}
 
-	// C 가 true 이면 T, 아니면 U 가 된다.
+	// conditional type definition, if C is true result is T, else U.
 	template <bool C, typename T, typename U> using DKCondType = typename Private::CondType<C, T, U>::Result;
 
-	// C 가 true 면 상수 N1, 아니면 N2 를 리턴한다. (constexpr)
+	// conditional constant number, if C is true result is N1, else N2.
 	template <bool C, int N1, int N2> constexpr int DKCondEnum(void)
 	{
 		return Private::CondEnum<C, N1, N2>::Result;
 	}
 
-	// Ns 의 합계를 리턴한다 (constexpr)
+	// returns sum of integers in Ns...
 	template <int... Ns> constexpr int DKSum(void)
 	{
 		return Private::Sum<Ns...>::Result;
 	}
 
-	// Source 가 Target 으로 형변환이 가능한지 확인
+	// determine whether type Source is convertible into type Target.
 	template <typename Source, typename Target> constexpr bool DKTypeConversionTest(void)
 	{
 		return Private::ConversionTest<Source, Target>::Result;
 	}
 	
-	// 객체의 시작 주소를 리턴한다. (다중상속의 경우 시작 주소가 달라질 수 있다)
+	// returns object's base address.
+	// In multiple inheritance, base address may be differ.
 	template <typename T> void* DKTypeBaseAddressCast(T* p)
 	{
 		return Private::BaseAddress<T>::Cast(p);

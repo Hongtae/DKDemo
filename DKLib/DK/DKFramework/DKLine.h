@@ -1,9 +1,8 @@
 //
 //  File: DKLine.h
-//  Encoding: UTF-8 ☃
 //  Author: Hongtae Kim (tiff2766@gmail.com)
 //
-//  Copyright (c) 2004-2014 ICONDB.COM. All rights reserved.
+//  Copyright (c) 2004-2014 Hongtae Kim. All rights reserved.
 //
 
 #pragma once
@@ -11,6 +10,11 @@
 #include "DKVector3.h"
 #include "DKMatrix4.h"
 #include "DKQuaternion.h"
+
+////////////////////////////////////////////////////////////////////////////////
+// DKLine
+// line segment object.
+////////////////////////////////////////////////////////////////////////////////
 
 namespace DKFramework
 {
@@ -29,7 +33,8 @@ namespace DKFramework
 
 		bool Intersect(const DKLine& line, DKVector3* p = NULL) const;
 
-		// 다른 라인과 연결되는 최단거리 라인을 구함. (s.begin 은 이 라인에 위치, s.end 는 다른라인(other) 에 위치)
+		// compute shortest line segment between two line segments.
+		// result line's begin-point located on line1, end-point located on line2.
 		static DKLine LineBetween(const DKLine& line1, const DKLine& line2);
 
 		DKVector3	begin;

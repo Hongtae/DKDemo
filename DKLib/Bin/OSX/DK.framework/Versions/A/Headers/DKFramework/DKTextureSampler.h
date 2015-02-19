@@ -1,9 +1,8 @@
 ﻿//
 //  File: DKTextureSampler.h
-//  Encoding: UTF-8 ☃
 //  Author: Hongtae Kim (tiff2766@gmail.com)
 //
-//  Copyright (c) 2014 ICONDB.COM. All rights reserved.
+//  Copyright (c) 2014 Hongtae Kim. All rights reserved.
 //
 
 #pragma once
@@ -12,6 +11,12 @@
 #include "DKResource.h"
 #include "DKColor.h"
 #include "DKTexture.h"
+
+///////////////////////////////////////////////////////////////////////////////
+// DKTextureSampler
+// texture sampler class. sampler object can define how texture being sampled.
+// sampler object can be shared between textures, materials.
+///////////////////////////////////////////////////////////////////////////////
 
 namespace DKFramework
 {

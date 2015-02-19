@@ -1,9 +1,8 @@
 //
 //  File: DKSkinMesh.h
-//  Encoding: UTF-8 ☃
 //  Author: Hongtae Kim (tiff2766@gmail.com)
 //
-//  Copyright (c) 2004-2014 ICONDB.COM. All rights reserved.
+//  Copyright (c) 2004-2014 Hongtae Kim. All rights reserved.
 //
 
 #pragma once
@@ -12,12 +11,13 @@
 #include "DKStaticMesh.h"
 
 ////////////////////////////////////////////////////////////////////////////////
-//
 // DKSkinMesh
+// a skinning mesh object which can be bound with bone node.
+// using static-mesh based data, transfer skinning bone transforms to GPU when
+// bind to context.
 //
-// 뼈대에 바인딩 가능한 매쉬
-// Static 매쉬 기반의 데이터를 사용하며, 쉐이더로 넘어갈 뼈대 행렬정보를 바인딩 해준다.
-// 
+// Note:
+//  all nodes (DKModel) can be used as bone.
 ////////////////////////////////////////////////////////////////////////////////
 
 namespace DKFramework
@@ -29,7 +29,7 @@ namespace DKFramework
 		struct Bone
 		{
 			NodeId id;
-			DKMatrix4 tm;		// 뼈대 기본 world-tm
+			DKMatrix4 tm;		// bone's world transform
 		};
 		typedef DKFoundation::DKArray<Bone> BoneArray;
 		typedef DKFoundation::DKArray<DKModel*> NodeArray;
@@ -66,7 +66,7 @@ namespace DKFramework
 			Bone bone;
 			const DKModel* node;
 
-			DKMatrix4 initInvTM;	// initial-tm 의 역행렬
+			DKMatrix4 initInvTM;	// inverse of initial transform
 			DKMatrix4 nodeTM;
 		};
 		typedef DKFoundation::DKArray<TransformData> TransformDataArray;

@@ -1,9 +1,8 @@
 //
 //  File: DKHash.h
-//  Encoding: UTF-8 ☃
 //  Author: Hongtae Kim (tiff2766@gmail.com)
 //
-//  Copyright (c) 2004-2009 ICONDB.COM. All rights reserved.
+//  Copyright (c) 2004-2009 Hongtae Kim. All rights reserved.
 //
 
 #pragma once
@@ -12,10 +11,9 @@
 #include "DKString.h"
 
 ////////////////////////////////////////////////////////////////////////////////
-//
 // DKHash
-//
-// CRC32, MD5, SHA1, SHA2, SHA-224, SHA-256, SHA-384, SHA-512 해쉬 제공
+// following hash digest algorithms are supported.
+// CRC32, MD5, SHA1, SHA2, SHA-224, SHA-256, SHA-384, SHA-512
 //
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -96,7 +94,19 @@ namespace DKFoundation
 			Type384,	// SHA2 (SHA-384)
 			Type512,	// SHA2 (SHA-512)
 		};
+		enum Name
+		{
+			CRC32      = Type32,
+			MD5        = Type128,
+			SHA1       = Type160,
+			SHA2_224   = Type224,
+			SHA2_256   = Type256,
+			SHA2_384   = Type384,
+			SHA2_512   = Type512,
+		};
+
 		DKHash(Type t);
+		DKHash(Name n) : DKHash((Type)n) {}
 
 		const Type type;
 		bool finalized;

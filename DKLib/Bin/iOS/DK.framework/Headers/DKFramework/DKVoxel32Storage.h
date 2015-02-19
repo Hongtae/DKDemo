@@ -1,9 +1,8 @@
 ﻿//
 //  File: DKVoxel32Storage.h
-//  Encoding: UTF-8 ☃
 //  Author: Hongtae Kim (tiff2766@gmail.com)
 //
-//  Copyright (c) 2009-2014 ICONDB.COM. All rights reserved.
+//  Copyright (c) 2009-2014 Hongtae Kim. All rights reserved.
 //
 
 #pragma once
@@ -12,22 +11,20 @@
 #include "DKVoxelVolume.h"
 
 ////////////////////////////////////////////////////////////////////////////////
-//
 // DKVoxel32Storage
-//
-// 복셀 스토리지 인터페이스
-// DKVoxel32 형식의 데이터를 기본 유닛으로 사용하며, 분할하여 저장하는 인터페이스를 제공함
-//
+// abstract class, interface for 32bit voxel storage.
+// using UUID for storage-id, you need to subclass to override load, unload
+// data from your storage that can be file or memory or anything else.
 ////////////////////////////////////////////////////////////////////////////////
 
 namespace DKFramework
 {
-	union DKVoxel32
+	union DKVoxel32 // 32bit voxel
 	{
 		struct
 		{
-			unsigned char level;
-			unsigned char data[3];
+			unsigned char level;   // iso surface level
+			unsigned char data[3]; // custom data (can be color or texture uv, etc.)
 		};
 		unsigned int uintValue;
 	};

@@ -1,9 +1,8 @@
 //
 //  File: DKRenderTarget.h
-//  Encoding: UTF-8 ☃
 //  Author: Hongtae Kim (tiff2766@gmail.com)
 //
-//  Copyright (c) 2004-2014 ICONDB.COM. All rights reserved.
+//  Copyright (c) 2004-2014 Hongtae Kim. All rights reserved.
 //
 
 #pragma once
@@ -12,14 +11,18 @@
 #include "DKTexture2D.h"
 
 ////////////////////////////////////////////////////////////////////////////////
-//
 // DKRenderTarget
+// render target class. manage OpenGL FBO object, which made for multi threads.
+// (Note: OpenGL's FOB is not shared between threads)
 //
-// 렌더타겟
-// 컬러 버퍼는 텍스쳐로만 사용되며, 뎁스 버퍼는 뎁스 텍스쳐 또는 렌더 버퍼에서 사용된다.
-// 렌더 버퍼를 컬러 버퍼로 사용하지는 않는다.
+// a texture object can be used as color buffer,
+// a depth texture or render buffer can be used as depth buffer.
+// the render buffer can not be used as color buffer in this class.
 //
-// Note: 이 객체는 thread-safe 하지 않음.
+// Note:
+//     In spite of this class provides FBO for multi-threads,
+//     some functions are not thread safe. You need to set up this class before
+//     sharing with other threads.
 ////////////////////////////////////////////////////////////////////////////////
 
 namespace DKFramework
@@ -80,7 +83,7 @@ namespace DKFramework
 		void UpdateResolution(void);
 
 		DKFoundation::DKArray<DKFoundation::DKObject<DKTexture2D>>	colorTextures;
-		DKFoundation::DKObject<DKTexture2D>							depthTexture;			// optional
+		DKFoundation::DKObject<DKTexture2D>							depthTexture;  // optional
 		unsigned int												depthBuffer;
 
 		DKFoundation::DKObject<ProxyQuery>	proxyQuery;		

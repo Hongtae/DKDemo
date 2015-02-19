@@ -1,9 +1,8 @@
 //
 //  File: DKAudioSource.h
-//  Encoding: UTF-8 ☃
 //  Author: Hongtae Kim (tiff2766@gmail.com)
 //
-//  Copyright (c) 2004-2014 ICONDB.COM. All rights reserved.
+//  Copyright (c) 2004-2014 Hongtae Kim. All rights reserved.
 //
 
 #pragma once
@@ -12,11 +11,8 @@
 #include "DKVector3.h"
 
 ////////////////////////////////////////////////////////////////////////////////
-//
 // DKAudioSource
-//
-// 오디오 재생 관련 제어
-//
+// audio source class. interface for OpenAL source control.
 ////////////////////////////////////////////////////////////////////////////////
 
 namespace DKFramework
@@ -50,55 +46,55 @@ namespace DKFramework
 
 		AudioState State(void) const;
 
-		// AL_PITCH
+		// pitch control
 		void SetPitch(float f);
 		float Pitch(void) const;
 
-		// AL_GAIN
+		// audio gain
 		void SetGain(float f);
 		float Gain(void) const;
 
-		// AL_MIN_GAIN
+		// min gain
 		void SetMinGain(float f);
 		float MinGain(void) const;
 
-		// AL_MAX_GAIN
+		// max gain
 		void SetMaxGain(float f);
 		float MaxGain(void) const;
 
-		// AL_MAX_DISTANCE
+		// max distance
 		void SetMaxDistance(float f);
 		float MaxDistance(void) const;
 
-		// AL_ROLLOFF_FACTOR
+		// rolloff factor
 		void SetRolloffFactor(float f);
 		float RolloffFactor(void) const;
 
-		// AL_CONE_OUTER_GAIN
+		// cone outer gain
 		void SetConeOuterGain(float f);
 		float ConeOuterGain(void) const;
 
-		// AL_CONE_INNER_ANGLE
+		// cone inner angle
 		void SetConeInnerAngle(float f);
 		float ConeInnerAngle(void) const;
 
-		// AL_CONE_OUTER_ANGLE
+		// cone outer angle
 		void SetConeOuterAngle(float f);
 		float ConeOuterAngle(void) const;
 
-		// AL_REFERENCE_DISTANCE
+		// reference distance
 		void SetReferenceDistance(float f);
 		float ReferenceDistance(void) const;
 
-		// AL_POSITION
+		// source position
 		void SetPosition(const DKVector3& v);
 		DKVector3 Position(void) const;
 
-		// AL_VELOCITY
+		// source velocity
 		void SetVelocity(const DKVector3& v);
 		DKVector3 Velocity(void) const;
 
-		// AL_DIRECTION
+		// source direction
 		void SetDirection(const DKVector3& v);
 		DKVector3 Direction(void) const;
 

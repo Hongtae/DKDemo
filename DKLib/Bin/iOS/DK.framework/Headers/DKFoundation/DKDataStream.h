@@ -1,9 +1,8 @@
 //
 //  File: DKDataStream.h
-//  Encoding: UTF-8 ☃
 //  Author: Hongtae Kim (tiff2766@gmail.com)
 //
-//  Copyright (c) 2004-2014 ICONDB.COM. All rights reserved.
+//  Copyright (c) 2004-2014 Hongtae Kim. All rights reserved.
 //
 
 #pragma once
@@ -13,11 +12,9 @@
 #include "DKObject.h"
 
 ////////////////////////////////////////////////////////////////////////////////
-//
 // DKDataStream
-//
-// DKData 를 DKStream 으로 변환해주는 클래스 (읽기전용 스트림)
-//
+// using DKData as a stream (DKStream)
+// provide stream interface.
 ////////////////////////////////////////////////////////////////////////////////
 
 namespace DKFoundation

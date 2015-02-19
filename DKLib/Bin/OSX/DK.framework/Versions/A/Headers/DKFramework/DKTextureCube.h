@@ -1,9 +1,8 @@
 ﻿//
 //  File: DKTextureCube.h
-//  Encoding: UTF-8 ☃
 //  Author: Hongtae Kim (tiff2766@gmail.com)
 //
-//  Copyright (c) 2004-2014 ICONDB.COM. All rights reserved.
+//  Copyright (c) 2004-2014 Hongtae Kim. All rights reserved.
 //
 
 #pragma once
@@ -14,6 +13,14 @@
 #include "DKResource.h"
 #include "DKColor.h"
 #include "DKTexture.h"
+
+///////////////////////////////////////////////////////////////////////////////
+// DKTextureCube
+// cube texture.
+//
+// Note:
+//    This class is not tested.
+///////////////////////////////////////////////////////////////////////////////
 
 namespace DKFramework
 {

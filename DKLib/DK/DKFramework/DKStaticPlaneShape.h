@@ -1,15 +1,19 @@
 ﻿//
 //  File: DKStaticPlaneShape.h
-//  Encoding: UTF-8 ☃
 //  Author: Hongtae Kim (tiff2766@gmail.com)
 //
-//  Copyright (c) 2012-2014 ICONDB.COM. All rights reserved.
+//  Copyright (c) 2012-2014 Hongtae Kim. All rights reserved.
 //
 
 #pragma once
 #include "../DKInclude.h"
 #include "../DKFoundation.h"
 #include "DKConcaveShape.h"
+
+////////////////////////////////////////////////////////////////////////////////
+// DKStaticPlaneShape
+// a collision shape for static plane
+////////////////////////////////////////////////////////////////////////////////
 
 namespace DKFramework
 {

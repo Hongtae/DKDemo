@@ -1,9 +1,8 @@
 //
 //  File: DKAVLTree.h
-//  Encoding: UTF-8 ☃
 //  Author: Hongtae Kim (tiff2766@gmail.com)
 //
-//  Copyright (c) 2004-2014 ICONDB.COM. All rights reserved.
+//  Copyright (c) 2004-2014 Hongtae Kim. All rights reserved.
 //
 
 #pragma once
@@ -14,28 +13,31 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 // DKAVLTree
+// AVL(Georgy Adelson-Velsky and Landis') tree template implementation.
 //
-// AVL Tree 구조로 제작된 트리
-// 높이 레벨 차가 2이상 되면 밸런싱 작업을 한다.
+// do balancing when weights diff > 2
 //
-// 쓰레드 동기화: 기본적으로 추가,삭제,검색 에 대해서 락을 사용한다.
-// 검색결과에 대한 값을 수정하기 위해서는 사전에 락을 걸어놓아야 한다.
+// thread-safety: add, remove, find
+// If you need modify value directly, object should be locked previously.
 //
-// VALUE: 기본적으로 저장되는 자료형
-// SEARCH: 검색용 자료형
-// CMPV: VALUE 와 VALUE 를 비교하기 위한 객체
-// CMPS: VALUE 와 SEARCH 를 비교하기 위한 객체, 검색용으로만 사용한다.
-// COPY: VALUE 간의 복사에 사용 (Update 함수에서만 사용한다. Update 를 사용하지 않으면 명시하지 않아도 된다)
+// VALUE: value-type
+// KEY: key-type for searching
+// CMPV: value to value comparision function or function object.
+// CMPK: value to key comparision function or function object. (searching only)
+// COPY: copy value function or function object.
+//   (used when Update() called, You can ignore this type if you don't call Update)
 //
-// 밸런싱 작업을 해도 값이 저장되는 포인터의 주소는 바뀌지 않음.
+// Note:
+//  value's pointer will not be changed after balancing process.
+//  You can save pointer if you wish.
 ////////////////////////////////////////////////////////////////////////////////
 
 
 namespace DKFoundation
 {
-	template <typename VALUE, typename SEARCH> struct DKTreeComparison
+	template <typename VALUE, typename KEY> struct DKTreeComparison
 	{
-		int operator () (const VALUE& lhs, const SEARCH& rhs) const
+		int operator () (const VALUE& lhs, const KEY& rhs) const
 		{
 			if (lhs > rhs)				return 1;
 			else if (lhs < rhs)			return -1;
@@ -51,25 +53,25 @@ namespace DKFoundation
 	};
 
 	template <
-		typename VALUE,											// 기본 자료 타입
-		typename SEARCH,										// 검색용 자료 타입
-		typename CMPV = DKTreeComparison<VALUE, VALUE>,			// 기본 자료타입 끼리 비교
-		typename CMPS = DKTreeComparison<VALUE, SEARCH>,		// 검색용 자료 타입, 기본 자료타입 비교 객체
-		typename COPY = DKTreeValueCopy<VALUE>,					// 값 복사
-		typename ALLOC = DKMemoryDefaultAllocator				// 메모리 할당
+		typename VALUE,									// value-type
+		typename KEY,									// key-type
+		typename CMPV = DKTreeComparison<VALUE, VALUE>,	// value comparison
+		typename CMPK = DKTreeComparison<VALUE, KEY>,	// key-value comparison
+		typename COPY = DKTreeValueCopy<VALUE>,			// value copy
+		typename ALLOC = DKMemoryDefaultAllocator		// memory allocator
 	>
 	class DKAVLTree
 	{
 	public:
-		typedef VALUE					Value;
-		typedef SEARCH					Search;
-		typedef CMPV					ValueCompare;
-		typedef CMPS					SearchCompare;
-		typedef COPY					ValueCopy;
-		typedef ALLOC					Allocator;
+		typedef VALUE				Value;
+		typedef KEY					Key;
+		typedef CMPV				ValueCompare;
+		typedef CMPK				KeyCompare;
+		typedef COPY				ValueCopy;
+		typedef ALLOC				Allocator;
 
 		typedef DKTypeTraits<Value>		ValueTraits;
-		typedef DKTypeTraits<Search>	SearchTratis;
+		typedef DKTypeTraits<Key>	SearchTratis;
 
 		DKAVLTree(void)
 			: rootNode(NULL), count(0)
@@ -83,7 +85,9 @@ namespace DKFoundation
 			tree.rootNode = NULL;
 			tree.count = 0;
 		}
-		DKAVLTree(const DKAVLTree& s)		// copy constructor 에서는 같은 형식의 DKAVLTree 만 받는다. (템플릿으로 만들면 사용할수 없게됨)
+		// Copy constructor. accepts same type of class.
+		// templates not works on MSVC (bug?)
+		DKAVLTree(const DKAVLTree& s)
 			: rootNode(NULL), count(0)
 		{
 			if (s.rootNode)
@@ -94,7 +98,7 @@ namespace DKFoundation
 		{
 			Clear();
 		}
-		// Update: 존재하지 않으면 추가, 존재하면 갱신
+		// Update: insertion if not exist or overwrite if exists.
 		const Value* Update(const Value& v)
 		{
 			bool created = false;
@@ -103,7 +107,8 @@ namespace DKFoundation
 				valueCopyFunc(node->value, v);
 			return &node->value;
 		}
-		// Insert: 존재하지 않는 아이템만 추가 (이미 존재하면 NULL 리턴)
+		// Insert: insert if not exist or fail if exists.
+		//  returns NULL if function failed. (already exists)
 		const Value* Insert(const Value& v)
 		{
 			bool created = false;
@@ -112,31 +117,33 @@ namespace DKFoundation
 				return &node->value;
 			return NULL;
 		}
-		void Remove(const SEARCH& s)
+		void Remove(const Key& k)
 		{
-			Node* node = GetNode(s);
+			Node* node = GetNode(k);
 			if (node == NULL)
 				return;
 
-			Node* retrace = NULL;		// 밸런싱 작업을 시작할 노드
+			Node* retrace = NULL;		// entry node to begin rotation.
 
 			if (node->left && node->right)
 			{
 				Node* replace = NULL;
-				// 자식 노드중 왼쪽에서 가장 큰것 또는 오른쪽에서 가장 작은것을 찾아서 위치변경후 제거한다.
-				// 제거후 좀전에 찾았던 노드의 부모부터 밸런싱 시작.
-				// 해당 노드의 부모가 제거될 노드이면 별도로 처리해야한다.
+
+				// find biggest from left, smallest from right, and swap, remove node.
+				// after remove, rotate again
+
 				if (node->leftHeight > node->rightHeight)
 				{
-					for (replace = node->left; replace->right; replace = replace->right);	// 왼쪽에서 젤 큰거 찾아서 바꾼다
-					if (replace == node->left)		// 대신할 자식(replace)가 바로 아래 노드임
+					// finding biggest from left and swap.
+					for (replace = node->left; replace->right; replace = replace->right);
+					if (replace == node->left) // replacement node (child-node)
 					{
 						retrace = replace;
 					}
 					else
 					{
 						retrace = replace->parent;
-						// replace 노드의 자식(left)노드를 retrace(부모) 의 자식(right)으로 설정한다.
+						// set 'retrace's right-node to 'replace's left-node
 						retrace->right = replace->left;
 						if (retrace->right)
 							retrace->right->parent = retrace;
@@ -148,15 +155,16 @@ namespace DKFoundation
 				}
 				else
 				{
-					for (replace = node->right; replace->left; replace = replace->left);	// 오른쪽에서 젤 작은거 찾아서 바꾼다
-					if (replace == node->right)		// 대신할 자식(replace)이 바로 아래 노드임
+					// finding smallest from right and swap.
+					for (replace = node->right; replace->left; replace = replace->left);
+					if (replace == node->right) // replacement node (child-node)
 					{
 						retrace = replace;
 					}
 					else
 					{
 						retrace = replace->parent;
-						// replace 의 자식(right)노드를 retrace(부모)의 자식(left)로 설정한다.
+						// set 'replace's right-node to 'retrace's left-node
 						retrace->left = replace->right;
 						if (retrace->left)
 							retrace->left->parent = retrace;
@@ -166,7 +174,8 @@ namespace DKFoundation
 					replace->left = node->left;
 					replace->left->parent = replace;
 				}
-				if (node->parent)			// node 의 부모에게 replace 를 자식으로 설정
+				// set 'node's parent with 'replace' as child-node
+				if (node->parent)
 				{
 					if (node->parent->left == node)
 						node->parent->left = replace;
@@ -236,9 +245,9 @@ namespace DKFoundation
 			rootNode = NULL;
 			count = 0;
 		}
-		const VALUE* Find(const SEARCH& v) const
+		const VALUE* Find(const Key& k) const
 		{
-			const Node* node = GetNode(v);
+			const Node* node = GetNode(k);
 			if (node)
 				return &node->value;
 			return NULL;
@@ -333,9 +342,9 @@ namespace DKFoundation
 			Node*		left;
 			Node*		right;
 			Node*		parent;
-			int			leftHeight;		// 왼쪽 높이
-			int			rightHeight;	// 오른쪽 높이
-			int			nodeHeight;		// 왼쪽과 오른쪽것중 큰것 + 1 (자기것)
+			int			leftHeight;		// left-tree weights
+			int			rightHeight;	// right-tree weights
+			int			nodeHeight;		// self weights ( = max(left,right)+1)
 			Node* Duplicate(void) const
 			{
 				Node* node = new(Allocator::Alloc(sizeof(Node))) Node(value, NULL);
@@ -437,32 +446,32 @@ namespace DKFoundation
 			node->rightHeight = node->right ? node->right->nodeHeight : 0;
 			node->nodeHeight = node->leftHeight > node->rightHeight ? node->leftHeight + 1 : node->rightHeight + 1;
 		}
-		// 트리의 밸런싱을 맞춘다.
+		// do balancing tree weights.
 		void Balancing(Node* node)
 		{
 			int left = node->left ? node->left->nodeHeight : 0;
 			int right = node->right ? node->right->nodeHeight : 0;
 
-			if (left - right > 1)		// 왼쪽 노드가 2이상 클때
+			if (left - right > 1)
 			{
 				if (node->left->rightHeight > 0 && node->left->rightHeight > node->left->leftHeight)
 				{
-					// node->left 를 왼쪽 회전후 재귀하여 오른쪽 회전
+					// do left-rotate with 'node->left' and right-rotate recursively.
 					LeftRotation(node->left->right);
 					UpdateHeight(node->left->left);
 				}
-				// node->left 를 오른쪽 회전
+				// right-rotate with 'node->left'
 				RightRotation(node->left);
 			}
-			else if (right - left > 1)	// 오른쪽 노드가 2이상 클때
+			else if (right - left > 1)
 			{
 				if (node->right->leftHeight > 0 && node->right->leftHeight > node->right->rightHeight)
 				{
-					// node->right 를 오른쪽 회전후 재귀하여 왼쪽 회전
+					// right-rotate with 'node->right' and left-rotate recursively.
 					RightRotation(node->right->left);
 					UpdateHeight(node->right->right);
 				}
-				// node->right 를 왼쪽 회전
+				// left-rotate with 'node->right'
 				LeftRotation(node->right);
 			}
 
@@ -473,7 +482,7 @@ namespace DKFoundation
 			else
 				rootNode = node;
 		}
-		// 키k 의 노드를 있으면 리턴하고 없으면 만든다.
+		// find node and return. (create if not exists)
 		Node* SetNode(const Value& v, bool* created)
 		{
 			if (rootNode == NULL)
@@ -524,17 +533,17 @@ namespace DKFoundation
 			}
 			return NULL;
 		}
-		// 키 k 의 노드를 찾아서 리턴한다. 없으면 NULL 리턴
-		Node* GetNode(const Search& s)
+		// find node 'k' and return. (return NULL if not exists)
+		Node* GetNode(const Key& k)
 		{
-			return const_cast<Node*>(static_cast<const DKAVLTree&>(*this).GetNode(s));
+			return const_cast<Node*>(static_cast<const DKAVLTree&>(*this).GetNode(k));
 		}
-		const Node* GetNode(const Search& s) const
+		const Node* GetNode(const Key& k) const
 		{
 			Node* node = rootNode;
 			while (node)
 			{
-				int cmp = searchCompareFunc(node->value, s);
+				int cmp = keyCompareFunc(node->value, k);
 				if (cmp > 0)
 					node = node->left;
 				else if (cmp < 0)
@@ -545,12 +554,11 @@ namespace DKFoundation
 			return NULL;
 		}
 
-		// 데이터 멤버들
-		Node*		rootNode;
-		size_t		count;
-		ValueCompare		valueCompareFunc;
-		SearchCompare		searchCompareFunc;
-		ValueCopy			valueCopyFunc;
+		Node*			rootNode;
+		size_t			count;
+		ValueCompare	valueCompareFunc;
+		KeyCompare		keyCompareFunc;
+		ValueCopy		valueCopyFunc;
 	};
 }
 

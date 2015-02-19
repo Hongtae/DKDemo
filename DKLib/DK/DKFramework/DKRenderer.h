@@ -1,9 +1,8 @@
 //
 //  File: DKRenderer.h
-//  Encoding: UTF-8 ☃
 //  Author: Hongtae Kim (tiff2766@gmail.com)
 //
-//  Copyright (c) 2004-2014 ICONDB.COM. All rights reserved.
+//  Copyright (c) 2004-2014 Hongtae Kim. All rights reserved.
 //
 
 #pragma once
@@ -20,24 +19,18 @@
 #include "DKMaterial.h"
 
 ////////////////////////////////////////////////////////////////////////////////
-//
 // DKRenderer
+// renderer class, render to render-target.
+// provides simple 2D/3D rendering features. (includes drawing text)
+// If you need to complex scene with custom shader,
+// you will need to use DKScene with DKModel, DKMesh.
 //
-// 렌더타겟(텍스쳐)에 렌더링을 한다. 2D/3D 렌더링 기능을 제공함.
-// 3D 는 단순한 프리미티브 드로잉을 제공한다. 쉐이더를 사용하려면
-// DKModel, DKMesh 와 DKScene 을 이용하여 장면구성을 해야한다.
+// if DKMatrix3 used as parameters, it should be affine-transform matrix.
 //
-// DKScreen 에 의해 관리되는 스크린에 렌더링을 해주는 객체. 
-// 파라메터로 사용되는 DKMatrix3 는 아핀변환 행렬까지만 허용한다.
-//
-// 여기 적용되는 행렬은 픽셀단위로 적용되지 않으며, 각 정점 위치 계산에만 사용된다.
-// 따라서 삼각형은 여전히 삼각형이 되고, 사각형은 사각형이 된다. 
-// 즉, 행렬은 Affine-Transform 만 적용된다.
-//
-// 주의:
-//  - 2D 는 스크린 좌표계를 사용한다. 왼쪽하단이 (0,0), 우측 상단이 (width,height)
-//  - 3D 는 3D 좌표계를 사용한다. x,y,z 는 -1.0~1.0 사이의 값
-//
+// Note:
+//   Coordinates space of 2d shapes, lower-left corner is origin.
+//   Coordinates space of 3d shapes, center is origin,
+//   (each axis range is -1.0 ~ 1.0)
 ////////////////////////////////////////////////////////////////////////////////
 
 namespace DKFramework
@@ -62,26 +55,26 @@ namespace DKFramework
 		struct Vertex2D
 		{
 			Vertex2D(const DKPoint& p, const DKPoint& t) : position(p), texcoord(t) {}
-			DKPoint position;		// 스크린 좌표계
+			DKPoint position;		// screen space
 			DKPoint texcoord;
 		};
 		struct Vertex3D
 		{
 			Vertex3D(const DKVector3& p, const DKPoint& t, const DKColor& c) : position(p), texcoord(t), color(c) {}
-			DKVector3 position;		// 3D 공간 좌표계
+			DKVector3 position;		// 3D scene space
 			DKPoint texcoord;
 			DKColor color;
 		};
 		struct Vertex3DColored
 		{
 			Vertex3DColored(const DKVector3& p, const DKColor& c) : position(p), color(c) {}
-			DKVector3 position;		// 3D 공간 좌표계
+			DKVector3 position;		// 3D scene space
 			DKColor color;
 		};
 		struct Vertex3DTextured
 		{
 			Vertex3DTextured(const DKVector3& p, const DKPoint& t) : position(p), texcoord(t) {}
-			DKVector3 position;		// 3D 공간 좌표계
+			DKVector3 position;		// 3D scene space
 			DKPoint texcoord;
 		};
 
@@ -94,7 +87,7 @@ namespace DKFramework
 		const DKMatrix3& ContentTransform(void) const;
 		void SetContentTransform(const DKMatrix3& tm);
 
-		void SetPolygonOffset(float factor, float units);		// 0, 0 이면 disable 된다.
+		void SetPolygonOffset(float factor, float units);  // disabled for 0, 0
 		void PolygonOffset(float*) const;
 
 		DKRenderTarget* RenderTarget(void);
@@ -107,7 +100,7 @@ namespace DKFramework
 		void RenderPrimitive(DKPrimitive::Type p, const Vertex2D* vertices, size_t count, const DKTexture* texture, const DKTextureSampler* sampler, const DKColor& color, const DKBlendState& blend = DKBlendState::defaultOpaque) const;
 		void RenderPrimitive(DKPrimitive::Type p, const Vertex3D* vertices, size_t count, const DKMatrix4& tm, const DKTexture* texture, const DKTextureSampler* sampler, const DKBlendState& blend = DKBlendState::defaultOpaque) const;
 		
-		// 2D 단색 렌더링
+		// 2d shape with solid color
 		void RenderSolidRect(const DKRect& rect, const DKMatrix3& transform, const DKColor& color, const DKBlendState& blend = DKBlendState::defaultOpaque) const;
 		void RenderSolidRects(const DKRect* rects, const DKMatrix3* transforms, size_t numRects, const DKColor& color, const DKBlendState& blend = DKBlendState::defaultOpaque) const;
 		void RenderSolidQuad(const DKPoint& lb, const DKPoint& lt, const DKPoint& rt, const DKPoint& rb, const DKColor& color, const DKBlendState& blend = DKBlendState::defaultOpaque) const;
@@ -123,7 +116,7 @@ namespace DKFramework
 		void RenderSolidPoints(const DKPoint* points, size_t numPoints, const DKColor& color, const DKBlendState& blend = DKBlendState::defaultOpaque) const;
 		void RenderSolidEllipse(const DKRect& bounds, const DKColor& color, const DKBlendState& blend = DKBlendState::defaultOpaque) const;
 
-		// 2D 텍스쳐 렌더링
+		// 2d shape with textured
 		void RenderTexturedRect(const DKRect& posRect, const DKMatrix3& posTM, const DKRect& texRect, const DKMatrix3& texTM, const DKTexture* texture, const DKTextureSampler* sampler, const DKColor& color, const DKBlendState& blend = DKBlendState::defaultOpaque) const;
 		void RenderTexturedRects(const DKRect* posRects, const DKMatrix3* posTMs, const DKRect* texRects, const DKMatrix3* texTMs, size_t numRects, const DKTexture* texture, const DKTextureSampler* sampler, const DKColor& color, const DKBlendState& blend = DKBlendState::defaultOpaque) const;
 		void RenderTexturedQuad(const Vertex2D& lb, const Vertex2D& lt, const Vertex2D& rt, const Vertex2D& rb, const DKTexture* texture, const DKTextureSampler* sampler, const DKColor& color, const DKBlendState& blend = DKBlendState::defaultOpaque) const;
@@ -139,7 +132,7 @@ namespace DKFramework
 		void RenderTexturedPoints(const Vertex2D* vertices, size_t numVerts, const DKTexture* texture, const DKTextureSampler* sampler, const DKColor& color, const DKBlendState& blend = DKBlendState::defaultOpaque) const;
 		void RenderTexturedEllipse(const DKRect& bounds, const DKRect& texBounds, const DKTexture* texture, const DKTextureSampler* sampler, const DKColor& color, const DKBlendState& blend = DKBlendState::defaultOpaque) const;
 
-		// 3D 단색 렌더링
+		// 3d shape with solid color
 		void RenderSolidTriangles(const DKVector3* points, size_t numPoints, const DKMatrix4& tm, const DKColor& color, const DKBlendState& blend = DKBlendState::defaultOpaque) const;
 		void RenderSolidTriangleStrip(const DKVector3* points, size_t numPoints, const DKMatrix4& tm, const DKColor& color, const DKBlendState& blend = DKBlendState::defaultOpaque) const;
 		void RenderSolidTriangleFan(const DKVector3* points, size_t numPoints, const DKMatrix4& tm, const DKColor& color, const DKBlendState& blend = DKBlendState::defaultOpaque) const;
@@ -147,7 +140,7 @@ namespace DKFramework
 		void RenderSolidLineStrip(const DKVector3* points, size_t numPoints, const DKMatrix4& tm, const DKColor& color, const DKBlendState& blend = DKBlendState::defaultOpaque) const;
 		void RenderSolidPoints(const DKVector3* points, size_t numPoints, const DKMatrix4& tm, const DKColor& color, const DKBlendState& blend = DKBlendState::defaultOpaque) const;
 
-		// 3D 여러색 렌더링
+		// 3d shape with colored vertices
 		void RenderColoredTriangles(const Vertex3DColored* vertices, size_t numVerts, const DKMatrix4& tm, const DKBlendState& blend = DKBlendState::defaultOpaque) const;
 		void RenderColoredTriangleStrip(const Vertex3DColored* vertices, size_t numVerts, const DKMatrix4& tm, const DKBlendState& blend = DKBlendState::defaultOpaque) const;
 		void RenderColoredTriangleFan(const Vertex3DColored* vertices, size_t numVerts, const DKMatrix4& tm, const DKBlendState& blend = DKBlendState::defaultOpaque) const;
@@ -155,7 +148,7 @@ namespace DKFramework
 		void RenderColoredLineStrip(const Vertex3DColored* vertices, size_t numVerts, const DKMatrix4& tm, const DKBlendState& blend = DKBlendState::defaultOpaque) const;
 		void RenderColoredPoints(const Vertex3DColored* vertices, size_t numVerts, const DKMatrix4& tm, const DKBlendState& blend = DKBlendState::defaultOpaque) const;
 
-		// 3D 텍스쳐 렌더링
+		// 3d shape with textured
 		void RenderTexturedTriangles(const Vertex3DTextured* vertices, size_t numVerts, const DKMatrix4& tm, const DKTexture* texture, const DKTextureSampler* sampler, const DKColor& color, const DKBlendState& blend = DKBlendState::defaultOpaque) const;
 		void RenderTexturedTriangleStrip(const Vertex3DTextured* vertices, size_t numVerts, const DKMatrix4& tm, const DKTexture* texture, const DKTextureSampler* sampler, const DKColor& color, const DKBlendState& blend = DKBlendState::defaultOpaque) const;
 		void RenderTexturedTriangleFan(const Vertex3DTextured* vertices, size_t numVerts, const DKMatrix4& tm, const DKTexture* texture, const DKTextureSampler* sampler, const DKColor& color, const DKBlendState& blend = DKBlendState::defaultOpaque) const;
@@ -163,7 +156,7 @@ namespace DKFramework
 		void RenderTexturedLineStrip(const Vertex3DTextured* vertices, size_t numVerts, const DKMatrix4& tm, const DKTexture* texture, const DKTextureSampler* sampler, const DKColor& color, const DKBlendState& blend = DKBlendState::defaultOpaque) const;
 		void RenderTexturedPoints(const Vertex3DTextured* vertices, size_t numVerts, const DKMatrix4& tm, const DKTexture* texture, const DKTextureSampler* sampler, const DKColor& color, const DKBlendState& blend = DKBlendState::defaultOpaque) const;
 
-		// 3D 도형 렌더링
+		// 3d shapes misc..
 		void RenderSolidSphere(const DKVector3& center, float radius, int lats, int longs, const DKMatrix4& tm, const DKColor& color, const DKBlendState& blend = DKBlendState::defaultOpaque) const;
 		void RenderWireSphere(const DKVector3& center, float radius, int lats, int longs, const DKMatrix4& tm, const DKColor& color, const DKBlendState& blend = DKBlendState::defaultOpaque) const;
 		void RenderSolidAABB(const DKVector3& aabbMin, const DKVector3& aabbMax, const DKMatrix4& tm, const DKColor& color, const DKBlendState& blend = DKBlendState::defaultOpaque) const;
@@ -185,7 +178,7 @@ namespace DKFramework
 		};
 		void RenderScene(const DKScene*, const DKCamera& camera, int sceneIndex, bool enableCulling = true, RenderSceneCallback* sc = NULL) const;
 
-		// 기타
+		// drawing text with font.
 		void RenderText(const DKRect& bounds, const DKMatrix3& transform, const DKFoundation::DKString& text, const DKFont* font, const DKColor& color, const DKBlendState& blend = DKBlendState::defaultAlpha) const;
 		void RenderText(const DKPoint& baselineBegin, const DKPoint& baselineEnd, const DKFoundation::DKString& text, const DKFont* font, const DKColor& color, const DKBlendState& blend = DKBlendState::defaultAlpha) const;
 
@@ -196,7 +189,7 @@ namespace DKFramework
 		DKRect											contentBounds;
 		DKRect											viewport;
 		DKMatrix3										contentTM;
-		DKMatrix3										screenTM;		// 2D 스크린 좌표계용 TM
+		DKMatrix3										screenTM;  // for 2d scene
 
 		struct
 		{

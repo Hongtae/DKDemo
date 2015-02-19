@@ -1,9 +1,8 @@
 ﻿//
 //  File: DKActionController.h
-//  Encoding: UTF-8 ☃
 //  Author: Hongtae Kim (tiff2766@gmail.com)
 //
-//  Copyright (c) 2004-2014 ICONDB.COM. All rights reserved.
+//  Copyright (c) 2004-2014 Hongtae Kim. All rights reserved.
 //
 
 #pragma once
@@ -12,14 +11,12 @@
 #include "DKModel.h"
 
 ////////////////////////////////////////////////////////////////////////////////
-//
 // DKActionController
+// Abstract class, Action control node class inherited from DKModel.
+// Useful for dynamics control of DKDynamicsScene. (called by DKDynamicsScene)
 //
-// DKModel (DKCollisionObject) 에 물리적 특성을 부여한다.
-// DKDynamicsScene 에서만 사용할 수 있다.
-//
-// Note: 개별 객체의 애니메이션은 DKAnimationController 를 사용할것
-//
+// Note:
+//    Use DKAnimationController for individual node animation.
 ////////////////////////////////////////////////////////////////////////////////
 
 namespace DKFramework

@@ -1,9 +1,8 @@
 //
 //  File: DKLinearTransform2.h
-//  Encoding: UTF-8 ☃
 //  Author: Hongtae Kim (tiff2766@gmail.com)
 //
-//  Copyright (c) 2004-2014 ICONDB.COM. All rights reserved.
+//  Copyright (c) 2004-2014 Hongtae Kim. All rights reserved.
 //
 
 #pragma once
@@ -13,9 +12,8 @@
 #include "DKMatrix3.h"
 
 ////////////////////////////////////////////////////////////////////////////////
-//
 // DKLinearTransform2
-//
+// 2x2 matrix for linear transform on 2 dimensional coordinates.
 ////////////////////////////////////////////////////////////////////////////////
 
 namespace DKFramework
@@ -33,7 +31,6 @@ namespace DKFramework
 		bool IsIdentity(void) const;
 		bool IsDiagonal(void) const;
 
-		// 트랜스폼 연산
 		DKLinearTransform2& HorizontalShear(float s);
 		DKLinearTransform2& VerticalShear(float s);
 		DKLinearTransform2& HorizontalFlip(void);
@@ -43,7 +40,7 @@ namespace DKFramework
 		DKLinearTransform2& Scale(float x, float y);
 		DKLinearTransform2& Scale(float s);
 		DKLinearTransform2& Rotate(float angle);
-		// 행렬 연산
+
 		DKLinearTransform2& Inverse(void);
 		DKLinearTransform2& Multiply(const DKMatrix2& t);
 		DKLinearTransform2& Multiply(const DKLinearTransform2& t);

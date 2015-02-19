@@ -1,9 +1,8 @@
 //
 //  File: DKStringW.h
-//  Encoding: UTF-8 ☃
 //  Author: Hongtae Kim (tiff2766@gmail.com)
 //
-//  Copyright (c) 2004-2014 ICONDB.COM. All rights reserved.
+//  Copyright (c) 2004-2014 Hongtae Kim. All rights reserved.
 //
 
 #pragma once
@@ -15,13 +14,10 @@
 #include "DKStringUE.h"
 
 ////////////////////////////////////////////////////////////////////////////////
-//
 // DKStringW
-//
-// 유니코드는 시스템의 DKUniCharW(wchar_t) 를 사용하게 되고
-// 유니코드가 아닐 경우 멀티바이트는 처리하지 않는다.!! CP367 (ASCII) 만 사용가능하다.
-// 예외로 다른 로케일로 인코딩 된 경우엔 유니코드로 인코딩 가능하다.
-//
+// a unicode string class with wchar_t character string.
+// UTF-8, CP367 (ISO-8859, ASCII) are available also.
+// (but convert and store with wchar_t string internally.)
 ////////////////////////////////////////////////////////////////////////////////
 
 namespace DKFoundation
@@ -37,7 +33,8 @@ namespace DKFoundation
 		typedef DKArray<DKStringW, DKDummyLock> StringArray;
 
 		static const DKStringW& EmptyString();
-		static DKStringEncoding SystemEncoding(void);		// DKUniCharW* 인코딩
+		// DKUniCharW encoding with endianness.
+		static DKStringEncoding SystemEncoding(void);
 
 		// DKStringW class
 		DKStringW(void);
@@ -51,8 +48,13 @@ namespace DKFoundation
 		~DKStringW(void);
 
 		DKObject<DKData> Encode(DKStringEncoding e) const;
-		static DKStringW Format(const DKUniChar8* fmt, ...);		// (char=%s, wchar_t=%ls), CP367 (ASCII) ONLY!! (대문자S 사용금지)
-		static DKStringW Format(const DKUniCharW* fmt, ...);		// %ls 로 유니코드만 사용해야한다. 멀티바이트는 vc 와 gcc 가 서로 다르므로 사용하지 말자
+		// formatting string.
+		// for wchar_t format string, there is some restriction described below.
+		// '%s' is utf-8, cp367, iso-8859 only. For DKStringU8, should be cast of 'const char*'.
+		// '%ls' is wchar_t only. For DKStringW, should be cast of 'const wchar_t*).
+		// Don't use '%S' (Uppercase S), gcc, msvc does not produces same result.
+		static DKStringW Format(const DKUniChar8* fmt, ...);
+		static DKStringW Format(const DKUniCharW* fmt, ...);
 		static DKStringW FormatV(const DKUniChar8* fmt, va_list v);
 		static DKStringW FormatV(const DKUniCharW* fmt, va_list v);
 
@@ -65,9 +67,10 @@ namespace DKFoundation
 		long FindWhitespaceCharacter(long begin = 0) const;
 		long FindAnyCharactersInSet(const CharacterSet& cs, long begin = 0) const;
 
-		DKStringW Right(long index) const;				// index 를 기준으로 오른쪽꺼 복사
-		DKStringW Left(size_t count) const;				// 0 ~ nCount 까지 복사
-		DKStringW Mid(long index, size_t count) const;	// index 부터 count 만큼 복사
+		DKStringW Right(long index) const;  // copy right-side from index.
+		DKStringW Left(size_t count) const; // copy 'count' length characters from beginning.
+		DKStringW Mid(long index, size_t count) const; // copy 'count' length characters from index.
+
 		DKStringW LowercaseString(void) const;
 		DKStringW UppercaseString(void) const;
 				
@@ -87,19 +90,22 @@ namespace DKFoundation
 		DKStringW& RemovePrefix(const DKStringW& str);
 		DKStringW& RemoveSuffix(const DKStringW& str);
 
-		// 디렉토리 경로 관련
+		// file system path string.
+		// convert path separator charactor ('\\' on win32, '/' on Unix)
 		DKStringW FilePathString(void) const;
 		DKStringW FilePathStringByAppendingPath(const DKStringW& path) const;
 		DKStringW LastPathComponent(void) const;
 		StringArray PathComponents(void) const;
 
-		// 공백 관련
+		// whitespaces
 		bool IsWhitespaceCharacterAtIndex(long index) const;
-		DKStringW& TrimWhitespaces(void);									// 스트링 앞뒤의 공백 제거 (공백과 escape sequences들 제거함)
-		DKStringW& RemoveWhitespaces(long begin = 0, long count = -1);		// 공백 제거 (공백과 escape sequence 들만 제거함)
+		// trim whitespaces (with escape sequences) both side of beginning, ending.
+		DKStringW& TrimWhitespaces(void);
+		// remove whitespaces (with escape sequences) for all sequences in range.
+		DKStringW& RemoveWhitespaces(long begin = 0, long count = -1);
 
 		// append, set
-		DKStringW& Append(const DKStringW& str);			// 스트링 더함
+		DKStringW& Append(const DKStringW& str);
 		DKStringW& Append(const DKUniCharW* str, size_t len = (size_t)-1);
 		DKStringW& Append(const DKUniChar8* str, size_t len = (size_t)-1);
 		DKStringW& Append(const void* str, size_t bytes, DKStringEncoding e);
@@ -145,7 +151,7 @@ namespace DKFoundation
 		bool operator != (const DKStringW& str) const			{return Compare(str) != 0;}
 		bool operator != (const DKUniCharW* str) const			{return Compare(str) != 0;}
 
-		// 숫자형 타입으로 변환
+		// convert numeric values.
 		long long ToInteger(void) const;
 		unsigned long long ToUnsignedInteger(void) const;
 		double ToRealNumber(void) const;
@@ -154,7 +160,7 @@ namespace DKFoundation
 		UnsignedIntegerArray ToUnsignedIntegerArray(const DKStringW& delimiter, bool ignoreEmptyString = false) const;
 		RealNumberArray ToRealNumberArray(const DKStringW& delimiter, bool ignoreEmptyString = false) const;
 
-		// 스트링 쪼개기
+		// split string into sub-string array. (StringArray)
 		StringArray Split(const DKStringW& delimiter, bool ignoreEmptyString = false) const;
 		StringArray SplitByCharactersInSet(const CharacterSet& cs, bool ignoreEmptyString = false) const;
 		StringArray SplitByWhitespace(void) const;

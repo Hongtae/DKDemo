@@ -1,9 +1,8 @@
 //
 //  File: DKVariant.h
-//  Encoding: UTF-8 ☃
 //  Author: Hongtae Kim (tiff2766@gmail.com)
 //
-//  Copyright (c) 2004-2014 ICONDB.COM. All rights reserved.
+//  Copyright (c) 2004-2014 Hongtae Kim. All rights reserved.
 //
 
 #pragma once
@@ -18,22 +17,27 @@
 #include "DKQuaternion.h"
 
 ////////////////////////////////////////////////////////////////////////////////
-//
 // DKVariant
+// a variant class.
+// an object can have following types.
+//   - Integer (int64)
+//   - Float (double)
+//   - Vector2 (DKVector2)
+//   - Vector3 (DKVector3)
+//   - Vector4 (DKVector4)
+//   - Matrix2 (DKMatrix2)
+//   - Matrix3 (DKMatrix3)
+//   - Matrix4 (DKMatrix4)
+//   - Quaternion (DKQuaternion)
+//   - Rational (DKRational)
+//   - String (DKString)
+//   - DateTime (DKDateTime)
+//   - Data (DKBuffer)
+//   - Array (DKArray<DKVariant>)
+//   - Pairs (DKMap<DKString, DKVariant>)
+//   - Undefined (no value, initial type)
 //
-// 객체에 여러가지 형식의 값을 넣을 수 있다.
-// Integer, Float, Vector2, Vector3, Vector4, Matrix2, Matrix3, Matrix4, Quaternion,
-// String, Array, Map
-//
-// 기본 생성자로 생성된 객체는 형식이 지정되지 않은 상태로 생성이 된다.
-// 처음 값을 넣은 형식으로 지정되며, 형식을 바꾸려면 SetValueType() 을 호출하여 바꿔줘야 한다.
-//
-// SetValue 등의 Set 함수로 값을 넣으면 형식이 변경된다.
-//
-// Array 와 Map(key:DKString, value:DKVariant) 로 사용 가능함.
-//
-// 데이터를 XML 로 저장하거나 읽어들일 수 있다.
-//
+// DKVariant object can be serialized with XML or binary.
 ////////////////////////////////////////////////////////////////////////////////
 
 
@@ -105,11 +109,11 @@ namespace DKFramework
 		DKVariant& SetValueType(Type t);
 		Type ValueType(void) const;
 
-		// XML 입출력
+		// XML input/output
 		DKFoundation::DKObject<DKFoundation::DKXMLElement> ExportXML(void) const;
 		bool ImportXML(const DKFoundation::DKXMLElement* e);
 
-		// Binary-stream 입출력
+		// Binary-stream input/output
 		bool ExportStream(DKFoundation::DKStream* stream) const;
 		bool ImportStream(DKFoundation::DKStream* stream);
 
@@ -169,11 +173,12 @@ namespace DKFramework
 		bool IsEqual(const DKVariant& v) const;
 
 	private:
-		template <int minSize> struct VBlock		// minSize 와 void* 중 큰걸로 선택함
+		// data block size chosen from biggest value of minSize, sizeof(void*)
+		template <int minSize> struct VBlock
 		{
 			enum {Size = (sizeof(void*) > minSize) ? sizeof(void*) : minSize};
 		};
-		unsigned char vblock[VBlock<16>::Size];		// 기본 크기, 기본크기를 넘어서는 형식은 새로 할당됨.
+		unsigned char vblock[VBlock<16>::Size]; // minSize is 16, vblock will be greater or equal to 16.
 		Type valueType;
 	};
 }

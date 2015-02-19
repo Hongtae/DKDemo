@@ -1,9 +1,8 @@
 //
 //  File: DKCollisionShape.h
-//  Encoding: UTF-8 ☃
 //  Author: Hongtae Kim (tiff2766@gmail.com)
 //
-//  Copyright (c) 2012-2014 ICONDB.COM. All rights reserved.
+//  Copyright (c) 2012-2014 Hongtae Kim. All rights reserved.
 //
 
 #pragma once
@@ -20,16 +19,14 @@
 #include "DKSphere.h"
 
 ////////////////////////////////////////////////////////////////////////////////
-//
 // DKCollisionShape
+// collision shape class.
+// object has no position. calculates with origin as local object.
 //
-// 충돌 처리 도형 (collision-shape)
-//
-// 객체는 별도의 좌표를 가지지 않으며 모두 원점을 기준으로 위치한다.
-//
-// 리소스의 Serialize/Deserialize 는 객체내에서 직접 하지 않고, 내부의 SerializeHelper 를 이용한다.
-// DKCollisionShape (를 상속받는) 객체들은 한번 생성하면 수정할수 없으므로 Serialize 할수 없음.
-//
+// Note:
+//    Using SerializeHelper nested class for serialize, deserialize.
+//    because of this class is not modifiable once it has been created.
+//    This applied for all subclasses.
 ////////////////////////////////////////////////////////////////////////////////
 
 namespace DKFramework
@@ -74,7 +71,7 @@ namespace DKFramework
 
 		void AABB(const DKNSTransform& transform, DKVector3& aabbMin, DKVector3& aabbMax) const;
 
-		void SetMargin(float m);
+		void SetMargin(float m);  // collision margin.
 		float Margin(void) const;
 
 		void SetLocalScale(const DKVector3& s);

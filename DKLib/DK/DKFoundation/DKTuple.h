@@ -1,9 +1,8 @@
 //
 //  File: DKTuple.h
-//  Encoding: UTF-8 ☃
 //  Author: Hongtae Kim (tiff2766@gmail.com)
 //
-//  Copyright (c) 2004-2014 ICONDB.COM. All rights reserved.
+//  Copyright (c) 2004-2014 Hongtae Kim. All rights reserved.
 //
 
 #pragma once
@@ -13,28 +12,33 @@
 #include "DKTypeTraits.h"
 
 ////////////////////////////////////////////////////////////////////////////////
-//
 // DKTuple
+// A tuple template class.
+// Tuple can contains various types and values.
 //
-// 튜플 객체
+// Example:
+//  - create object and set values.
+//     DKTuple<int, float, const char*> myTuple;
+//     myTuple.SetValue<0>(2, 3.14f, "tuple");
 //
-// 예제:
-// 1. 객체 생성후 값 입력
-//   DKTuple<int, float, const char*> myTuple;
-//   myTuple.SetValue<0>(2, 3.14f, "tuple");
+//  - set values individually.
+//     DKTuple<int, float, const char*> myTuple;
+//     myTuple.SetValue<0>(2);
+//     myTuple.SetValue<1>(3.14f);
+//     myTuple.SetValue<2>("tuple");
 //
-// 1.a 하나씩 별개로 사용도 가능하다.
-//   myTuple.SetValue<0>(2);
-//   myTuple.SetValue<1>(3.14f);
-//   myTuple.SetValue<2>("tuple");
+//  - using DKTupleMake helper function.
+//     auto myTuple = DKTupleMake(2, 3.14f, "tuple");
 //
-// 2. DKTupleMake 사용
-//   auto myTuple = DKTupleMake(2, 3.14f, "tuple");
+//  - use tuple class constructor.
+//     DKTuple<int, float, const char*> myTuple(DKTupleValueSet(), 2, 3.14f, "tuple");
 //
-// 3. 생성자 사용
-//   DKTuple<int, float, const char*> myTuple(DKTupleValueSet(), 2, 3.14f, "tuple");
+//     (You must specify DKTupleValueSet() as first argument,
+//      it is dummy object but required for overloaded constructor
+//      which makes compiler able to distinguish constructer
+//      with variadic-initial-values from other constructors.)
 //
-// 값을 꺼낼때
+//  - retrieve value from tuple.
 //   int n = myTuple.Value<0>();
 //   float f = myTuple.Value<1>();
 //   const char* str = myTuple.Value<2>();
@@ -43,11 +47,11 @@
 
 namespace DKFoundation
 {
-	////////////////////////////////////////////////////////////////////////////////
-	// 실제 값들이 저장되는 유닛 (레퍼런스는 포인터 형태로 저장된다)
+	// DKTupleUnit: a class which can store value for specified template type.
+	// Note: References are stored as pointers.
 	template <typename T> struct DKTupleUnit
 	{
-		using ValueType =	typename DKTypeTraits<T>::UnqualifiedType;
+		using ValueType = typename DKTypeTraits<T>::UnqualifiedType;
 		using RefType = T&;
 		using CRefType = const T&;
 
@@ -153,11 +157,14 @@ namespace DKFoundation
 		}
 	};
 
+	// DKTupleValueSet: a dummy type for overloaded constructor.
+	// Required for overloaded function with variadic templates.
 	struct DKTupleValueSet {};
 	template <typename... Types> class DKTuple
 	{
-		// DKTupleUnit 을 포함하는 데이터 유닛 객체 (각각의 타입은 인덱스로 구별함)
-		// 객체 하나가 모든 타입을 포함해야 한다 (상속)
+		// a data unit object that includes single DKTupleUnit.
+		// each types can be recognized with index.
+		// one object should contains all types with inheritance.
 		template <size_t Level, typename... Ts> struct DataUnitHierarchy
 		: public DataUnitHierarchy<Level-1, Ts...>
 		{
@@ -171,8 +178,9 @@ namespace DKFoundation
 			DataUnitHierarchy(void) {}
 			DataUnitHierarchy(const DataUnitHierarchy& d) : Super(d), unit(d.unit) {}
 			DataUnitHierarchy(DataUnitHierarchy&& d) : Super(static_cast<Super&&>(d)), unit(static_cast<TupleUnit&&>(d.unit)) {}
-			// 값을 직접 생성자로 넘겨주려면 첫번째 인자에 DKTupleValueSet 를 넘겨줘야 한다.
-			// (매개변수가 임의의 형식이므로 다른 생성자와 다르게 오버로딩 해야함)
+
+			// Use DKTupleValueSet dummy object as first argument
+			// to use variadic templates for constructor.
 			template <typename V, typename... Vs>
 			DataUnitHierarchy(const DKTupleValueSet& tv, V&& v1, Vs&&... vs) : Super(tv, std::forward<Vs>(vs)...), unit(std::forward<V>(v1)) {}
 			DataUnitHierarchy(const DKTupleValueSet&) {}
@@ -191,12 +199,12 @@ namespace DKFoundation
 			}
 			TupleUnit unit;
 		};
-		template <typename... Ts> struct DataUnitHierarchy<0, Ts...> // 최상위 객체
+		template <typename... Ts> struct DataUnitHierarchy<0, Ts...> // top-level object.
 		{
 			DataUnitHierarchy(void)						{}
 			DataUnitHierarchy(const DKTupleValueSet&)	{}
 		};
-		// Index 로 접근 가능한 타입
+		// a type, could be recognized by index.
 		template <size_t Index> using DataUnitAtIndex = DataUnitHierarchy<sizeof...(Types) - Index, Types...>;
 		using DataUnitType = DataUnitHierarchy<sizeof...(Types), Types...>;
 
@@ -246,8 +254,11 @@ namespace DKFoundation
 		DKTuple(void) {}
 		DKTuple(const DKTuple& t) : dataUnits(t.dataUnits) {}
 		DKTuple(DKTuple&& t) : dataUnits(static_cast<DataUnitType&&>(t.dataUnits)) {}
-		// 임의의 값을 세팅하려면 DKTupleValueSet 매개변수를 사용하여야 한다.
-		// 매개변수가 임의의 형식이므로 DKTupleValueSet 을 이용하여 오버로드 해야한다.
+
+		// You should pass DKTupleValueSet object as first argument to use
+		// initial values in constructor.
+		// It makes compiler can distinguish overloaded constructor with
+		// variadic-templates from other constructors.
 		template <typename... Ts> DKTuple(const DKTupleValueSet& tv, Ts&&... vs) : dataUnits(tv, std::forward<Ts>(vs)...)
 		{
 			static_assert(sizeof...(Ts) <= Length, "Invalid arguments");

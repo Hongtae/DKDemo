@@ -1,13 +1,17 @@
 //
 //  File: DKPlane.h
-//  Encoding: UTF-8 ☃
 //  Author: Hongtae Kim (tiff2766@gmail.com)
 //
-//  Copyright (c) 2004-2014 ICONDB.COM. All rights reserved.
+//  Copyright (c) 2004-2014 Hongtae Kim. All rights reserved.
 //
 
 #pragma once
 #include "../DKInclude.h"
+
+////////////////////////////////////////////////////////////////////////////////
+// DKPlane
+// a plane object. useful to calculate collision detection.
+////////////////////////////////////////////////////////////////////////////////
 
 namespace DKFramework
 {
@@ -17,12 +21,13 @@ namespace DKFramework
 	class DKLIB_API DKPlane
 	{
 	public:
-		DKPlane(void);
-		DKPlane(const DKVector3& v1, const DKVector3& v2, const DKVector3& v3);		// 삼각형으로부터 평면 구함
-		DKPlane(const DKVector3& n, const DKVector3& p);							// 한 점과 노멀벡터 로부터 평면 구함
+		DKPlane(void);  // 0, 0, 0, 0
+		DKPlane(const DKVector3& v1, const DKVector3& v2, const DKVector3& v3); // plane from triangle
+		DKPlane(const DKVector3& n, const DKVector3& p);						// plane from normal, point
 		~DKPlane(void);
 
-		float Dot(const DKVector3& v) const;					// 한 점과 평면과의 거리 (0 보다 작으면 평면 아래에 있음)
+		// distance between one point to plane. (dot < 0 located behind the plane)
+		float Dot(const DKVector3& v) const;
 		float Dot(const DKVector4& v) const;
 
 		DKVector3 Normal(void) const;

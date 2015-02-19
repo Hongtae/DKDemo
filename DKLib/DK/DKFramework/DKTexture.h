@@ -1,9 +1,8 @@
 //
 //  File: DKTexture.h
-//  Encoding: UTF-8 ☃
 //  Author: Hongtae Kim (tiff2766@gmail.com)
 //
-//  Copyright (c) 2004-2014 ICONDB.COM. All rights reserved.
+//  Copyright (c) 2004-2014 Hongtae Kim. All rights reserved.
 //
 
 #pragma once
@@ -16,6 +15,11 @@
 #include "DKVector3.h"
 
 #define DKL_IS_POWER_OF_TWO(v)		((v & (v-1)) == 0)
+
+////////////////////////////////////////////////////////////////////////////////
+// DKTexture
+// OpenGL texture interface.
+////////////////////////////////////////////////////////////////////////////////
 
 namespace DKFramework
 {
@@ -54,7 +58,7 @@ namespace DKFramework
 			TypeDouble,
 		};
 
-		DKTexture(void);				// 더미 생성용
+		DKTexture(void);
 		virtual ~DKTexture(void);
 
 		virtual void Bind(void) const;
@@ -68,8 +72,8 @@ namespace DKFramework
 		int			Depth(void) const				{return depth;}
 		size_t		NumberOfComponents(void) const	{return components;}
 
-		DKSize		Resolution(void) const;			// 2D 텍스쳐 해상도 (width x height)
-		DKVector3	Dimensions(void) const;			// 2D,3D 텍스쳐 픽셀수 (width x height x depth)
+		DKSize		Resolution(void) const; // 2d resolution (width x height)
+		DKVector3	Dimensions(void) const; // 3d pixel volume (width x height x depth)
 		size_t		BytesPerPixel(void) const;
 
 		// DKResource::Validate() override
@@ -90,7 +94,7 @@ namespace DKFramework
 
 		int				width;
 		int				height;
-		int				depth;		// 3D 텍스쳐의 깊이값, 그외(Cube 포함) 텍스쳐는 1임
+		int				depth;  // depth of 3d texture, otherwise 1. (2d,cube is 1)
 		size_t			components;
 		Format			format;
 		Type			type;

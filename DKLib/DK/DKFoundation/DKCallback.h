@@ -1,9 +1,8 @@
 //
 //  File: DKCallback.h
-//  Encoding: UTF-8 ☃
 //  Author: Hongtae Kim (tiff2766@gmail.com)
 //
-//  Copyright (c) 2004-2014 ICONDB.COM. All rights reserved.
+//  Copyright (c) 2004-2014 Hongtae Kim. All rights reserved.
 //
 
 #pragma once
@@ -17,15 +16,15 @@
 #include "DKCriticalSection.h"
 
 ////////////////////////////////////////////////////////////////////////////////
-//
 // DKCallback
+// enabling Group-Invocations by using DKFunctionSignature, DKRunLoop objects.
 //
-// DKFunctionSignature 와 DKRunLoop 를 이용하여 단체로 Invocation 을 보냄.
-// RunLoop 를 명시하지 않으면 바로 호출한다.
+// Note:
+//  If you don't specify runloop (DKRunLoop), then invocation will be called directly.
+//  DKCallback's template argument 'Function' must be a function type.
+//   (same as DKFunctionSignature's argument types)
+//   ex:  DKCallback<int (int), void*> (function-type, context-type)
 //
-// DKCallback 의 template Function 인자는 함수 타입이어야 한다.
-// (DKFunctionSignautre 와 같은 형식이야 한다.)
-// 예: DKCallback<int (int), void*, DKSpinLock>
 ////////////////////////////////////////////////////////////////////////////////
 
 namespace DKFoundation

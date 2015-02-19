@@ -1,9 +1,8 @@
 //
 //  File: DKAudioListener.h
-//  Encoding: UTF-8 ☃
 //  Author: Hongtae Kim (tiff2766@gmail.com)
 //
-//  Copyright (c) 2004-2014 ICONDB.COM. All rights reserved.
+//  Copyright (c) 2004-2014 Hongtae Kim. All rights reserved.
 //
 
 #pragma once
@@ -16,11 +15,11 @@
 #include "DKMatrix4.h"
 
 ////////////////////////////////////////////////////////////////////////////////
-//
 // DKAudioListener
+// controls audio listener environment.
 //
-// 오디오 환경 제어
-//
+// To get shared instance, call DKAudioListener::SharedInstance().
+// You can create one or more instances, but they share same environment.
 ////////////////////////////////////////////////////////////////////////////////
 
 namespace DKFramework

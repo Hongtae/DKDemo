@@ -1,49 +1,47 @@
 //
 //  File: DKCondition.h
-//  Encoding: UTF-8 ☃
 //  Author: Hongtae Kim (tiff2766@gmail.com)
 //
-//  Copyright (c) 2004-2014 ICONDB.COM. All rights reserved.
+//  Copyright (c) 2004-2014 Hongtae Kim. All rights reserved.
 //
 
 #pragma once
 #include "../DKInclude.h"
 
 ////////////////////////////////////////////////////////////////////////////////
-//
 // DKCondition
+// condition object (pthread_cond)
+// can be used in multi-threaded,
+// threads can communicate with this object by generating signal.
 //
-// 쓰레드 동기화에 사용되며, 한 쓰레드에서 시그널을 넣어서 다른 쓰레드를 깨울 수 있다.
-// 사용할때 항상 Lock() 을 호출하여 객체를 잠근후에 사용이 끝나면 Unlock() 을 호출하여 잠금을 해제해야 한다.
-// (참고: Wait(), WaitTimeout() 을 호출하면 락이 풀리며 함수가 리턴될때 다시 락이 잠긴다.)
+// You should call Lock() before using, Unlock() when done.
+// Wait(), WaitTimeout() invocation will unlock temporary, re-lock when returns.
 //
-// 쓰레드1:
-// cond.Lock();
-// value = false;	// 다른 쓰레드와 공유되는 값을 수정함
-// cond.Signal();	// 다른 쓰레드 언락
-// cond.Unlock();	// cond 언락. 이후 다른 쓰레드가 깨어난다.
+// Example:
+//  // thread #1
+//  cond.Lock();    // lock before access value directly.
+//  value = false;  // modify value which is shared between multiple-threads.
+//  cond.Signal();  // nodify value has been changed to other thread.
+//  cond.Unlock();  // done
 //
-// 쓰레드2:
-// cond.Lock();		// 락을 건다
-// while ( value )
-//    cond.Wait();	// cond 가 Signal 상태가 될때까지 기다린다. (다른 스레드에서 c 를 설정함)
-// 기타 작업..
-// cond.Unlock();	// 락을 푼다
+//  // thread#2 using Wait() function.
+//  cond.Lock();
+//  while ( value )
+//      cond.Wait();  // wait until value become to 'true'.
+//  // do-something.. value is true.
+//  cond.Unlock();  // done!
 //
-// 타임아웃 사용방법
-// cond.Lock();		// 락을 건다
-// if (cond.WaitTimeout(3.0))	// 3초간 기다림
-// {
-//		// 시그널 상태.. 
-// }
-// else
-// {
-//		// 타임아웃 (시그널 상태 아님)
-// }
-// cond.Unlock();	// 락을 푼다.
-//
-// 주의: Lock 을 건 쓰레드에서만 Unlock 해야한다!
-//
+//  // thread#3 using WaitTimeOut() function.
+//  cond.Lock();
+//  if (cond.WaitTimeout(3.0))  // wait for 3 secs
+//  {
+//      // signal-state, check value
+//  }
+//  else
+//  {
+//      // time-out! do something.. thread still locked.
+//  }
+//  cond.Unlock();  // done!
 ////////////////////////////////////////////////////////////////////////////////
 
 namespace DKFoundation
@@ -54,18 +52,28 @@ namespace DKFoundation
 		DKCondition(void);
 		~DKCondition(void);
 		
-		void Wait(void) const;					// Signal 상태가 될때까지 무기한 기다린다.
-		bool WaitTimeout(double t) const;		// Signal 상태가 될때까지 t 초동안 기다린다. (signal 상태면 true 리턴)
+		// wait until signal
+		void Wait(void) const;
+
+		// wait until signal or timed-out
+		// return true if signal state else return false (timed-out)
+		bool WaitTimeout(double t) const;
+
+		// generate signal, wake other thread.
 		void Signal(void) const;
+		// broadcasting signal, wake all threads in order.
 		void Broadcast(void) const;
-		
+
+		// lock context
 		void Lock(void) const;
+		// try lock context, return true if lock succeeded.
 		bool TryLock(void) const;
 		void Unlock(void) const;
 
 	private:
-		DKCondition(const DKCondition&);					// 복사를 막기 위해 private 로 선언
-		DKCondition& operator = (const DKCondition&);		// 복사를 막기 위해 private 로 선언
+		// copy constructor not allowed.
+		DKCondition(const DKCondition&);
+		DKCondition& operator = (const DKCondition&);
 		void* impl;
 	};
 }

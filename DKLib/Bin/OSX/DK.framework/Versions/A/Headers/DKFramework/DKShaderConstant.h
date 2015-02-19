@@ -1,9 +1,8 @@
 //
 //  File: DKShaderConstant.h
-//  Encoding: UTF-8 ☃
 //  Author: Hongtae Kim (tiff2766@gmail.com)
 //
-//  Copyright (c) 2006-2014 ICONDB.COM. All rights reserved.
+//  Copyright (c) 2006-2014 Hongtae Kim. All rights reserved.
 //
 
 #pragma once
@@ -12,14 +11,11 @@
 
 
 ////////////////////////////////////////////////////////////////////////////////
-//
 // DKSahderConstant
-//
-// 쉐이더 상수를 정의함.
-//
-// 기본 상수는 전체 scene 에 적용이 되며, 각각의 개별 모델의 데이터(재질,색상 등)은
-// UniformUserDefine 형식으로 각각의 모델에 따로 정의한다.
-//
+// predefined shader constant (uniform)
+// predefined value will be applied to entire scene. each model or material
+// can be overriden.
+// You can use UniformUserDefined type for your custom value.
 ////////////////////////////////////////////////////////////////////////////////
 
 namespace DKFramework
@@ -29,31 +25,31 @@ namespace DKFramework
 		enum Uniform : unsigned char
 		{
 			UniformUnknown = 0,								// error
-			UniformModelMatrix,								// float4x4	(월드 변환 행렬)
-			UniformModelMatrixInverse,						// float4x4	(월드 변환 역행렬)
-			UniformViewMatrix,								// float4x4	(뷰 변환 행렬, 배열 불가능)
-			UniformViewMatrixInverse,						// float4x4	(뷰 변환 역행렬, 배열 불가능)
-			UniformProjectionMatrix,						// float4x4	(프로젝션 행렬, 배열 불가능)
-			UniformProjectionMatrixInverse,					// float4x4	(프로젝션 역행렬, 배열 불가능)
-			UniformViewProjectionMatrix,					// float4x4	(뷰 프로젝션 행렬, 배열 불가능)
-			UniformViewProjectionMatrixInverse,				// float4x4	(뷰 프로젝션 역행렬, 배열 불가능)
-			UniformModelViewMatrix,							// float4x4	(월드 뷰 변환 행렬)
-			UniformModelViewMatrixInverse,					// float4x4	(월드 뷰 변환 역행렬)
-			UniformModelViewProjectionMatrix,				// float4x4	(월드 뷰 프로젝션 변환 행렬)
-			UniformModelViewProjectionMatrixInverse,		// float4x4	(월드 뷰 프로젝션 변환 역행렬)
-			UniformLinearTransformArray,					// float3x3	(리니어 트랜스폼 배열, 스키닝 또는 인스턴싱에 쓰임)
-			UniformAffineTransformArray,					// float4x4	(아핀 트랜스폼 배열, 스키닝 또는 인스턴싱에 쓰임)
-			UniformPositionArray,							// float3	(포지션 배열, 스키닝 또는 인스턴싱에 쓰임)
-			UniformTexture2D,								// uint1	(Texture2D 바인딩 상수)
-			UniformTexture3D,								// uint1	(Texture3D 바인딩 상수)
-			UniformTextureCube,								// uint1	(TextureCube 바인딩 상수)
-			UniformDirectionalLightColor,					// float3	(방향성 조명 색상)
-			UniformDirectionalLightDirection,				// float3	(방향성 조명 방향)
-			UniformPointLightColor,							// float3	(방사성 조명 색상)
-			UniformPointLightPosition,						// float3	(방사성 조명 위치)
-			UniformPointLightAttenuation,					// float3	(방사성 조명 상쇠효과 상수 x=const, y=linear, z=quadratic)
-			UniformAmbientColor,							// float3	(환경 색상, r,g,b)
-			UniformCameraPosition,							// float3	(카메라 위치, 배열 불가능)
+			UniformModelMatrix,								// float4x4	
+			UniformModelMatrixInverse,						// float4x4	
+			UniformViewMatrix,								// float4x4	
+			UniformViewMatrixInverse,						// float4x4	
+			UniformProjectionMatrix,						// float4x4	
+			UniformProjectionMatrixInverse,					// float4x4	
+			UniformViewProjectionMatrix,					// float4x4	
+			UniformViewProjectionMatrixInverse,				// float4x4	
+			UniformModelViewMatrix,							// float4x4	
+			UniformModelViewMatrixInverse,					// float4x4	
+			UniformModelViewProjectionMatrix,				// float4x4	
+			UniformModelViewProjectionMatrixInverse,		// float4x4	
+			UniformLinearTransformArray,					// float3x3	
+			UniformAffineTransformArray,					// float4x4	
+			UniformPositionArray,							// float3	
+			UniformTexture2D,								// uint1	
+			UniformTexture3D,								// uint1	
+			UniformTextureCube,								// uint1	
+			UniformDirectionalLightColor,					// float3	
+			UniformDirectionalLightDirection,				// float3	
+			UniformPointLightColor,							// float3	
+			UniformPointLightPosition,						// float3
+			UniformPointLightAttenuation,					// float3	(x=const, y=linear, z=quadratic)
+			UniformAmbientColor,							// float3
+			UniformCameraPosition,							// float3
 			UniformUserDefine,								// user define
 			UniformMax,
 		};
@@ -88,11 +84,11 @@ namespace DKFramework
 			BaseTypeSampler,
 		};
 
-		DKFoundation::DKString	name;			// 상수 이름
-		Uniform 				id;				// 형식
-		Type					type;			// 변수 타입
-		size_t					components;		// 전체 개수
-		int						location;		// 프로그램 내 바인딩 위치
+		DKFoundation::DKString	name;			// value name (should be matched with defined on code)
+		Uniform 				id;				// Uniform id
+		Type					type;			// value type
+		size_t					components;		// value components
+		int						location;		// binding location of program module
 
 		static inline BaseType GetBaseType(Type t)
 		{

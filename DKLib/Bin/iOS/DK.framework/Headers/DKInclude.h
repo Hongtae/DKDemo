@@ -1,9 +1,8 @@
 //
 //  File: DKInclude.h
-//  Encoding: UTF-8 ☃
 //  Author: Hongtae Kim (tiff2766@gmail.com)
 //
-//  Copyright (c) 2004-2014 ICONDB.COM. All rights reserved.
+//  Copyright (c) 2004-2014 Hongtae Kim. All rights reserved.
 //
 
 #pragma once
@@ -147,20 +146,8 @@
 #error "You should define DKLIB_STATIC or DKLIB_DYNAMIC"
 #endif
 
-
-// 임시 변수명 생성 매크로
-#define _DKLIB_VAR_CAT(a,b)			a##b
-#define _DKLIB_VAR_NAME_C2(a,b)		_DKLIB_VAR_CAT(a,b)
-#define _DKLIB_VAR_NAME_C3(a,b,c)		_DKLIB_VAR_NAME_C2(_DKLIB_VAR_CAT(a,b),c)
-#define _DKLIB_VAR_NAME_C4(a,b,c,d)	_DKLIB_VAR_NAME_C2(_DKLIB_VAR_NAME_C3(a,b,c),d)
-#define DKLIB_TMP_VAR_NAME(n)			_DKLIB_VAR_NAME_C4(n, __COUNTER__, _, __LINE__)	// 예: _tmp123_4567 로 생성함.
-
-// 멤버 오프셋
-#define MEMBER_OFFSET(structName, memberName)		((size_t)&((structName*)NULL)->memberName)
-
-////////////////////////////////////////////////////////////////////////////////
-// 바이트 오더 관련 매크로
-////////////////////////////////////////////////////////////////////////////////
+// Macros for byte order conversion.
+// byte order should be defined, It will be verified at run-time.
 #if !defined(__LITTLE_ENDIAN__) && !defined(__BIG_ENDIAN__)
 	#if defined(_M_X64) || defined(_M_IX86) || defined(__i386__)
 		#define __LITTLE_ENDIAN__	1
@@ -172,13 +159,11 @@
 #endif
 
 ////////////////////////////////////////////////////////////////////////////////
-// 오류에 대한 매크로 (DKError), C++ 전용
-////////////////////////////////////////////////////////////////////////////////
+// useful templates (C++ only)
 #ifdef __cplusplus
 
 namespace DKFoundation
 {
-	////////////////////////////////////////////////////////////////////////////////
 	// Min, Max, Clamp
 	template <typename T> inline T Max(T lhs, T rhs)			{return (lhs > rhs) ? lhs : rhs;}
 	template <typename T> inline T Min(T lhs, T rhs)			{return (lhs < rhs) ? lhs : rhs;}
@@ -188,8 +173,7 @@ namespace DKFoundation
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-// 오류에 대한 매크로 (DKError), C++ 전용
-////////////////////////////////////////////////////////////////////////////////
+// Macros for error, exception (DKError), C++ only.
 
 #if			defined(_WIN32)
 #define DKLIB_FUNCTION_NAME		__FUNCTION__
@@ -216,7 +200,7 @@ namespace DKFoundation
 #endif	// #ifdef __cplusplus
 
 ////////////////////////////////////////////////////////////////////////////////
-// 프레임웍 정보
+// DK framework info
 #ifdef __cplusplus
 extern "C" {
 #endif

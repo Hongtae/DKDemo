@@ -1,9 +1,8 @@
 ﻿//
 //  File: DKGeneric6DofSpringConstraint.h
-//  Encoding: UTF-8 ☃
 //  Author: Hongtae Kim (tiff2766@gmail.com)
 //
-//  Copyright (c) 2012-2014 ICONDB.COM. All rights reserved.
+//  Copyright (c) 2012-2014 Hongtae Kim. All rights reserved.
 //
 
 #pragma once
@@ -11,9 +10,9 @@
 #include "DKGeneric6DofConstraint.h"
 
 ////////////////////////////////////////////////////////////////////////////////
-//
-// DKGeneric6DofConstraint
-// 
+// DKGeneric6DofSpringConstraint
+// generic 6 dof constraint with spring motors for any axis.
+// (see DKGeneric6DofConstraint.h)
 ////////////////////////////////////////////////////////////////////////////////
 
 namespace DKFramework
@@ -21,7 +20,7 @@ namespace DKFramework
 	class DKLIB_API DKGeneric6DofSpringConstraint : public DKGeneric6DofConstraint
 	{
 	public:
-		// DKNSTransform 은 해당 객체(DKRigidBody) 상의 로컬 트랜스폼이다.
+		// DKNSTransform is rigid body's local transform.
 		DKGeneric6DofSpringConstraint(DKRigidBody* bodyA, DKRigidBody* bodyB, const DKNSTransform& frameA, const DKNSTransform& frameB);
 		DKGeneric6DofSpringConstraint(DKRigidBody* bodyB, const DKNSTransform& frameB);
 		DKGeneric6DofSpringConstraint(void);

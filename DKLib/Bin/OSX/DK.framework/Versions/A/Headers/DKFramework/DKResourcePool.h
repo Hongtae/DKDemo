@@ -1,9 +1,8 @@
 //
 //  File: DKResourcePool.h
-//  Encoding: UTF-8 ☃
 //  Author: Hongtae Kim (tiff2766@gmail.com)
 //
-//  Copyright (c) 2004-2014 ICONDB.COM. All rights reserved.
+//  Copyright (c) 2004-2014 Hongtae Kim. All rights reserved.
 //
 
 #pragma once
@@ -17,38 +16,42 @@
 #endif
 
 ////////////////////////////////////////////////////////////////////////////////
-//
 // DKResourcePool
+// Loads resources which used by DKFramework.
+// You set your paths for file located, you can also set path as zip file's
+// content by calling AddSearchPath().
+// A locator that can find destination file from system directory or specified
+// zip file content. You can use your custom locator to locating your data also.
+// Subclass DKResourcePool::Locator and call DKResourcePool::AddLocator().
 //
-// DKFramework 에서 사용되는 리소스들을 로딩하고 관리하게 된다.
-// 리소스 디렉토리는 DKDirectory 와 DKZipUnarchiver 로 추가가 된다.
-// 리소스를 읽는 방식은 해당 디렉토리의 루트에 있으면 파일명을 넘기며
-// url 를 사용하면 네트워크로 읽어올 수 있다. 또는 디렉토리명을 명시하여 하위 디렉토리도 가져올 수 있다.
+// You can open file content without restore object. this can be useful to
+// handling raw-data. To load data into memory, call LoadResourceData().
+// To open file(or anything locator can locating) call OpenResourceStream().
 //
-// 주의 1:
-// LoadResource(DKString&) 함수는 실제 프레임워크 객체를 읽어오지만
-// LoadResourceData(DKString&) 함수를 호출하면 버퍼만 읽어들인다. (DKData 형태로 보관한다)
-// 주의 2:
-// 데이터를 보관할 필요가 없는것은 OpenResourceStream 으로 읽어야 한다.
+// You can control how object allocated by setting Allocator with
+// DKResourcePool::SetAllocator() function. you can use default allocator or
+// your own custom allocator.
 //
-// 리소스는 DKResource 객체이며, DKResource 객체가 아닌것은 LoadResourceData 로 읽음.
-//
-// SetMemoryLocation 함수를 사용하여 힙 또는 가상메모리 영역에 메모리를 할당할 수 있다.
-//
-// 예:
+// example:
 //  DKResourcePool pool;
-//  pool.AddSearchPath("/data/dir");                    /data/dir 디렉토리 추가
-//  pool.AddSearchPath("/data/dir/file.zip");           file.zip 추가
-//  pool.AddSearchPath("/data/dir/file.zip/prefix");	file.zip 의 prefix 포함
+//  pool.AddSearchPath("/data/dir");                 // add search path of '/data/dir'
+//  pool.AddSearchPath("/data/dir/file.zip");        // add search path of 'file.zip'
+//  pool.AddSearchPath("/data/dir/file.zip/prefix"); // add search path of 'file.zip/prefix*'
 //
-//  pool.LoadResource("MyFile.dat");      MyFile.dat 파일 로딩.
+//  pool.LoadResource("MyFile.dat");   // load 'MyFile.data' and restore object.
+//  pool.LoadResourceData("MyFile.dat"); // load 'MyFile.data' data only.
+//
 ////////////////////////////////////////////////////////////////////////////////
+
 
 namespace DKFramework
 {
 	class DKLIB_API DKResourcePool : public DKResourceLoader
 	{
 	public:
+		// Locator
+		// interface for file or content locating.
+		// You need to subclass to use your custom locator.
 		struct Locator
 		{
 			virtual ~Locator(void) {}
@@ -71,26 +74,39 @@ namespace DKFramework
 			return AddLocatorForPath(path) != NULL;
 		}
 
-		DKFoundation::DKObject<DKResource> FindResource(const DKFoundation::DKString& name) const;		// 풀에서 리소스 찾기
+		// find resource object from pool. (previous loaded)
+		DKFoundation::DKObject<DKResource> FindResource(const DKFoundation::DKString& name) const;
+		// find resource data from pool. (previous loaded)
 		DKFoundation::DKObject<DKFoundation::DKData> FindResourceData(const DKFoundation::DKString& name) const;
-		DKFoundation::DKObject<DKResource> LoadResource(const DKFoundation::DKString& name);			// 리소스를 읽어온다
+		// load resource object. recycles if object loaded already.
+		DKFoundation::DKObject<DKResource> LoadResource(const DKFoundation::DKString& name);
+		// load resource data. recycles if data loaded already.
 		DKFoundation::DKObject<DKFoundation::DKData> LoadResourceData(const DKFoundation::DKString& name, bool mapFileIfPossible = true);
 
-		void AddResource(const DKFoundation::DKString& name, DKResource* res);					// 리소스 추가
-		void AddResourceData(const DKFoundation::DKString& name, DKFoundation::DKData* data);	// 데이터 추가
-		void RemoveResource(const DKFoundation::DKString& name);								// 리소스 제거
+		// insert resource object into pool.
+		void AddResource(const DKFoundation::DKString& name, DKResource* res);
+		// insert resource data into pool.
+		void AddResourceData(const DKFoundation::DKString& name, DKFoundation::DKData* data);
+		// remove resource object from pool.
+		void RemoveResource(const DKFoundation::DKString& name);
+		// remove resource data from pool.
 		void RemoveResourceData(const DKFoundation::DKString& name);
-		void RemoveAllResourceData(void);									// 캐쉬된 데이터 제거
-		void RemoveAllResources(void);										// 캐쉬된 리소스 제거
+		// remove all resource data from pool.
+		void RemoveAllResourceData(void);
+		// remove all resource objects from pool.
+		void RemoveAllResources(void);
+		// remove everything in pool.
 		void RemoveAll(void);
 
-		DKFoundation::DKString ResourceFilePath(const DKFoundation::DKString& name) const;								// 리소스 디렉토리에서 파일 검색 (디렉토리만 가능)
-		DKFoundation::DKObject<DKFoundation::DKStream> OpenResourceStream(const DKFoundation::DKString& name) const;	// 리소스 찾아서 스트림으로 연다
+		// return absolute file path string, if specified file are exists in file-system directory.
+		DKFoundation::DKString ResourceFilePath(const DKFoundation::DKString& name) const;
+		// open resource as stream.
+		DKFoundation::DKObject<DKFoundation::DKStream> OpenResourceStream(const DKFoundation::DKString& name) const;
 
 		DKFoundation::DKObject<DKResourcePool> Clone(void) const;
 
-		void SetAllocator(DKFoundation::DKMemoryLocation loc);	// 기본 할당자 사용
-		void SetAllocator(DKFoundation::DKAllocator* alloc);	// 기본 할당자 또는 사용자 정의 사용
+		void SetAllocator(DKFoundation::DKMemoryLocation loc);
+		void SetAllocator(DKFoundation::DKAllocator* alloc);
 		DKFoundation::DKAllocator& Allocator(void) const;
 
 	private:

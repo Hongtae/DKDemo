@@ -1,9 +1,8 @@
 //
 //  File: DKThread.h
-//  Encoding: UTF-8 ☃
 //  Author: Hongtae Kim (tiff2766@gmail.com)
 //
-//  Copyright (c) 2004-2014 ICONDB.COM. All rights reserved.
+//  Copyright (c) 2004-2014 Hongtae Kim. All rights reserved.
 //
 
 #pragma once
@@ -12,12 +11,10 @@
 #include "DKOperation.h"
 
 ////////////////////////////////////////////////////////////////////////////////
-//
 // DKThread
-//
-// 새 쓰레드를 생성하고 DKOperation 을 실행한다.
-// DKThread::Create 을 통해서 객체를 얻을수 있으며, 얻은 객체의 소유권을 포기해도 객체는 남아있다.
-//
+// creating new thread with DKOperation.
+// becouse thread runs parallel, thread ownership will be shared with caller and callee.
+// If you abandon ownership of thread, thread will be detached automatically.
 ////////////////////////////////////////////////////////////////////////////////
 
 namespace DKFoundation
@@ -27,17 +24,29 @@ namespace DKFoundation
 	public:
 		typedef unsigned long ThreadId;
 
+		// waiting for join.
 		void WaitTerminate(void) const;
+		// get thread-id (system thread-id)
+		// GetCurrentThreadId() for Win32, pthread_self() for pthread.
 		ThreadId Id(void) const;
+		// determines thread is running(or sleeping).
 		bool IsAlive(void) const;
 
+		// find thread specified by id.
 		static DKObject<DKThread> FindThread(ThreadId id);
+		// get current thread as DKThread object.
 		static DKObject<DKThread> CurrentThread(void);
-		static ThreadId CurrentThreadId(void);		// 현재 쓰레드 ID 가져오기
-		static void Yield(void);					// CPU우선권 양보
-		static void Sleep(double d);				// 현재 쓰레드 재우기
+		// get current thread-id
+		static ThreadId CurrentThreadId(void);
+		// yeild CPU
+		static void Yield(void);
+		// sleep current thread.
+		static void Sleep(double d);
 
+		// create new thread with DKOperation and run.
 		static DKObject<DKThread> Create(const DKOperation* op);
+
+		// a constant of invalid-thread id.
 		static const ThreadId invalidId;
 
 	private:

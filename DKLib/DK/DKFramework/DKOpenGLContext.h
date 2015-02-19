@@ -1,9 +1,8 @@
 //
 //  File: DKOpenGLContext.h
-//  Encoding: UTF-8 ☃
 //  Author: Hongtae Kim (tiff2766@gmail.com)
 //
-//  Copyright (c) 2004-2014 ICONDB.COM. All rights reserved.
+//  Copyright (c) 2004-2014 Hongtae Kim. All rights reserved.
 //
 
 #pragma once
@@ -11,6 +10,11 @@
 #include "../DKFoundation.h"
 #include "DKWindow.h"
 #include "DKRenderState.h"
+
+////////////////////////////////////////////////////////////////////////////////
+// DKOpenGLContext
+// OpenGL context (OpenGL, OpenGL ES)
+////////////////////////////////////////////////////////////////////////////////
 
 namespace DKFramework
 {
@@ -42,20 +46,21 @@ namespace DKFramework
 		~DKOpenGLContext(void);
 
 		bool IsBound(void) const;
-		void Bind(const DKWindow* window = NULL) const;	// 쓰레드 바인딩
-		void Unbind(void) const;						// 쓰레드 언바인딩
+		void Bind(const DKWindow* window = NULL) const;	// bind current thread to this context.
+		void Unbind(void) const;						// unbind
 
-		void Flush(void) const;							// glFlush 및 디버깅 체크
-		void Finish(void) const;						// glFinish 및 디버깅 체크
-		void Present(void) const;						// 버퍼 스왑
-		void Update(void) const;						// 뷰 상태 갱신
+		void Flush(void) const;		// glFlush, error check on debug mode.
+		void Finish(void) const;	// glFinish, error check on debug mode.
+		void Present(void) const;	// swap buffer.
+		void Update(void) const;	// update view. (of window)
 
 		bool GetSwapInterval(void) const;
 		void SetSwapInterval(bool interval) const;
 
 		static DKRenderState& RenderState(void);
 
-		unsigned int FramebufferId(void) const;			// 현재 바인딩 된 윈도우의 프레임 버퍼 id
+		// framebuffer(FBO) id for current bound window.
+		unsigned int FramebufferId(void) const;
 		
 	private:
 		friend class DKFoundation::DKObject<DKOpenGLContext>;
@@ -67,6 +72,6 @@ namespace DKFramework
 		typedef DKFoundation::DKMap<DKFoundation::DKThread::ThreadId, DKFoundation::DKObject<DKRenderState>> RenderStateMap;
 		static RenderStateMap stateMap;
 		static DKFoundation::DKSpinLock stateLock;
-		DKOpenGLInterface* impl;	// 플랫폼 별로 구현된 컨텍스트
+		DKOpenGLInterface* impl; // core-interface
 	};
 }

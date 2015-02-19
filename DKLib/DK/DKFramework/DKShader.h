@@ -1,9 +1,8 @@
 //
 //  File: DKShader.h
-//  Encoding: UTF-8 ☃
 //  Author: Hongtae Kim (tiff2766@gmail.com)
 //
-//  Copyright (c) 2006-2014 ICONDB.COM. All rights reserved.
+//  Copyright (c) 2006-2014 Hongtae Kim. All rights reserved.
 //
 
 #pragma once
@@ -11,13 +10,11 @@
 #include "../DKFoundation.h"
 
 ////////////////////////////////////////////////////////////////////////////////
-//
 // DKShader
-//
-// GLSL 데이터를 받아서 컴파일 하는 객체.
-// 하나의 쉐이더가 하나의 객체가 되며, DKShaderProgram 을 통하여, 여러개의 쉐이더가
-// 하나의 모듈로 합쳐지고 렌더링시 DCU 로 전송된다.
-//
+// GLSL shader code object, can be compiled with OpenGL compiler.
+// each shader object can be compiled to one object, multiple objects can
+// be linked as shader-program module. (see DKShaderProgram.h)
+// a shader program module can be transferred to GPU when bind to context.
 ////////////////////////////////////////////////////////////////////////////////
 
 namespace DKFramework
@@ -30,7 +27,7 @@ namespace DKFramework
 			TypeUnknown = 0,
 			TypeVertexShader,
 			TypeFragmentShader,
-			TypeGeometryShader,
+			TypeGeometryShader, // not supported in OpenGL ES
 		};
 
 		DKShader(void);
@@ -41,7 +38,7 @@ namespace DKFramework
 		bool IsValid(void) const;
 		Type GetType(void) const;
 
-		// 일반 쉐이더 객체 생성
+		// compile and create shader object from source.
 		static DKFoundation::DKObject<DKShader> Create(const DKFoundation::DKString& source, Type t);
 		static DKFoundation::DKObject<DKShader> Create(const DKFoundation::DKString& source, Type t, DKFoundation::DKString& err);
 

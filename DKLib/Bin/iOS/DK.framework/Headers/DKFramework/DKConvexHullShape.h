@@ -1,9 +1,8 @@
 ﻿//
 //  File: DKConvexHullShape.h
-//  Encoding: UTF-8 ☃
 //  Author: Hongtae Kim (tiff2766@gmail.com)
 //
-//  Copyright (c) 2012-2014 ICONDB.COM. All rights reserved.
+//  Copyright (c) 2012-2014 Hongtae Kim. All rights reserved.
 //
 
 #pragma once
@@ -12,6 +11,13 @@
 #include "DKMatrix4.h"
 #include "DKQuaternion.h"
 #include "DKPolyhedralConvexShape.h"
+
+////////////////////////////////////////////////////////////////////////////////
+// DKConvexHullShape
+//  convex hull collision shape.
+//  You can create convex hull by points or
+//  convex decomposition from triangle mesh.
+////////////////////////////////////////////////////////////////////////////////
 
 namespace DKFramework
 {
@@ -27,6 +33,8 @@ namespace DKFramework
 		DKVector3 PointAtIndex(unsigned int index) const;
 		DKVector3 ScaledPointAtIndex(unsigned int index) const;
 
+		// create convex-hull using HACD convex decomposition library.
+		// more info: https://code.google.com/p/v-hacd/
 		static DKFoundation::DKObject<DKConvexHullShape> CreateHull(const DKTriangle* tri, size_t num);
 
 		struct ConvexHull

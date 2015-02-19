@@ -1,9 +1,8 @@
 //
 //  File: DKRunLoopTimer.h
-//  Encoding: UTF-8 ☃
 //  Author: Hongtae Kim (tiff2766@gmail.com)
 //
-//  Copyright (c) 2004-2014 ICONDB.COM. All rights reserved.
+//  Copyright (c) 2004-2014 Hongtae Kim. All rights reserved.
 //
 
 #pragma once
@@ -15,11 +14,8 @@
 #include "DKTimer.h"
 
 ////////////////////////////////////////////////////////////////////////////////
-//
 // DKRunLoopTimer
-//
-// DKRunLoop 에 타이머를 설치하여, 주기적으로 operation 을 반복 실행할수 있도록 한다.
-// 시스템에 따라서 미세한 오차가 있을 수 있다.
+// Installs scheduled repetition of operation with interval into RunLoop.
 //
 ////////////////////////////////////////////////////////////////////////////////
 

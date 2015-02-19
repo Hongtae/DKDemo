@@ -1,35 +1,49 @@
 //
 //  File: DKApplication.h
-//  Encoding: UTF-8 ☃
 //  Author: Hongtae Kim (tiff2766@gmail.com)
 //
-//  Copyright (c) 2004-2014 ICONDB.COM. All rights reserved.
+//  Copyright (c) 2004-2014 Hongtae Kim. All rights reserved.
 //
 
 #pragma once
 #include "../DKInclude.h"
 #include "../DKFoundation.h"
-#include "DKWindow.h"
-#include "DKScreen.h"
-#include "DKMatrix3.h"
+#include "DKRect.h"
 
 ////////////////////////////////////////////////////////////////////////////////
-//
 // DKApplication
+// This is application entry point class.
+// You can use this class for creating application one-sourced, cross-platform.
+// You need subclass of this class to override application behaviors.
+// You can have multiple instances of this class, but only one instance can run,
+// other instances will be blocked until previous instance has finished run.
+// This class provides retrieving process environments information.
 //
-// 내부적으로 DKWindow 와 DKScreen 을 생성하고 초기화 한다.
-// 이 객체를 사용하는것은 필수는 아니지만 크로스 플랫폼 환경을 맞춰주기 때문에 이 객체를 사용하는것을 추천함.
-// 이 클래스를 사용하지 않으려면 DKWindow 와 DKScreen 을 직접 생성하고 초기화 해줘야 한다.
-//
-// 이 객체는 응용프로그램 프로세스 관련 이벤트만 핸들링 한다.
+// Subclass note:
+// 1. Override OnInitialize(). this is called when application to be
+//    initialized. You may need create single or multiple window(s)
+//    (as DKWindow), and screen (DKScreen) objects to attached into a window.
+//    One screen instance per one. But this is optional.
+//    You don't have to create windows, screens if your application does not
+//    need window to display. (ie console application).
+//    Whether your application has window or not, an application will have
+//    main loop (RunLoop) and looping till Terminate() has called.
+// 2. Override OnTerminate(). this is called when application terminated by
+//    calling Terminate(). Your cleanup operations must be here.
+//    (destory windows, destroy screens, closing files, etc.)
 //
 // Note:
-// 이 객체는 하나의 App 에서는 단 하나의 인스턴스만 가질 수 있다.
-// 프록시 윈도우를 사용하는 어플리케이션의 경우엔 이 클래스를 사용할 수 없다. (wxWidgets, MFC 등)
+//   Using this class is optional. You can initialize window, screen at any
+//   time. If your application runs with other UI tools, and you want to
+//   use DKLib together, you can create proxy window with created from other UI
+//   tools, and you can create and attach screen into that window.
 //
-// Application 인스턴스 종료 (DKApplication::Terminate)
-// 기본적으로 Terminate 함수는 이 인스턴스의 RunLoop 를 종료하지만,
-// iOS 버전에서는 프로세스가 종료된다.
+//   On some platforms (OS X, iOS includes) a window object should be created
+//   on main thread.
+//
+//   On iOS, calling Terminate() will terminate current process and will not
+//   escape into entry function(main). But other desktop OSes does not.
+//
 ////////////////////////////////////////////////////////////////////////////////
 
 #ifdef GetUserName
@@ -46,16 +60,16 @@ namespace DKFramework
 	public:
 		enum SystemPath
 		{
-			SystemPathSystemRoot = 0,		// 시스템 루트 (윈도우즈는 부트 볼륨)
-			SystemPathAppRoot,				// 실행파일의 루트 디렉토리
-			SystemPathAppResource,			// 응용프로그램의 리소스 디렉토리
-			SystemPathAppExecutable,		// 실행파일이 있는 디렉토리
-			SystemPathAppData,				// 응용프로그램의 데이터 폴더 (공통)
-			SystemPathUserHome,				// 해당 유저의 홈 폴더
-			SystemPathUserDocuments,		// 해당 유저의 문서폴더
-			SystemPathUserPreferences,		// 해당 유저의 설정 폴더 (세팅 파일 저장용)
-			SystemPathUserCache,			// 해당 유저의 캐시 폴더
-			SystemPathUserTemp,				// 해당 유저의 임시 폴더
+			SystemPathSystemRoot = 0,  // system root. (boot volume on Windows)
+			SystemPathAppRoot,         // root directory of executable.
+			SystemPathAppResource,     // application resource directory.
+			SystemPathAppExecutable,   // directory path where executable is.
+			SystemPathAppData,         // application's data directory.
+			SystemPathUserHome,        // home directory path for current user.
+			SystemPathUserDocuments,   // user's document directory.
+			SystemPathUserPreferences, // user's preferences(config) directory.
+			SystemPathUserCache,       // user's cache directory.
+			SystemPathUserTemp,        // temporary directory for current user.
 		};
 
 
@@ -65,43 +79,52 @@ namespace DKFramework
 
 		void SetArgs(int argc, char* argv[]);
 
-		// 어플리케이션 메인 루프
+		// running application's main loop.
+		// only one instance can enter main loop.
 		int Run();
-		// 인스턴스
+
+		// get DKApplication instance which is running.
 		static DKApplication* Instance(void);
-		// 어플리케이션 종료
+
+		// Terminate main loop.
 		void Terminate(int exitCode);
-		// 미리 정의된 경로 가져오기
+
+		// retrieve pre-defined paths
 		DKFoundation::DKString EnvironmentPath(SystemPath);
-		// 실행파일 경로 가져오기
+
+		// retrieve current module (or executable) path.
 		DKFoundation::DKString ModulePath(void);
 
-		// 어플리케이션 헬퍼 함수들
-		DKFoundation::DKObject<DKFoundation::DKData> LoadResource(const DKFoundation::DKString& res, DKFoundation::DKAllocator& alloc = DKFoundation::DKAllocator::DefaultAllocator());		// read-writable
-		DKFoundation::DKObject<DKFoundation::DKData> LoadStaticResource(const DKFoundation::DKString& res);	// read-only
+		// LoadResource loads application resource into read,writable buffer.
+		DKFoundation::DKObject<DKFoundation::DKData> LoadResource(const DKFoundation::DKString& res, DKFoundation::DKAllocator& alloc = DKFoundation::DKAllocator::DefaultAllocator());
+		// LoadStaticResource loads application resource into read-only buffer. (faster)
+		DKFoundation::DKObject<DKFoundation::DKData> LoadStaticResource(const DKFoundation::DKString& res);
 
-		DKRect DisplayBounds(int displayId) const;			// 시스템 모니터의 해상도 가져온다. (참고용으로만 써야한다)
-		DKRect ScreenContentBounds(int displayId) const;	// 윈도우 프레임이 표시될 수 있는 영역을 가져온다. (아이폰의 경우 이 크기로 생성하면 된다)
+		// get entire display bounds. (displayId = 0 is main screen)
+		DKRect DisplayBounds(int displayId) const;
+		// get displayable content bounds. (avaialbe for window frame)
+		// On iOS, android, you can create window with this rect for full-screen app.
+		DKRect ScreenContentBounds(int displayId) const;
 
-		// 어플리케이션 속성 함수들
+		// misc (user name, host name, os name)
 		DKFoundation::DKString HostName(void) const;
 		DKFoundation::DKString OSName(void) const;
 		DKFoundation::DKString UserName(void) const;
 
 	protected:
-		virtual void OnHidden(void);					// 응용프로그램이 hide 되었다. (minimized 가 아님)
-		virtual void OnRestore(void);					// 응용프로그램이 restore 되었다.
-		virtual void OnActivated(void);					// 응용프로그램이 activated 되었다.
-		virtual void OnDeactivated(void);				// 응용프로그램이 deactivated 되었다.
-		virtual void OnInitialize(void);				// 응용프로그램이 초기화 되었다.
-		virtual void OnTerminate(void);					// 응용프로그램이 종료되어야 한다.
+		virtual void OnHidden(void);        // application become hidden. (not minimized)
+		virtual void OnRestore(void);       // application has restored.
+		virtual void OnActivated(void);     // application has activated.
+		virtual void OnDeactivated(void);   // application has deactivated.
+		virtual void OnInitialize(void);    // application being initialized. (entering RunLoop)
+		virtual void OnTerminate(void);     // application being terminated. (exiting RunLoop)
 
 	private:
 		void Initialize();
 		void Finalize();
 		DKFoundation::DKDateTime			initializedAt;
 		DKFoundation::DKArray<char*>		args;
-		DKFoundation::DKMutex				mutex;		// 중복 실행을 막기 위한 뮤텍스 (Run 은 중복실행되면 안된다)
+		DKFoundation::DKMutex				mutex;
 		DKApplicationInterface*				impl;
 	};
 }

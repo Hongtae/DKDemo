@@ -1,9 +1,8 @@
 //
 //  File: DKVertexBuffer.h
-//  Encoding: UTF-8 ☃
 //  Author: Hongtae Kim (tiff2766@gmail.com)
 //
-//  Copyright (c) 2004-2014 ICONDB.COM. All rights reserved.
+//  Copyright (c) 2004-2014 Hongtae Kim. All rights reserved.
 //
 
 #pragma once
@@ -12,17 +11,25 @@
 #include "DKGeometryBuffer.h"
 #include "DKVertexStream.h"
 
+////////////////////////////////////////////////////////////////////////////////
+// DKVertexBuffer
+// vertex buffer object.
+// You need to declare vertex stream type before use. (DKVertexBuffer::Decl)
+// Vertex stream type is defined in DKVertexStream. (see DKVertexStream.h)
+// Once you declare your vertex stream types, declarations will not be modified.
+////////////////////////////////////////////////////////////////////////////////
+
 namespace DKFramework
 {
 	class DKLIB_API DKVertexBuffer : public DKGeometryBuffer
 	{
 	public:
-		struct Decl
+		struct Decl  // Vertex stream declaration.
 		{
 			DKVertexStream::Stream	id;
-			DKFoundation::DKString	name;		// id = user-defined 일때 사용됨
+			DKFoundation::DKString	name;  // used if id is DKVertexStream::StreamUserDefine.
 			DKVertexStream::Type	type;
-			bool					normalize;	// 정수형 데이터를 실수형으로 변환할때 0.0~1.0 (unsigned) 또는 -1.0~1.0 (signed) 으로 변경한다
+			bool					normalize;  // normalize integer to float. (0.0~1.0 for unsigned, -1.0~1.0 for signed)
 			size_t					offset;
 		};
 
@@ -37,9 +44,9 @@ namespace DKFramework
 		}
 
 		const Decl* DeclarationAtIndex(long index) const;
-		const Decl* Declaration(DKVertexStream::Stream stream) const;			// StreamUserDefine 이 아닌것들 
-		const Decl* Declaration(const DKFoundation::DKString& name) const;		// StreamUserDefine 인것중에 이름이 같은것들
-		const Decl* Declaration(DKVertexStream::Stream stream, const DKFoundation::DKString& name) const;	// name 은 stream 이 DKVertexStream::StreamUserDefine 일때만 사용됨
+		const Decl* Declaration(DKVertexStream::Stream stream) const;       // find by id, not for DKVertexStream::StreamUserDefine
+		const Decl* Declaration(const DKFoundation::DKString& name) const;	// find by name, for DKVertexStream::StreamUserDefine only.
+		const Decl* Declaration(DKVertexStream::Stream stream, const DKFoundation::DKString& name) const; // find by id or name
 
 		size_t NumberOfDeclarations(void) const;
 		size_t VertexSize(void) const;
@@ -60,11 +67,11 @@ namespace DKFramework
 		typedef DKFoundation::DKMap<DKVertexStream::Stream, const Decl*> DeclMapById;
 		typedef DKFoundation::DKMap<DKFoundation::DKString, const Decl*> DeclMapByName;
 
-		DeclMapById declMapByStreamId;		// 검색용 맵
+		DeclMapById declMapByStreamId;
 		DeclMapByName declMapByStreamName;
 
 		DKFoundation::DKArray<Decl>			declarations;
-		size_t								vertexCount;		// 버텍스 전체 갯수
-		size_t								vertexSize;			// 버텍스 한개 크기
+		size_t								vertexCount;   // number of vertices
+		size_t								vertexSize;    // size of one vertex
 	};
 }

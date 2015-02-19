@@ -1,9 +1,8 @@
 ﻿//
 //  File: DKStaticMesh.h
-//  Encoding: UTF-8 ☃
 //  Author: Hongtae Kim (tiff2766@gmail.com)
 //
-//  Copyright (c) 2004-2014 ICONDB.COM. All rights reserved.
+//  Copyright (c) 2004-2014 Hongtae Kim. All rights reserved.
 //
 
 #pragma once
@@ -14,9 +13,16 @@
 #include "DKIndexBuffer.h"
 
 ////////////////////////////////////////////////////////////////////////////////
-//
 // DKStaticMesh
+// a mesh object which have static-buffer data
+// this class can have multiple vertex buffers.
+// and buffers can be separated or interleaved.
 //
+// Note:
+//    On OpenGL ES, following features are not available.
+//      - copy buffer data from buffer.
+//      - make separated or interleaved.
+//      - modify stream
 ////////////////////////////////////////////////////////////////////////////////
 
 namespace DKFramework
@@ -44,7 +50,7 @@ namespace DKFramework
 		DKIndexBuffer* IndexBuffer(void);
 		const DKIndexBuffer* IndexBuffer(void) const;
 
-		// 스트림 관련.
+		// stream
 		virtual const StreamInfo* FindVertexStream(DKVertexStream::Stream stream) const;
 		virtual const StreamInfo* FindVertexStream(const DKFoundation::DKString& name) const;
 		virtual const StreamInfo* FindVertexStream(DKVertexStream::Stream stream, const DKFoundation::DKString& name) const;
@@ -68,7 +74,7 @@ namespace DKFramework
 
 		typedef DKFoundation::DKMap<DKVertexStream::Stream, StreamInfo> StreamIdMap;		// predefined-stream id
 		typedef DKFoundation::DKMap<DKFoundation::DKString, StreamInfo> StreamNameMap;		// user-defined stream
-		StreamIdMap		streamIdMap;		// 빠른 검색용
+		StreamIdMap		streamIdMap;		// for fast search
 		StreamNameMap	streamNameMap;
 
 		DKFoundation::DKArray<DKFoundation::DKObject<DKVertexBuffer>>	vertexBuffers;

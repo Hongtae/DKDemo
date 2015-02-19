@@ -1,9 +1,8 @@
 //
 //  File: DKOperationQueue.h
-//  Encoding: UTF-8 ☃
 //  Author: Hongtae Kim (tiff2766@gmail.com)
 //
-//  Copyright (c) 2004-2014 ICONDB.COM. All rights reserved.
+//  Copyright (c) 2004-2014 Hongtae Kim. All rights reserved.
 //
 
 #pragma once
@@ -15,11 +14,9 @@
 #include "DKSpinLock.h"
 
 ////////////////////////////////////////////////////////////////////////////////
-//
 // DKOperationQueue
-//
-// 멀티쓰레딩으로 DKOperation 을 처리한다.
-//
+// processing operations with multi-threaded.
+// this class manages thread pool automatically.
 ////////////////////////////////////////////////////////////////////////////////
 
 namespace DKFoundation
@@ -65,9 +62,9 @@ namespace DKFoundation
 
 		void Post(DKOperation* operation);
 		DKObject<OperationSync> ProcessAsync(DKOperation* operation);
-		bool Process(DKOperation* operation);	// 실행 완료될때까지 기다림
-		void CancelAllOperations(void);			// 모든 작업 취소
-		void WaitForCompletion(void) const;		// 작업이 모두 완료되기를 기다림
+		bool Process(DKOperation* operation);	// wait until done.
+		void CancelAllOperations(void);			// cancel all operations.
+		void WaitForCompletion(void) const;		// wait until all operations are done.
 
 		size_t QueueLength(void) const;
 		size_t RunningOperations(void) const;
@@ -82,9 +79,9 @@ namespace DKFoundation
 		typedef DKQueue<Operation, DKDummyLock> OperationQueue;
 		OperationQueue operationQueue;
 		size_t maxConcurrentOperations;
-		size_t threadCount;			// 가용 쓰레드
-		size_t maxThreadCount;		// 최대 쓰레드
-		size_t activeThreads;		// 현재 작업중
+		size_t threadCount;			// available threads count
+		size_t maxThreadCount;		// maximum threads count
+		size_t activeThreads;		// working threads count
 		DKCondition threadCond;
 		DKObject<ThreadFilter> filter;
 

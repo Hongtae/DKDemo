@@ -1,20 +1,20 @@
 //
 //  File: DKAudioStream.h
-//  Encoding: UTF-8 ☃
 //  Author: Hongtae Kim (tiff2766@gmail.com)
 //
-//  Copyright (c) 2004-2014 ICONDB.COM. All rights reserved.
+//  Copyright (c) 2004-2014 Hongtae Kim. All rights reserved.
 //
 
 #pragma once
 #include "../DKFoundation.h"
 
 ////////////////////////////////////////////////////////////////////////////////
-//
 // DKAudioStream
-// 
-// 오디오 데이터를 디코딩 하는 객체, 디코딩하여 PCM 스트림으로 만든다.
+// An abstract class, interface for decode to PCM stream.
+// You need to subclass to provde your own formatted stream.
 //
+// Note:
+//   ogg-flac, ogg-vorbis, flac, wav(PCM) are supported currently.
 ////////////////////////////////////////////////////////////////////////////////
 
 namespace DKFramework
@@ -38,30 +38,28 @@ namespace DKFramework
 		DKAudioStream(FileType t);
 		virtual ~DKAudioStream(void);
 
-		// 미디어 정보
-		bool IsSeekable(void) const				{return seekable;}		// 미디어가 검색이 가능한지..
-		unsigned int Frequency(void) const		{return frequency;}		// 비트레이트
-		unsigned int Channels(void) const		{return channels;}		// 사운드 채널 수
-		unsigned int Bits(void) const			{return bits;}			// 16비트여야 된다.
+		// media info.
+		bool IsSeekable(void) const				{return seekable;}
+		unsigned int Frequency(void) const		{return frequency;} // bitrate
+		unsigned int Channels(void) const		{return channels;}  // audio channels
+		unsigned int Bits(void) const			{return bits;}      // format bits
 		FileType MediaType(void) const			{return type;}
 
 		////////////////////////////////////////////////////////////////////////////////
-		// 오버라이드 하여 사용하는 함수
-		// 데이터 디코딩
+		// following functions should be overridden for decoding.
 		virtual size_t Read(void*, size_t) = 0;
-		// 미디어 검색 위치
-		virtual Position SeekRaw(Position) = 0;			// 파일 위치로 검색
-		virtual Position SeekPcm(Position) = 0;			// PCM 위치로 검색
-		virtual double SeekTime(double) = 0;			// 시간으로 검색
-		// 미디어 재생 위치
-		virtual Position RawPos(void) const = 0;		// raw 파일 위치 리턴 (현재 파일상의 위치)
-		virtual Position PcmPos(void) const = 0;		// 현재 pcm 위치 리턴 (사이즈가 매우크다)
-		virtual double TimePos(void) const = 0;			// 초 단위로 리턴
-		// 미디어 길이
-		virtual Position RawTotal(void) const = 0;		// 전체 크기 (실제 파일크기)
-		virtual Position PcmTotal(void) const = 0;		// 전체 크기 (pcm 바이트 크기)
-		virtual double TimeTotal(void) const = 0;		// 전체 크기 (플레이 시간)
-		////////////////////////////////////////////////////////////////////////////////
+		// seeking media position (file, pcm, time)
+		virtual Position SeekRaw(Position) = 0; // seek by stream pos
+		virtual Position SeekPcm(Position) = 0; // seek by PCM
+		virtual double SeekTime(double) = 0;    // seek by time
+		// get media position
+		virtual Position RawPos(void) const = 0; // stream position
+		virtual Position PcmPos(void) const = 0; // PCM position (big size)
+		virtual double TimePos(void) const = 0;  // time position
+		// get media length
+		virtual Position RawTotal(void) const = 0; // entire stream length
+		virtual Position PcmTotal(void) const = 0; // entire PCM length (in bytes)
+		virtual double TimeTotal(void) const = 0;  // entire length in time
 
 	protected:
 		void SetSeekable(bool s)					{seekable = s;}

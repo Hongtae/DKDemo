@@ -1,13 +1,20 @@
 ﻿//
 //  File: DKRational.h
-//  Encoding: UTF-8 ☃
 //  Author: Hongtae Kim (tiff2766@gmail.com)
 //
-//  Copyright (c) 2004-2014 ICONDB.COM. All rights reserved.
+//  Copyright (c) 2004-2014 Hongtae Kim. All rights reserved.
 //
 
 #pragma once
 #include "../DKInclude.h"
+
+////////////////////////////////////////////////////////////////////////////////
+// DKRational
+// a rational class.
+// Use this class if you need something calculated with high-precision.
+//
+// to convert real-number: numerator / denominator. (call RealNumber())
+////////////////////////////////////////////////////////////////////////////////
 
 namespace DKFoundation
 {

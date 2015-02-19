@@ -1,9 +1,8 @@
 //
 //  File: DKPrimitiveIndex.h
-//  Encoding: UTF-8 ☃
 //  Author: Hongtae Kim (tiff2766@gmail.com)
 //
-//  Copyright (c) 2004-2014 ICONDB.COM. All rights reserved.
+//  Copyright (c) 2004-2014 Hongtae Kim. All rights reserved.
 //
 
 #pragma once
@@ -14,70 +13,98 @@
 #include "DKVector3.h"
 
 ////////////////////////////////////////////////////////////////////////////////
+// DKPrimitiveIndex
+// calcualte primitive vertex order with index.
 //
-// Primitive 간단한 설명
+// Types of Primitives. (with short description)
 //
-// Adjacency(근접점)은 geometry shader 에서 각각의 선분(또는 직선)을 제어하기 위해 사용되며
-// geometry shader 를 사용하지 않을시 무시된다.
+// points (TypePoints):
+//    each vertex become a point.
+//    no performance benefits by using index-buffer with type primitive.
 //
-// TypePoints:
-//		각각이 하나의 정점이 된다. (인덱스 버퍼가 성능향상에 전혀 도움을 주지는 않음)
-// TypeLines:
-//		각각의 두 점이 개별적인 직선으로 연결된다. (0,1)(2,3)(4,5)..
-//		정점 개수는 2보다 크거나 같아야 하며 2의 배수여야 한다. (배수가 아닐경우 나머지는 무시된다)
-// TypeLineStrip:
-//		두개의 점이 직선으로 연결되고 다음 한점이 이전점의 끝점과 연결된다.
-//		(0,1)(1,2)(2,3)(3,4)...
-//		정점 개수는 2보다 크거나 같아야 한다.
-// TypeLineLoop:
-//		TypeLineStrip 과 동일하지만 맨 끝점이 첫 시작점과 연결된다. (항상 닫힌 도형을 만든다)
-//		정점 개수는 2보다 크거나 같아야 한다.
-// TypeTriangles:
-//		각각 세개씩 하나의 삼각형을 이룬다 (0,1,2)(3,4,5)(6,7,8)..
-//		정점 개수는 3보다 크거나 같아야하며 3의 배수여야 한다. (배수가 아닐경우 나머지 무시)
-// TypeTriangleStrip:
-//		한개씩 뒤로 이동하며 뒤의 두개와 함께 쌍을 이룬다
-//		삼각형 순서가 홀수일때와 짝수일때가 나뉜다 (n>=0)
-//		짝수번째: (n, n+1, n+2) ->  (0,1,2)(...)(2,3,4)(...)(4,5,6)....
-//		홀수번째: (n+1, n, n+2) ->  (...)(2,1,3)(...)(4,3,5)(...)(6,5,7)....
-//		정점 개수는 3보다 크거나 같아야한다.
-// TypeTriangleFan:
-//		맨 처음점과 다음 두개가 하나의 삼각형이 된다 (0,1,2)(0,2,3)(0,3,4)(0,4,5)..
-//		(0, n, n+1) (0, n+2, n+3).. (n>0)
-//		정점 개수는 3보다 크거나 같아야한다.
-// TypeLinesAdjacency:
-//		TypeLines 처럼 두 점이 개별적인 직선을 그리지만, 각 라인의 끝점은 근접점을 가진다.
-//		근접점은 geometry shader 에서 라인을 제어하는데 사용된다. 근접점은 라인 정점의 전과 후에 위치한다.
-//		직선: (1,2)(5,6)(9,10)..
-//		근접점: (0,3)(4,7)(8,11)..
-//		각 라인 인덱스의 내용 = [시작점에 대한 근접점][시작점][끝점][끝점에 대한 근접점]
-//		정점스 개수는 4보다 크거나 같아야 하며, 직선 하나에 4개의 정점이 사용된다. (근접점-시작점-끝점-근접점) 
-// TypeLineStripAdjacency:
-//		TypeLineStrip 과 비슷하지만, 시작점에 대한 근접점과, 끝점에 대한 근접점을 가진다.
-//		맨 처음 직선은 1 부터 시작하며 (0번째 정점이 시작점에 대한 근접점)
-//		직선의 끝은 맨 마지막-1 까지 라인을 잇는다 (맨 마지막점은 끝점에 대한 근접점)
-//		각 라인의 근접점은 라인 시작점 전의 정점과 라인 끝점 뒤의 정점이 된다. (TypeLinesAdjacency 와 같음)
-//		정점의 개수는 4보다 크거나 같아야 하며, 인덱스 개수는 정점개수+3 (총 라인 개수는 정점개수-2) 이 된다. (근접점-라인시작-라인시작-...-라인끝-근접점)
-// TypeTrianglesAdjacency:
-//		Triangles 와 비슷하나 실제 정점은 0,2,4 가 된다
-//		1,3,5 은 adjacency 정점으로 geometry shader 에서 콘트롤 포인트로 사용한다.
-//		geometry shader 에서 adjacency 를 정의하지 않으면 근접점은 무시된다.
-//		정점:(0,2,4)(6,8,10)(12,14,16)...
-//		근접점:(1,3,5)(7,9,11)(13,15,17)..
-//		삼각형의 각 선분 에 대한 근접점은 다음과 같다
-//			선분(0,2)->1, 선분(2,4)->3, 선분(4,0)->5
-//		정점 개수는 6보다 크거나 같아야하며 6의 배수여야 한다. (배수가 아닐경우 나머지 무시)
-// TypeTriangleStripAdjacency:
-//		TriangleStrips 와 비슷하지만 선분에 근접점(adjacency) 가 포함된다.
-//		삼각형 단 한개만 그릴때의 정점 (0,2,4), 근접점 (1,5,3)
-//		삼각형 두개 이상 그릴때 (n 은 0부터 시작)
-//			첫번째 삼각형 (0,2,4), 근접점 (1,6,3)
-//			중간 n이 홀수인 삼각형들 (2n+2, 2n, 2n+4), 근접점 (2n-2, 2n+3, 2n+6)
-//			중간 n이 짝수인 삼각형들 (2n, 2n+2, 2n+4), 근접점 (2n-2, 2n+6, 2n+3)
-//			마지막 n이 홀수인 삼각형 (2n+2, 2n, 2n+4), 근접점 (2n-2, 2n+3, 2n+5)
-//			마지막 n이 짝수인 삼각형 (2n, 2n+2, 2n+4), 근접점 (2n-2, 2n+5, 2n+3)
-//		정점 개수는 6보다 크거나 같아야하며 2(n+2)여야 한다. (n은 삼각형 개수)
+// lines (TypeLines):
+//    each two vertices becomes line segment. (0,1)(2,3)(4,5)...
+//    number of vertices should be greater or equal to 2.
 //
+// line strip (TypeLineStrip):
+//    first two vertices becomes line segment,
+//    next vertex connected to previous vertex to be line segment.
+//    (0,1)(1,2)(2,3)(3,4)...
+//    number of vertices should be greater or equal to 2.
+//
+// line loop (TypeLineLoop):
+//    similar to line strip, but last vertex connects to first.
+//    this primitive made closed line segments always.
+//    (0,1)(1,2)(2,3)(3,4)... (n,0)
+//    number of vertices should be greater or equal to 2.
+//
+// triangles (TypeTriangles):
+//    each three vertices make triangle. (0,1,2)(3,4,5)(6,7,8)...
+//    number of vertices should be greater or equal to 3.
+//
+// triangle strip (TypeTriangleStrip):
+//    first three vertices make triangle and make next triangle by
+//    second, third vertex of previous triangle with next vertex.
+//    triangle index are different to even, odd sequence.
+//    for even number of sequence: (n, n+1, n+2)
+//    for odd number of sequence: (n+1, n, n+2)
+//      ex: (0,1,2)(2,1,3)(2,3,4)(4,3,5)(4,5,6)(6,5,7)...
+//    number of vertices should be greater or equal to 3.
+//
+// triangle fan (TypeTriangleFan):
+//    first and two vertices of the rest make triangle.
+//      (0,1,2)(0,2,3)(0,3,4)(0,4,5)...
+//    number of vertices should be greater or equal to 3.
+//
+// lines adjacency (TypeLinesAdjacency):
+//    similar to lines, but each line segment's point has adjacency.
+//    adjacency used by geometry shader to control line segment.
+//     -       lines: (1,2)(5,6)(9,10)...
+//     - adjacencies: (0,3)(4,7)(8,11)...
+//    number of vertices should be greater or equal to 4.
+//    one line per 4 vertices. (adj-begin-end-adj)
+//
+// line strip adjacency (TypeLineStripAdjacency):
+//    similar to line strip, first line segment begin with second vertex,
+//    (first vertex is adjacency) and have same sequence as line strip except
+//    last vertex. last vertex is adjacency.
+//    (adj-line-line-...-line-adj)
+//    number of vertices should be greater or equal to 4,
+//    number of indices should be number of vertices + 3.
+//    total output lines would be number of vertices - 2.
+//
+// triangles adjacency (TypeTrianglesAdjacency):
+//    similar to triangles, but each vertex has adjacency.
+//    triangle vertices is made up of (n, n+2, n+4) for n'th sequences,
+//    and (n+1, n+3, n+4) is adjacency, used by geometry shader.
+//      triangles:(0,2,4)(6,8,10)(12,14,16)...
+//    adjacencies:(1,3,5)(7,9,11)(13,15,17)...
+//    adjacency of each line-segment of triangle is below.
+//      adjacency for line segment (n, n+2) is n+1.
+//      adjacency for line segment (n+2, n+4) is n+3.
+//      adjacency for line segment (n+4, n) is n+5.
+//    number of vertices should be greater or equal to 6.
+//
+// triangle strip adjacency (TypeTriangleStripAdjacency):
+//    similar to triangle strip, but each line segment of triangle has
+//    adjacency. indices of single triangle and multiple triangles are
+//    different.
+//    for single triangle,
+//       triangle: (0,2,4), adjacencies: (1,5,3).
+//    for more than two triangles,
+//       first-triangle: (0,2,4), adjacencies: (1,5,3)
+//       in middle of sequences, (with n > 0 and n < number of triangles - 1)
+//       triangle: (2n+2, 2n, 2n+4), adjacencies: (2n-2, 2n+3, 2n+6), if n is odd.
+//       triangle: (2n, 2n+2, 2n+4), adjacencies: (2n-2, 2n+6, 2n+3), if n is even.
+//       and last triangle is,
+//       triangle: (2n+2, 2n, 2n+4), adjacencies: (2n-2, 2n+3, 2n+5), if n is odd.
+//       triangle: (2n, 2n+2, 2n+4), adjacencies: (2n-2, 2n+5, 2n+3), if n is even.
+//    number of vertices should be greater or equal to 6,
+//    and it should be 2(n+2) where n is number of triangles.
+//
+// Note:
+//   Adjacency type will be ignored unless geometry shader used.
+//   (OpenGL ES not supported)
 ////////////////////////////////////////////////////////////////////////////////
 
 namespace DKFramework

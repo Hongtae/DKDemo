@@ -1,9 +1,8 @@
 //
 //  File: DKBuffer.h
-//  Encoding: UTF-8 ☃
 //  Author: Hongtae Kim (tiff2766@gmail.com)
 //
-//  Copyright (c) 2004-2014 ICONDB.COM. All rights reserved.
+//  Copyright (c) 2004-2014 Hongtae Kim. All rights reserved.
 //
 
 #pragma once
@@ -16,11 +15,14 @@
 #include "DKAllocator.h"
 
 ////////////////////////////////////////////////////////////////////////////////
-//
 // DKBuffer
 //
-// URL 이나 메모리에서 데이터 객체를 생성한다. base64, 압축 기능등을 지원함
-// thread-safe 함.
+// create memory object from URL or other stream, memory object.
+// provide compression, base64-encoding functionality.
+// thread safe.
+//
+// Note:
+//  Encode means 'encode with base64' in this class
 ////////////////////////////////////////////////////////////////////////////////
 
 namespace DKFoundation
@@ -48,18 +50,20 @@ namespace DKFoundation
 		static DKObject<DKBuffer> Decode(const DKStringU8& str, DKAllocator& alloc = DKAllocator::DefaultAllocator());
 		static DKObject<DKBuffer> Decode(const DKStringW& str, DKAllocator& alloc = DKAllocator::DefaultAllocator());
 
-		bool CompressEncode(DKStringU8& strOut) const;					// 압축 후 base64 인코딩
-		bool CompressEncode(DKStringW& strOut) const;					// 압축 후 base64 인코딩
-		static DKObject<DKBuffer> DecodeDecompress(const DKStringU8& s, DKAllocator& alloc = DKAllocator::DefaultAllocator());	// base64 디코딩후 압축 해제
-		static DKObject<DKBuffer> DecodeDecompress(const DKStringW& s, DKAllocator& alloc = DKAllocator::DefaultAllocator());	// base64 디코딩후 압축 해제
+		// compress and encode (base64)
+		bool CompressEncode(DKStringU8& strOut) const;
+		bool CompressEncode(DKStringW& strOut) const;
+		// base64-decode and decompress
+		static DKObject<DKBuffer> DecodeDecompress(const DKStringU8& s, DKAllocator& alloc = DKAllocator::DefaultAllocator());
+		static DKObject<DKBuffer> DecodeDecompress(const DKStringW& s, DKAllocator& alloc = DKAllocator::DefaultAllocator());
 		
-		// 파일이나 URL 을 통해 데이터를 읽어온다. (통째로 읽음)
+		// create object from file or URL.
 		static DKObject<DKBuffer> Create(const DKString& url, DKAllocator& alloc = DKAllocator::DefaultAllocator());
 		static DKObject<DKBuffer> Create(const void* p, size_t s, DKAllocator& alloc = DKAllocator::DefaultAllocator());
 		static DKObject<DKBuffer> Create(const DKData* p, DKAllocator& alloc = DKAllocator::DefaultAllocator());
 		static DKObject<DKBuffer> Create(DKStream* s, DKAllocator& alloc = DKAllocator::DefaultAllocator());
 		
-		size_t SetContent(const void* p, size_t s);		// p 가 NULL 이면 s 만큼 버퍼 생성함 (0 으로 초기화됨)
+		size_t SetContent(const void* p, size_t s);// create zero-fill buffer if p is NULL.
 		size_t SetContent(const DKData* p);
 		
 		DKBuffer& operator = (const DKBuffer&);

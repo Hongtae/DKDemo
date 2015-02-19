@@ -1,9 +1,8 @@
 //
 //  File: DKObject.h
-//  Encoding: UTF-8 ☃
 //  Author: Hongtae Kim (tiff2766@gmail.com)
 //
-//  Copyright (c) 2004-2014 ICONDB.COM. All rights reserved.
+//  Copyright (c) 2004-2014 Hongtae Kim. All rights reserved.
 //
 
 #pragma once
@@ -14,17 +13,30 @@
 #include "DKObjectRefCounter.h"
 
 ////////////////////////////////////////////////////////////////////////////////
-//
 // DKObject
+// a simple smart pointer object.
+// you can use this class without using ref-counted object.
+// this class provide 'weak-reference' feature also.
 //
-// 객체타입을 스칼라타입으로 변형하여 사용할때 필요하다.
-// (객체의 포인터를 포함하며 스칼라 타입으로 사용할 수 있다.)
+// an object which allocated by DKAllocator is ref-counted automatically.
+// you can use ref-counted state with your own class/struct which is not
+// allocated by DKAllocator, you should provide your allocator in this case.
+// even POD types are supported. if you don't provide your allocator,
+// object becomes not-ref-counted state and you must delete manually.
 //
-// DKAllocator 클래스를 통하여 자동으로 참조 관리를 한다.
+// You can share ownership between multiple DKObject by assign or copy constructor.
+// You can even share ownership with raw pointer or weak reference.
 //
-// DKAllocator 를 통하여 생성된 객체는 자동으로 참조 관리가 된다.
+// Example:
+//   DKObject<OBJECT> obj1 = DKOBJECT_NEW Object();  // create new instance.
+//   DKObject<OBJECT> obj2 = obj2;          // share ownership with copy constructor.
+//   OBJECT* raw_ptr = obj2;                // cast to raw-pointer.
+//   DKObject<OBJECT> obj3 = raw_ptr;       // share ownership with raw-pointer.
+//   DKObject<OBJECT>::Ref weak_ref = obj1; // cast to weak-reference.
+//   DKObject<OBJECT> obj4 = weak_ref;      // share ownership with weak-reference.
 //
-// 객체 생성 방법
+//
+// How to create object by using DKObject:
 // 1. DKObject::New()
 //     DKObject<OBJECT> p1 = DKObject<OBJECT>::New();
 //     DKObject<OBJECT> p2 = DKObject<OBJECT>::New( arg1, arg2 ...);
@@ -33,29 +45,31 @@
 //     DKObject<OBJECT> p1 = DKOBJECT_NEW OBJECT();
 //     DKObject<OBJECT> p2 = DKOBJECT_NEW OBJECT( arg1, arg2, ...);
 //
-// 2. DKObject::Alloc()
-//  - 특수한 allocator 사용시 사용한다.
+// 2. DKObject::Alloc()  - using custom allocator
 //     DKObject<OBJECT> p1 = DKObject<OBJECT>::Alloc( myAllocator );
 //     DKObject<OBJECT> p1 = DKObject<OBJECT>::Alloc( myAllocator, ...);
 //
-// DKObject::New
-// 1. 파라메터가 없을때 (기본 생성자)
-//		DKObject<OBJECT> p = DKObject<OBJECT>::Alloc();
-// 2. 복사생성자 이용
-//		DKObject<OBJECT> p = DKObject<OBJECT>::Alloc(obj);
-// 3. 파라메터가 여러개인 생성자를 가진 객체 생성 (DKOBJECT_NEW 매크로 사용)
-//		DKObject<OBJECT> p = DKOBJECT_NEW OBJECT(p1,p2,..);
 //
-// weak-ref 사용법
-// DKObject<OBJECT> p = DKObject<OBJECT>::New();
-// DKObject<OBJECT>::Ref ref = p;
-//  p = NULL;	// 객체 소거됨.
-// DKObject<OBJECT> p2 = ref;	// p2 = NULL
+// About DKObject::New() parameters:
+// 1. no-arguments (default constructor)
+//     DKObject<OBJECT> p = DKObject<OBJECT>::New();
+// 2. using copy constructor
+//     DKObject<OBJECT> p = DKObject<OBJECT>::New(obj);
+// 3. multiple arguments for constructor
+//     DKObject<OBJECT> p = DKObject<OBJECT>::New(p1,p2,..);
+// 4. using DKOBJECT_NEW macro
+//	   DKObject<OBJECT> p = DKOBJECT_NEW OBJECT(p1,p2,..);
 //
-// 주의:
-//  1. DKObject<void> 는 사용할 수 없다!
-//  2. 다중 상속의 경우 polymorphic 타입(virtual 함수가존재)이 아닐경우 형변환시 객체가 상실될 수 있다.
+// Using weak-reference:
+//     DKObject<OBJECT> p = DKObject<OBJECT>::New();
+//     DKObject<OBJECT>::Ref ref = p; // get weak-ref from p
+//     p = NULL; // destory p
+//     DKObject<OBJECT> p2 = ref;  // p2 = NULL (ref invalidated)
 //
+// Note:
+//   1. You cannot use DKObject<void>
+//   2. if you have multiple-inheritanced class which does not polymorphic type,
+//      then you will lost object if you cast your object to other types.
 ////////////////////////////////////////////////////////////////////////////////
 
 #define DKOBJECT_NEW			new(DKFoundation::DKAllocator::DefaultAllocator())
@@ -105,15 +119,15 @@ namespace DKFoundation
 		{
 			_ReleaseObject(_target);
 		}
-		// 포인터 연산자
+		// pointer operators
 		T* operator ->(void)						{return _target;}
 		const T* operator ->(void) const			{return _target;}
 		T& operator * (void)						{return *_target;}
 		const T& operator * (void) const			{return *_target;}
-		// 형변환
+		// type-casting operators
 		operator T* (void)							{return _target;}
 		operator const T* (void) const				{return _target;}
-
+		// get raw-pointer
 		T* Ptr(void)								{return _target;}
 		const T* Ptr(void) const					{return _target;}
 
@@ -123,13 +137,13 @@ namespace DKFoundation
 		}
 		template <typename R> R* SafeCast(void)
 		{
-			if (IsConvertible<R>())							// up casting
+			if (IsConvertible<R>())					// up casting
 				return static_cast<R*>(_target);
 			return dynamic_cast<R*>(_target);		// else down casting
 		}
 		template <typename R> const R* SafeCast(void) const
 		{
-			if (IsConvertible<R>())									// up casting
+			if (IsConvertible<R>())						// up casting
 				return static_cast<const R*>(_target);
 			return dynamic_cast<const R*>(_target);		// else down casting
 		}
@@ -184,7 +198,8 @@ namespace DKFoundation
 			}
 			return *this;
 		}
-		operator Ref (void) const		// Ref 로 형변환
+		// casting Ref (weak-ref)
+		operator Ref (void) const
 		{
 			Ref ref;
 			RefCounter::RefIdValue refId;
@@ -252,13 +267,14 @@ namespace DKFoundation
 		{
 			if (p)
 			{
-				// 참조값 감소하고 0 이면 제거함.
+				// decrease ref-count, delete if ref-count becomes zero.
 				DKAllocator* allocator = NULL;
 				if (RefCounter::DecrementRefCountAndUnsetIfZero(BaseAddress(p), &allocator))
 				{
 					if (allocator)
 					{
-						// destructor 호출 전에 미리 base address 구해놔야 한다.
+						// get base-address before calling destructor!
+						// we will lost polymorphic type info.
 						void* ptr = BaseAddress(p);
 						p->~T();
 						allocator->Dealloc(ptr);
@@ -276,6 +292,7 @@ namespace DKFoundation
 	template <typename T> class DKObject<T&>;
 	template <typename T> class DKObject<T&&>;
 
+	// To provide external linkage for internal object
 	class DKUnknown
 	{
 	public:

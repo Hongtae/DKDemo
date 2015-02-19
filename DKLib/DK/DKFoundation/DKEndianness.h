@@ -1,9 +1,8 @@
 //
 //  File: DKEndianness.h
-//  Encoding: UTF-8 ☃
 //  Author: Hongtae Kim (tiff2766@gmail.com)
 //
-//  Copyright (c) 2004-2014 ICONDB.COM. All rights reserved.
+//  Copyright (c) 2004-2014 Hongtae Kim. All rights reserved.
 //
 
 #pragma once
@@ -57,7 +56,7 @@
 namespace DKFoundation
 {
 	////////////////////////////////////////////////////////////////////////////////
-	// 바이트오더 변경 템플릿
+	// byteorder swap template functions.
 	template <typename T> inline T DKSystemToBigEndian(T val)
 	{
 		if (sizeof(T) == 2)	{
@@ -116,7 +115,8 @@ namespace DKFoundation
 	};
 
 	////////////////////////////////////////////////////////////////////////////////
-	// 바이트 오더 체크, 프리프로세서 마크로가 올바른지 확인하기 위해 사용함. (런타임)
+	// byte order test.
+	// using preprocessor macros at compile-time and validate in run-time.
 	enum RTByteOrder
 	{
 		RTByteOrderUnknown,

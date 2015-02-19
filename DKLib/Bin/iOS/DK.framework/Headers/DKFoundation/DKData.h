@@ -1,9 +1,8 @@
 //
 //  File: DKData.h
-//  Encoding: UTF-8 ☃
 //  Author: Hongtae Kim (tiff2766@gmail.com)
 //
-//  Copyright (c) 2004-2014 ICONDB.COM. All rights reserved.
+//  Copyright (c) 2004-2014 Hongtae Kim. All rights reserved.
 //
 
 #pragma once
@@ -14,12 +13,13 @@
 #include "DKSpinLock.h"
 
 ////////////////////////////////////////////////////////////////////////////////
+// DKData
+// abstract class.
 //
-// DKData (추상 클래스)
+// provide memory accessing interface.
+// this class supports locking with shared, exclusive access.
 //
-// 랜덤 억세스가 가능한 메모리 객체
-// 여러 쓰레드가 공유하는 락을 걸수 있으며, 단독으로 락을 걸수도 있다.
-//
+// full thread-safe.
 ////////////////////////////////////////////////////////////////////////////////
 
 namespace DKFoundation
@@ -37,17 +37,21 @@ namespace DKFoundation
 		virtual bool IsWritable(void) const = 0;
 		virtual bool IsExcutable(void) const = 0;		// program code image
 
+		// StaticData: using DKData with existing buffer,
+		// you can provide cleanup operation which will be invoked on finished.
 		static DKObject<DKData> StaticData(const void* p, size_t len, bool readonly = true, DKOperation* cleanup = NULL);
 
 		bool WriteToFile(const DKString& file, bool overwrite) const;
 		bool WriteToStream(DKStream* stream) const;
 
-		// shared-lock 읽기전용 락. 다른 쓰레드와 공유 가능.
+		// shared lock. (read-only)
+		// multiple-threads can be locked with this method simultaneously.
 		const void* LockShared(void) const;
 		bool TryLockShared(const void**) const;
 		void UnlockShared(void) const;
 
-		// exclusive-lock, 읽기쓰기 락. 다른 쓰레드와 공유하지 않음. (읽기전용이라도 사용할 수 있음)
+		// exclusive lock. (read-write)
+		// only one thread can be locked.
 		void* LockExclusive(void);
 		bool TryLockExclusive(void**);
 		void UnlockExclusive(void);

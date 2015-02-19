@@ -1,9 +1,8 @@
 ﻿//
 //  File: DKConstraint.h
-//  Encoding: UTF-8 ☃
 //  Author: Hongtae Kim (tiff2766@gmail.com)
 //
-//  Copyright (c) 2012-2014 ICONDB.COM. All rights reserved.
+//  Copyright (c) 2012-2014 Hongtae Kim. All rights reserved.
 //
 
 #pragma once
@@ -13,36 +12,39 @@
 #include "DKRigidBody.h"
 
 ////////////////////////////////////////////////////////////////////////////////
-//
 // DKConstraint
+// join constraint for dynamics of rigid bodies.
 // 
 // ERP : error reduction parameter
 // CFM : constraint force mixing
 //
-// CFM = 0 (기본값) 일 경우, constraint 가 hard 해짐.
-// CFM > 0 이면, constraint 가 좀더 유연해짐, (값이 클수록 부드러워짐)
-// CFM < 0 이면, 불안정해진다. 사용하지 말것.
+// if CFM = 0 (default), constraint become hard.
+// if CFM > 0, constraint become soft. (bigger value makes softer)
+// if CFM < 0, become unstable. don't use.
 //
-// ERP = 0 이면 joint error 발생시 수정하지 않으며, 시뮬레이션시 미끄러질 수 있다.
-// ERP = 1 이면 시뮬레이션에 발생하는 오류를 모두 수정함.
-// 하지만 다양한 경우에서 완전히 수정되지 않기 때문에, 1 을 사용하는것은 추천하지 않음.
-// 0.1 부터 0.8 까지의 값을 사용할것, (기본값 = 0.2)
-//
+// if ERP = 0, no correction for join error occurred.
+//             object slipping could happen.
+// if ERP = 1, all errors will be corrected while simulation process.
+//             but not all objects could be corrected actually,
+//             use ERP=1 is not recommended.
+//             (0.1 ~ 0.8 is recommended, 0.2 is default)
 //
 // Note:
-//  1. Serializer() 를 이용하여 객체를 복원할 때는, bodyA, bodyB 정보는
-//     uuid 를 이용하여 복원한다. 같은 트리내의 객체가 아닐경우 복원되지 않는다.
-//     복원되지 않을 경우, Retarget 을 호출하기 전까지 복원정보를 가지고 있게 된다.
-//     원본의 uuid 를 가진 객체가 나중에 추가되는 경우 복원될 수 있다.
-//     (OnUpdateTreeReferences 에서 복원함)
+//    deserialize using DKSerializer, bodyA, bodyB is restored from UUIDs.
+//    If reference bodies are not in same Node-tree (DKModel tree), reference
+//    bodies will not be restored. (non seekable with UUIDs if not in group)
+//    If constraint failed to recover reference bodies, recover-info still
+//    remains in object until Retarget() has called. this makes object able to
+//    restore references later (when UUIDs is available.),
+//    reference bodies recovered by OnUpdateTreeReferences().
 //
-//  2. Clone() 을 이용하여 객체를 복제할 경우, bodyA, bodyB 는 복제되지 않는다.
-//     트리의 복제가 완료된 후, 복제된 트리내에 bodyA, bodyB 의 uuid 가 있을경우
-//     새로운 bodyA, bodyB 를 사용하게 된다. (bodyA, bodyB 도 복제된 경우)
-//     (UpdateCopiedReferenceUUIDs 에서 복원함)
+//    cloning object by Clone(), reference bodies (bodyA, bodyB) will not be
+//    cloned directly. object will try to recover references by UUIDs after
+//    clone completed if bodyA, bodyB has been cloned.
+//    reference bodies recovered by UpdateCopiedReferenceUUIDs().
 //
-//  3. bodyA, bodyB 는 DKConstraint 객체의 부모객체여선 안된다.
-//     DKObject<DKRigidBody> 로 reference 를 가지고 있기 때문에, 서로 삭제되지 않는다.
+//    reference bodies (bodyA, bodyB) must not be parent of constraint object.
+//    constraint object has reference as DKObject, which has ownership.
 //
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -113,21 +115,24 @@ namespace DKFramework
 		DKConstraint(LinkType type, DKRigidBody* rbA, DKRigidBody* rbB, class btTypedConstraint* p);
 
 		void ResetObject(void);
-		// ResetContext, ResetContextImpl 은 꼭 재정의 해야함. (ResetObject 에서 사용함)
+		// ResetContext, ResetContextImpl should be overriden by subclass.
+		// invoked by ResetObject.
 		virtual void ResetContext(void);
 		virtual void ResetContextImpl(void) = 0;
 
 		DKFoundation::DKObject<DKRigidBody> bodyA;
 		DKFoundation::DKObject<DKRigidBody> bodyB;
 
-		// 객체가 복원되었을때 호출됨.
+		// called on object has restored.
 		void OnUpdateTreeReferences(NamedObjectMap&, UUIDObjectMap&) override;
 	
-		// 객체가 복제되었을때 호출됨.
+		// called on object has cloned.
 		void UpdateCopiedReferenceUUIDs(UUIDObjectMap&) override;
 		DKConstraint* Copy(UUIDObjectMap&, const DKConstraint*);
 
-		// 다른 객체의 자식으로 추가될때, bodyA, bodyB 의 자식노드인지 확인함.
+		// verify argument object (DKModel) can be parent of this.
+		// if argument object (DKModel) is refered by this,
+		// it can not be ancestor.
 		bool CanAcceptObjectAsParent(DKModel*) const override;
 
 		class btTypedConstraint* impl;
@@ -141,7 +146,7 @@ namespace DKFramework
 			DKFoundation::DKUUID bodyA;
 			DKFoundation::DKUUID bodyB;
 		};
-		DKFoundation::DKObject<TargetRestoreInfo> restoreInfo;		// 복구용 정보
+		DKFoundation::DKObject<TargetRestoreInfo> restoreInfo; // restore-info
 		void RestoreTargets(UUIDObjectMap&);
 	};
 }

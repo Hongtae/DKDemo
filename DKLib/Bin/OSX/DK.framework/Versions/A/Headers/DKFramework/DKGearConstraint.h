@@ -1,9 +1,8 @@
 //
 //  File: DKGeneric6DofConstraint.h
-//  Encoding: UTF-8 ☃
 //  Author: Hongtae Kim (tiff2766@gmail.com)
 //
-//  Copyright (c) 2013-2014 ICONDB.COM. All rights reserved.
+//  Copyright (c) 2013-2014 Hongtae Kim. All rights reserved.
 //
 
 #pragma once
@@ -11,10 +10,9 @@
 #include "DKConstraint.h"
 
 ////////////////////////////////////////////////////////////////////////////////
-//
 // DKGearConstraint
-//
-// 두개의 rigid-body 가 서로 맞물려 회전할 수 있도록 한다.
+// gear constraint, joint will couple the angular velocity for two rigid bodies
+// around given local axis and ratio.
 ////////////////////////////////////////////////////////////////////////////////
 
 namespace DKFramework

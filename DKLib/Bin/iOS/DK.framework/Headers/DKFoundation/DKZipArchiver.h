@@ -1,9 +1,8 @@
 //
 //  File: DKZipArchiver.h
-//  Encoding: UTF-8 ☃
 //  Author: Hongtae Kim (tiff2766@gmail.com)
 //
-//  Copyright (c) 2004-2014 ICONDB.COM. All rights reserved.
+//  Copyright (c) 2004-2014 Hongtae Kim. All rights reserved.
 //
 
 #pragma once
@@ -15,6 +14,11 @@
 #include "DKStream.h"
 #include "DKLock.h"
 
+////////////////////////////////////////////////////////////////////////////////
+// DKZipArchiver
+// a zip file writer.
+////////////////////////////////////////////////////////////////////////////////
+
 namespace DKFoundation
 {
 	class DKLIB_API DKZipArchiver
@@ -25,7 +29,9 @@ namespace DKFoundation
 
 		static DKObject<DKZipArchiver> Create(const DKString& file, bool append);
 
-		// Write : 압축파일을 추가한다. compressionLevel 은 0~9 까지, (0:무압축, 9:최대압축, 6 이 기본값)
+		// add file into zip-archive.
+		// compressionLevel is integer value from 0 to 9. (default is 6)
+		// (0: no-compression, 9: maximum compression)
 		bool Write(const DKString& file, DKStream* stream, int compressionLevel, const char* password = NULL);
 		bool Write(const DKString& file, const void* data, size_t len, int compressionLevel, const char* password = NULL);
 

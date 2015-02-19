@@ -1,9 +1,8 @@
 //
 //  File: DKSceneState.h
-//  Encoding: UTF-8 ☃
 //  Author: Hongtae Kim (tiff2766@gmail.com)
 //
-//  Copyright (c) 2004-2014 ICONDB.COM. All rights reserved.
+//  Copyright (c) 2004-2014 Hongtae Kim. All rights reserved.
 //
 
 #pragma once
@@ -21,11 +20,10 @@
 #include "DKCamera.h"
 
 ////////////////////////////////////////////////////////////////////////////////
-//
 // DKSceneState
-//
-// 씬 전체에 해당되는 상태를 설정한다.
-// 개별적인 모델의 상태(재질관련)는 각각의 모델에서 따로 설정하여야 한다.
+// scene state used when drawing one scene. (DKScene)
+// scene state is global scene state for scene.
+// individual object's state can be overriden by object itself.
 ////////////////////////////////////////////////////////////////////////////////
 
 namespace DKFramework

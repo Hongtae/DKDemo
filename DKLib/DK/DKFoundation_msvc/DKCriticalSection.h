@@ -1,27 +1,34 @@
 //
 //  File: DKCriticalSection.h
-//  Encoding: UTF-8 ☃
 //  Author: Hongtae Kim (tiff2766@gmail.com)
 //
-//  Copyright (c) 2004-2014 ICONDB.COM. All rights reserved.
+//  Copyright (c) 2004-2014 Hongtae Kim. All rights reserved.
 //
 
 #pragma once
 #include "../DKInclude.h"
 
 ////////////////////////////////////////////////////////////////////////////////
-//
 // DKCriticalSection<T>
+// synchronization utility. proved automatic locking with context scope based.
+// use combination with DKLock, DKMutex, DKSpinLock, DKSharedLock, etc.
 //
-// 동기화 객체 (DKLock, DKMutex, DKSpinLock, DKSharedLock 등) 를 사용하여
-// 객체의 유효범위(scope) 내에서 임계영역을 보장하는 객체
+// this object ensures context section to be thread-safety.
+// managing this object's life-cycles to control context locking range.
 //
+// lock with object creation and unlock when destroyed,
+// to ensure mutually-exclusive section based on context scope.
+//
+// Example:
 //  if ( .. )
 //  {
-//      DKCriticalSection<DKSpinLock> section(this->myLock);
+//      DKCriticalSection<DKSpinLock> guard(mySpinLockObject);
+//      // mutually-exclusive section from here.
 //
-//      .. section 객체가 유지되는 동안은 임계영역
-//   }
+//  }
+//
+// Note:
+//  Do not confuse with Win32 CriticalSection object, this is unrelated to that.
 //
 ////////////////////////////////////////////////////////////////////////////////
 

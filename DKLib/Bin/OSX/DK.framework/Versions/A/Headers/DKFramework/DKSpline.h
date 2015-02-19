@@ -1,9 +1,8 @@
 //
 //  File: DKSpline.h
-//  Encoding: UTF-8 ☃
 //  Author: Hongtae Kim (tiff2766@gmail.com)
 //
-//  Copyright (c) 2004-2014 ICONDB.COM. All rights reserved.
+//  Copyright (c) 2004-2014 Hongtae Kim. All rights reserved.
 //
 
 #pragma once
@@ -13,31 +12,30 @@
 #include "DKVector3.h"
 
 ////////////////////////////////////////////////////////////////////////////////
-//
 // DKSpline
+// spline class, calculates spline curve.
+// used to get smooth interpolated curve between points.
 //
-// CatmullRom: 두 점을 지나는 곡선을 구함.
-//		point1 - point2 사이의 곡선을 구한다.
-//		point0 : point1 이전의 점 (point1 이 시작점일경우 point1 를 사용함)
-//		point3 : point2 이후의 점 (point2 가 끝점일 경우 point2 를 사용함)
+// CatmullRom: curve of intersecting two connecting points. this spline
+//     guaranteeing that each point will be hit exactly.
+//     with given 4 points (p0,p1,p2,p3), curve between p1,p2
 //
-// UniformCubic: 모든 점을 거치지 않고 기울기에 영향을 받는 곡선을 구함.
-//		point1 - point2 사이의 곡선을 구한다.
-//		point0 : point1 이전의 점 (point1 이 시작점일경우 point1 를 사용함)
-//		point3 : point2 이후의 점 (point2 가 끝점일 경우 point2 를 사용함)
-//		생성된 곡선은 모든 점들로 이루어진 볼록 다면체(convex-hull) 안에 항상 포함된다.
+// UniformCubic: basis spline (B-spline), this is not interpolation curve.
+//     this curve does not pass through the points.
+//     the curve is completely contained in the convex hull of its control
+//     points.
+//     with given 4 points (p0,p1,p2,p3), curve between p1,p2
 //
-// Hermite: 두 점 사이의 곡선을 탄젠트 벡터를 이용해서 구함.
-//		point0 : 곡선 시작점
-//		point1 : 곡선 끝점
-//		point2 : point0의 탄젠트 벡터. (시작점에서의  곡선의 방향 및 속도 - 곡선이 어떻게 시작할지 정의)
-//		point3 : point1의 탄젠트 벡터. (끝점에서 곡선의 방향 및 속도 - 곡선이 어떻게 끝날지 정의)
-//		point2, point3 을 이용하여 곡선의 기울기와 구간의 속도를 제어할 수 있다.
+// Hermite: calculate curve with tangent vectors.
+//     with given 4 points (p0,p1,p2,p3), curve between p0,p1
+//     and p2 is tangent vector or p0, p3 is tangent vector of p1.
+//     a tangent vector (p2, p3) can control curve direction and speed.
 //
-// Bezier: 3차 베지어 곡선, 4개의 점으로 하나의 곡선을 구함. (연속되는 곡선은 지원하지 않음)
-//		point0 - point3 사이의 곡선을 구한다.
-//		point1, point2 는 제어점으로 사용함
-//		생성된 곡선은 위의 4개 점으로 이루어진 볼록 사각형 안에 항상 포함된다.
+// Bezier: 3 degree bezier curve.
+//     the curve is completely contained in the convex hull of its control
+//     points.
+//     with given 4 points (p0,p1,p2,p3), curve between p0,p1,p2,p3.
+//     p1,p2 is control points. (curve not pass this points)
 //
 ////////////////////////////////////////////////////////////////////////////////
 

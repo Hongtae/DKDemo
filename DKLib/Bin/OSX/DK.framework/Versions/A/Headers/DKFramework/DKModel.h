@@ -1,9 +1,8 @@
 ﻿//
 //  File: DKModel.h
-//  Encoding: UTF-8 ☃
 //  Author: Hongtae Kim (tiff2766@gmail.com)
 //
-//  Copyright (c) 2004-2014 ICONDB.COM. All rights reserved.
+//  Copyright (c) 2004-2014 Hongtae Kim. All rights reserved.
 //
 
 #pragma once
@@ -14,18 +13,19 @@
 #include "DKAnimationController.h"
 
 ///////////////////////////////////////////////////////////////////////////////
-//
 // DKModel
-//
-// DKScene 에 들어가는 모든 형식을 정의한다.
-// 계층 구조로 이루어져 있다.
+// a skeletal node object for scene (DKScene).
+// this object can be structured hierarchical. (parent-children relationship)
+// this is basic entry for scene.
+// this object can be animated with DKAnimationController.
 //
 // Note:
-//  Serialize 시에는 worldTransform 은 저장하지 않는다. (localTransform 만 저장함)
-//  특수한 경우 자식객체로 받아들이지 못할 수도 있다. (DKConstraint 의 타겟)
-//  복제되거나 복원된 경우 레퍼런스가 바로 복원되지 않을 수 있음.
-//  상속받아서 사용시 Clone(), Serializer() 는 꼭 재정의 해야한다.
-//
+//    On serialize, world-transform will not saved, calculated with local
+//    transform after restored.
+//    If you subclass, you should override Clone() with your inherited type.
+//    In case of constraint (DKConstraint), not all objects can be accepted as
+//    parent which is DKConstraint's reference bodies. You can overrides this
+//    behavior.
 ///////////////////////////////////////////////////////////////////////////////
 
 namespace DKFramework
@@ -92,20 +92,18 @@ namespace DKFramework
 		const DKNSTransform& WorldTransform(void) const		{ return worldTransform; }
 		const DKNSTransform& LocalTransform(void) const		{ return localTransform; }
 
-		void CreateNamedObjectMap(NamedObjectMap&);		// 객체 이름으로 검색용 맵 생성
-		void CreateUUIDObjectMap(UUIDObjectMap&);		// UUID 로 검색용 맵 생성
+		void CreateNamedObjectMap(NamedObjectMap&); // building object map for search by name.
+		void CreateUUIDObjectMap(UUIDObjectMap&);   // building object map for search by UUID.
 
 		// UpdateKinematic : before simulate
 		// UpdateSceneState : after simulate, before rendering
 		void UpdateKinematic(double timeDelta, DKFoundation::DKTimeTick tick);
 		void UpdateSceneState(const DKNSTransform&);
 
-		// UpdateLocalTransform: 월드 트랜스폼으로 로컬 트랜스폼 계산, 내부에서 SetLocalTransform 사용
-		// UpdateWorldTransform: 로컬 트랜스폼으로 월드 트랜스폼 계산, 내부에서 SetWorldTransform 사용
 		void UpdateLocalTransform(bool recursive = true);
 		void UpdateWorldTransform(bool recursive = true);
 
-		// 객체 복사 (내부 리소스는 공유함)
+		// clone object. (internal resources are shared)
 		DKFoundation::DKObject<DKModel> Clone(void) const;
 		// serializer
 		DKFoundation::DKObject<DKSerializer> Serializer(void) override;
@@ -117,35 +115,43 @@ namespace DKFramework
 		virtual void OnRemovedFromParent(void) {}
 		virtual void OnSetAnimation(DKAnimatedTransform*) {}
 
-		// OnUpdateTreeReferences: 트리가 변경되거나 객체가 복원되었을때 호출된다.
+		// OnUpdateTreeReferences: called on tree changed or restored.
 		virtual void OnUpdateTreeReferences(NamedObjectMap&, UUIDObjectMap&) {}
 
-		// OnUpdateKinematic: 시뮬레이션 전에 호출된다.
-		// OnUpdateSceneState: 시뮬레이션 후, 렌더링 전에 호출된다.
+		// OnUpdateKinematic: called before simulate.
 		virtual void OnUpdateKinematic(double timeDelta, DKFoundation::DKTimeTick tick);
+
+		// OnUpdateSceneState: called after simulate, before render.
 		virtual void OnUpdateSceneState(const DKNSTransform& parentWorldTransform);
 
-		// ResolveTree: 자식노드들을 갱신함. (OnUpdateTreeReferences 호출함)
+		// ResolveTree: update descendants.
+		// this calls OnUpdateTreeReferences() if necessary.
 		void ResolveTree(bool force = false);
 
-		// ReloadSceneContext: scene 에 들어가있는 context 를 다시 로딩함.
-		// op 에 리셋하는 루틴을 넣어야 한다.
-		void ReloadSceneContext(DKFoundation::DKOperation* op);	// scene 에서 객체를 다시 로딩함.
+		// ReloadSceneContext: resetting object
+		// if object be in scene, temporary removed from scene and calls given
+		// operation(op) then add to scene again.
+		// parameter op must have object-reset routines.
+		void ReloadSceneContext(DKFoundation::DKOperation* op);
 
-		DKModel(Type t);
+		DKModel(Type t); // t = TypeCustom for custom subclass.
 
-		// Clone: 트리 복사 (UUIDObjectMap 에 원본의 UUID 를 기록함)
+		// Clone: clone node tree. (current object's clone will be root of cloned tree)
+		// clone operation does save object's UUIDs to given parameter (UUIDObjectMap&)
+		// You can find cloned object with original object's UUID with UUIDObjectMap
 		virtual DKFoundation::DKObject<DKModel> Clone(UUIDObjectMap&) const;
 		DKModel* Copy(UUIDObjectMap&, const DKModel*);
 
-		// UpdateCopiedReferenceUUIDs: 객체가 복제되었을때(UUID변경되었을때) 호출된다.
-		// 객체가 복사되면 UUID 가 변경되므로, 복제되기 전(원본)의 UUID 를 이용하여
-		// 복제된 객체를 찾는 용도로 사용한다.
-		// 주의: UUIDObjectMap 의 key 는 원본의 UUID 이며, value 는 복제된 객체이다.
+		// UpdateCopiedReferenceUUIDs: called on object has been cloned. (UUID has changed).
+		// reference object could be replace as cloned that can be found with original
+		// object's UUID.
+		// parameter (UUIDObjectMap&)'s key is original object's UUID,
+		// value is cloned object.
 		virtual void UpdateCopiedReferenceUUIDs(UUIDObjectMap&) {}
 
-		// AddChild 에서 호출한다. true 를 리턴하면 부모 자식 관계가 된다.
-		// 부모 객체의 reference 를 가진 경우, 부모자식 관계가 안될 수도 있다.(cross-reference)
+		// CanAcceptObjectAsParent: called when object trying to add target
+		// object as a child. return true to accept.
+		// you can override this behavior.
 		virtual bool CanAcceptObjectAsParent(DKModel*) const;
 
 		DKNSTransform localTransform;
@@ -157,7 +163,8 @@ namespace DKFramework
 		DKFoundation::DKArray<DKFoundation::DKObject<DKModel>> children;
 		DKFoundation::DKObject<DKAnimatedTransform> animation;
 
-		bool needResolveTree;		// true 로 설정하면 다음번 업데이트에 OnUpdateTreeReferences 호출함.
+		// set true to call OnUpdateTreeReferences() when next update.
+		bool needResolveTree;
 
 		bool EnumerateInternal(Enumerator* e);
 		void EnumerateInternal(EnumeratorLoop* e);

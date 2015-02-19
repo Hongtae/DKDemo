@@ -1,9 +1,8 @@
 //
 //  File: DKXMLDocument.h
-//  Encoding: UTF-8 ☃
 //  Author: Hongtae Kim (tiff2766@gmail.com)
 //
-//  Copyright (c) 2004-2014 ICONDB.COM. All rights reserved.
+//  Copyright (c) 2004-2014 Hongtae Kim. All rights reserved.
 //
 
 #pragma once
@@ -14,11 +13,10 @@
 #include "DKXMLParser.h"
 
 ////////////////////////////////////////////////////////////////////////////////
-//
 // DKXMLDocument
-// XML 과 HTML 을 파싱할 수 있다.
-// DOM 모델을 제공하며 내부적으로 DKXMLParser 를 사용한다.
-//
+// XML DOM class, provides parse and generate DOM of XML, HTML.
+// this class uses DKXMLParser internally. (see DKXMLParser.h)
+// this class provides DOM includes DTD.
 ////////////////////////////////////////////////////////////////////////////////
 
 namespace DKFoundation
@@ -55,8 +53,8 @@ namespace DKFoundation
 				NodeTypeAttributeDecl,
 				NodeTypeComment,
 				NodeTypeElement,
-				NodeTypeCData,			// 파서를 통하지 않는 문자열들
-				NodeTypePCData,		// 파서를 통하는 문자열들 (일부 기호가 치환된다)
+				NodeTypeCData,  // CDATA section strings ignored by parser.
+				NodeTypePCData, // Parsed Character Data. (some symbols will be translated.)
 			};
 			NodeType			Type(void) const;
 			virtual DKString	Export(void) const = 0;
@@ -129,10 +127,11 @@ namespace DKFoundation
 		DKXMLDocument(Element* root);
 		~DKXMLDocument(void);
 
-		// url 또는 file 로 읽을때
+		// open and create object with URL or file.
 		static DKObject<DKXMLDocument> Open(Type t, const DKString& fileOrURL, DKString* desc = NULL);
-		// buffer 로 읽을때는 XML 은 인코딩이 표기되어 있지만, html 은 그렇지 못하다.
-		// html 을 버퍼로 읽을때는 반드시 UTF8 이어야 한다.
+
+		// When reading HTML from buffer, they should be encoded with UTF-8.
+		// becouse XML has encoding information, but HTML does not.
 		static DKObject<DKXMLDocument> Open(Type t, const DKData* buffer, DKString* desc = NULL);
 		static DKObject<DKXMLDocument> Open(Type t, DKStream* stream, DKString* desc = NULL);
 
@@ -149,7 +148,7 @@ namespace DKFoundation
 		const DocTypeDecl*	DTD(void) const;
 
 	private:
-		DKArray<DKObject<Node>>		nodes;			// 모든 노드들
+		DKArray<DKObject<Node>>		nodes; // all nodes of DOM.
 		class DocumentBuilder;
 	};
 

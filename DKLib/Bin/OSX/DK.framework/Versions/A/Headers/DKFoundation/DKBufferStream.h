@@ -1,9 +1,8 @@
 //
 //  File: DKBufferStream.h
-//  Encoding: UTF-8 ☃
 //  Author: Hongtae Kim (tiff2766@gmail.com)
 //
-//  Copyright (c) 2004-2014 ICONDB.COM. All rights reserved.
+//  Copyright (c) 2004-2014 Hongtae Kim. All rights reserved.
 //
 
 #pragma once
@@ -14,12 +13,9 @@
 #include "DKDataStream.h"
 
 ////////////////////////////////////////////////////////////////////////////////
-//
 // DKBufferStream
-//
-// 내부적으로 DKBuffer 를 사용하는 메모리 스트림
-// 스트림 형태로 DKBuffer 에 데이터를 기록할수 있도록 한다.
-//
+// memory stream object using DKBuffer internally.
+// using memory like stream object.
 ////////////////////////////////////////////////////////////////////////////////
 
 namespace DKFoundation
@@ -47,10 +43,13 @@ namespace DKFoundation
 		void ResetStream(const void* p, size_t s);
 		void ResetStream(DKBuffer*);
 
-		DKData* DataSource(void);					// 내부에서 사용하는 DKData 리턴
-		const DKData* DataSource(void) const;		// 내부에서 사용하는 DKData 리턴
-		DKBuffer* BufferObject(void);				// 내부에서 사용하는 DKBuffer 리턴
-		const DKBuffer* BufferObject(void) const;	// 내부에서 사용하는 DKBuffer 리턴
+		// internal storage object. (DKData type)
+		DKData* DataSource(void);
+		const DKData* DataSource(void) const;
+		// internal storage object. (DKBuffer type)
+		DKBuffer* BufferObject(void);
+		const DKBuffer* BufferObject(void) const;
+
 	private:
 		DKObject<DKBuffer> data;
 		size_t offset;
