@@ -24,8 +24,8 @@ This project has IDE environment files. (Visual Studio 2013, Xcode6)
 # Windows Executable Download (Sample App)
 * See demo quickly. (no build, no IDE required.)
 * Screenshots embedded bottom of page.
-* Build: 2015-01-22, win32_i386
-https://bitbucket.org/tiff2766/dkdemo/downloads/DKDemoApp_Win32_En.zip
+* Build: 2015-01-22, win32_i386  
+[Download DKDemoApp_Win32_En.zip]( https://bitbucket.org/tiff2766/dkdemo/downloads/DKDemoApp_Win32_En.zip)
 
 # About DKLib
 a small game engine, written with C\++. This project includes pre-built DK libraries (DK, PyDK). all contents were written with Python. You can use all codes of this project for your project, whether it is commercial or not.
@@ -41,7 +41,7 @@ more detail, full-source on http://github.com/tiff2766/DKLib
 >
 > i386, x64, armv7, arm64 universal binary included.
 
-    ** With this project (DKDemo), Android and Linux are not supported. **
+**Android and Linux are not supported at this time.**
 
 ## Build Environments
 * Windows
