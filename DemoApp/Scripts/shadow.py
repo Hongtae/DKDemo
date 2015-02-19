@@ -87,7 +87,7 @@ class Frame(dk.ui.View):
         self.addChild(sliderX)
         self.addChild(sliderZ)
 
-        shadowConfigWindow = dk.ui.TitledView('설정')
+        shadowConfigWindow = dk.ui.TitledView('Config')
         origin = shadowConfigWindow.contentBounds().origin
 
         resWidth = 100
@@ -164,7 +164,7 @@ class Frame(dk.ui.View):
         shadowConfigWindow.setBlendState(dk.blendstate.defaultAlpha)
         self.addChild(shadowConfigWindow)
 
-        # 정보 표시
+        # info labels
         self.infoLabel = dk.ui.Label()
         self.infoLabel.fontAttributes = dk.ui.font.attributes(18)
         self.infoLabel.align = dk.ui.label.ALIGN_LEFT
@@ -177,7 +177,7 @@ class Frame(dk.ui.View):
 
         self.screen().postOperation(self.layout, ())
 
-        # 모델 로딩.
+        # load model
         resourcePool = dk.ResourcePool()
         resourcePool.addSearchPath(dk.appInstance().resourceDir + '/desert')
 
@@ -211,14 +211,14 @@ class Frame(dk.ui.View):
         decl = dk.geometry.VertexBufferDecl()
         decl.add(dk.geometry.STREAM_ID.POSITION, 'position', dk.geometry.STREAM_TYPE.FLOAT3)
         data = array.array('f')
-        data.extend(( 1.0,  1.0, -1.0))   # 근거리 오른쪽 상단
-        data.extend(( 1.0, -1.0, -1.0))   # 근거리 오른쪽 하단
-        data.extend((-1.0, -1.0, -1.0))   # 근거리 왼쪽 하단
-        data.extend((-1.0,  1.0, -1.0))   # 근거리 왼쪽 상단
-        data.extend(( 1.0,  1.0,  1.0))   # 원거리 오른쪽 상단
-        data.extend(( 1.0, -1.0,  1.0))   # 원거리 오른쪽 하단
-        data.extend((-1.0, -1.0,  1.0))   # 원거리 왼쪽 하단
-        data.extend((-1.0,  1.0,  1.0))   # 원거리 왼쪽 상단
+        data.extend(( 1.0,  1.0, -1.0))   # near right top
+        data.extend(( 1.0, -1.0, -1.0))   # near right bottom
+        data.extend((-1.0, -1.0, -1.0))   # near left bottom
+        data.extend((-1.0,  1.0, -1.0))   # near left top
+        data.extend(( 1.0,  1.0,  1.0))   # far right top
+        data.extend(( 1.0, -1.0,  1.0))   # far right bottom
+        data.extend((-1.0, -1.0,  1.0))   # far left bottom
+        data.extend((-1.0,  1.0,  1.0))   # far left top
 
         faceIndices = (2,1,3,0,7,4,6,5,        # 2,1,3 / 3,1,0 / 3,0,7 / 7,0,4 / 7,4,6 / 6,4,5
                    5,4,

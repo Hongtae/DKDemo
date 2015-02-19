@@ -164,7 +164,7 @@ class Frame(dk.ui.View):
         # self.resourcePool.addSearchPath(resourceDir)
         self.resourcePool.addSearchPath(resourceDir)
 
-        # 시뮬레이터 씬 생성
+        # create simulator scene
         self.scene = dk.DynamicsScene()
         self.scene.setAmbientColor(dk.color.white)
         self.scene.lights = [dk.light.directional(dk.Vector3(-1, -1, -1), dk.Color(1, 1, 1))]
@@ -173,13 +173,13 @@ class Frame(dk.ui.View):
         self.scene.drawMode = dk.scene.DRAW_COLLISION_SHAPES
         self.scene.lights.append(dk.Light())
 
-        # 바닥 객체 생성
+        # ground object
         groundShape = dk.BoxShape(500, 100, 500)
         self.groundObject = createRigidBody(0, groundShape, dk.Vector3(0, -100, 0), 'groundObject')
 
         self.scene.addObject(self.groundObject)
 
-        # 자동차 몸체
+        # vehicle chassis
         chassisShape = dk.CompoundShape()
         chassisShape.addChild(dk.BoxShape(1, 0.5, 2), dk.Vector3(0, 1, 0))
         chassisShape.addChild(dk.BoxShape(0.85, 0.3, 0.9), dk.Vector3(0, 1.8, -0.3))
@@ -191,18 +191,17 @@ class Frame(dk.ui.View):
 
         self.resetScene()
 
-        # 자동차 객체 생성
+        # vehicle object
         self.vehicle = dk.controller.Vehicle(self.carChassis)
-        # 리지드 바디 항상 활성화 시킴
         self.carChassis.keepActivating(True)
 
-        # 씬에 추가
+        # add vehicle into scene
         self.scene.addObject(self.vehicle)
 
         WHEEL_WIDTH = 0.4
         WHEEL_RADIUS = 0.5
 
-        # 바퀴 쉐이프 생성
+        # wheel shape
         wheelShape = dk.CylinderShape(WHEEL_WIDTH, WHEEL_RADIUS, WHEEL_RADIUS, dk.collisionshape.UP_AXIS_LEFT)
         self.wheelShape = wheelShape
         self.wheelTrans = []
@@ -243,7 +242,7 @@ class Frame(dk.ui.View):
         for wheel in self.vehicle.wheels:
             self.vehicle.updateWheelTransform(wheel)
 
-        # 슈팅 박스
+        # shooting box!
         self.shootingShapes = (dk.BoxShape(0.5, 0.5, 0.5),
                                dk.BoxShape(1.0, 0.5, 1.0),
                                dk.BoxShape(2.0, 0.5, 1.0),
@@ -253,7 +252,7 @@ class Frame(dk.ui.View):
                                dk.ConeShape(2.5, 1.5),
                                dk.SphereShape(1.0))
 
-        # 버튼 추가
+        # ui buttons
         self.accelButton = SimpleButton('Acc', frame=dk.Rect(100, 100, 80, 80))
         self.accelButton.backgroundColor = dk.color.blue
         self.brakeButton = SimpleButton('Brake', frame=dk.Rect(10, 100, 80, 80))
@@ -273,7 +272,7 @@ class Frame(dk.ui.View):
         self.steerSlider.value = 0.0
         self.steerSlider.addTarget(self, self.onSteerChanged)
 
-        # 정보 표시
+        # info labels
         self.infoLabel = dk.ui.Label()
         self.infoLabel.align = dk.ui.label.ALIGN_LEFT
         self.infoLabel.backgroundColor = dk.Color(0, 0, 0, 0.2)
@@ -282,8 +281,8 @@ class Frame(dk.ui.View):
         self.infoLabel.drawTextOutline = True
         self.addChild(self.infoLabel)
 
-        # 도움말
-        self.helpText = dk.ui.Label('키보드 방향키: 차량이동,  마우스 좌클릭: 시점 이동,  마우스 우클릭: 장애물 투척')
+        # help labels
+        self.helpText = dk.ui.Label('Arrow Keys: move, left-click: move camera, right-click: shoot obstacle')
         self.helpText.fontAttributes = dk.ui.font.attributes(14)
         self.helpText.backgroundColor = dk.color.clear
         self.helpText.outlineColor = dk.Color(0.2, 0.2, 0.2)

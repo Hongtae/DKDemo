@@ -32,25 +32,25 @@ class Frame(dk.ui.View):
         self.backgroundColor = dk.Color(0.22, 0.32, 1.0)
 
         charMenu = dk.ui.Menu()
-        c1 = charMenu.addItem('캐릭터1')
+        c1 = charMenu.addItem('Character 1')
         c1.filename = 'dil.DKMODEL'
         c1.callback = self.loadCharacter
-        c2 = charMenu.addItem('캐릭터2')
+        c2 = charMenu.addItem('Character 2')
         c2.filename = 'dih.DKMODEL'
         c2.callback = self.loadCharacter
-        c3 = charMenu.addItem('캐릭터3')
+        c3 = charMenu.addItem('Character 3')
         c3.filename = 'kon.DKMODEL'
         c3.callback = self.loadCharacter
         self.charMenuItems = [c1, c2, c3]
 
         animMenu = dk.ui.Menu()
-        a1 = animMenu.addItem('걷기')
+        a1 = animMenu.addItem('Walk')
         a1.animIndex = 0
         a1.callback = self.changeAnimation
-        a2 = animMenu.addItem('달리기')
+        a2 = animMenu.addItem('Run')
         a2.animIndex = 1
         a2.callback = self.changeAnimation
-        a3 = animMenu.addItem('공격')
+        a3 = animMenu.addItem('Attack')
         a3.animIndex = 2
         a3.callback = self.changeAnimation
         self.animMenuItems = [a1, a2, a3]
@@ -66,7 +66,7 @@ class Frame(dk.ui.View):
         s3.animSpeed = 2.0
         s3.callback = self.changeAnimationSpeed
         speedMenu.addSeparator()
-        speedMenu.addItem('역방향').enabled = False
+        speedMenu.addItem('Reverse').enabled = False
         s4 = speedMenu.addItem('-0.5')
         s4.animSpeed = -0.5
         s4.callback = self.changeAnimationSpeed
@@ -83,19 +83,19 @@ class Frame(dk.ui.View):
         animPlayStopMenuItem.playing = False
         animPlayStopMenuItem.callback = self.togglePlayStop
         ctrlMenu.addSeparator()
-        ctrlMenu.addItem('속도').subMenu = speedMenu
+        ctrlMenu.addItem('Speed').subMenu = speedMenu
 
         self.menuBar = dk.ui.Menu()
-        self.menuBar.addItem('캐릭터').subMenu = charMenu
+        self.menuBar.addItem('Models').subMenu = charMenu
         self.menuBar.addSeparator()
-        self.menuBar.addItem('애니메이션').subMenu = animMenu
+        self.menuBar.addItem('Animations').subMenu = animMenu
         self.menuBar.addSeparator()
-        self.menuBar.addItem('제어').subMenu = ctrlMenu
+        self.menuBar.addItem('Control').subMenu = ctrlMenu
         self.menuBar.addSeparator()
 
         self.addChild(self.menuBar)
 
-        self.infoLabel = dk.ui.Label('  마우스 좌클릭: 시점 이동, 우클릭: 광원 이동 (모바일은 두손가락 터치 이동)')
+        self.infoLabel = dk.ui.Label(' left-click: camera, right-click: light (two fingers move on mobile)')
         self.infoLabel.fontAttributes = dk.ui.font.attributes(14, outline=2)
         self.infoLabel.align = dk.ui.label.ALIGN_LEFT
         self.infoLabel.setBlendState(dk.blendstate.defaultAlpha)
@@ -108,7 +108,7 @@ class Frame(dk.ui.View):
         self.resourcePool = dk.ResourcePool()
         self.resourcePool.addSearchPath(dk.appInstance().resourceDir + "/knights")
 
-        # 씬 생성
+        # create scene
         self.scene = dk.Scene()
         self.character = None
         self.sword = self.resourcePool.loadResource('katana.DKMODEL')
@@ -123,7 +123,7 @@ class Frame(dk.ui.View):
         self.scene.lights.append(dk.light.directional(dk.Vector3(0, -1, 0), dk.Color(1, 1, 1)))
         self.scene.updateLights()
 
-        # 카메라 초기화.
+        # init camera
         self.camera = dk.Camera()
         self.cameraInfo = CameraInfo(fov=math.radians(80),
                                      near=10.0,
@@ -164,10 +164,10 @@ class Frame(dk.ui.View):
                 item.playing = not item.playing
                 if item.playing:
                     self.animControl.play()
-                    item.text = '일시 정지'
+                    item.text = 'Pause'
                 else:
                     self.animControl.stop()
-                    item.text = '재생'
+                    item.text = 'Play'
 
 
     def changeAnimationSpeed(self, item, *args):
@@ -282,12 +282,12 @@ class Frame(dk.ui.View):
                 qX = dk.Quaternion(left, dY)
                 rot = qX * qY
 
-                if moveCamera:      # 카메라 시점 이동.
+                if moveCamera:      # camera move
                     pos = self.camera.position() - self.cameraInfo.target
                     pos.transform(rot)
                     pos += self.cameraInfo.target
                     self.camera.setView(pos, self.cameraInfo.target - pos, up)
-                else:               # 조명 이동.
+                else:               # light move
                     light = self.scene.lights[0]
                     dir = light.direction()
                     rot.inverse()

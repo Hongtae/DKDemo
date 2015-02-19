@@ -1,13 +1,13 @@
 
-# DKDemo 메인 스크립트.
-# 메인 메뉴 화면 UI를 구성함.
+# DKDemo main script.
+# make up main UI.
 
 import dk
 import gc
 import inspect
 
 
-import car
+import vehicle
 import shadow
 import sprite
 import ui
@@ -23,12 +23,12 @@ class MainFrame(dk.ui.View):
     def onLoaded(self):
         super().onLoaded()
         items = [
-            (kine.Frame, '키네마틱 애니메이션'),
-            (sprite.Frame, '2D 스프라이트'),
-            (ui.Frame, 'UI 위젯 샘플'),
-            (car.Frame, '자동차 물리'),
-            (shadow.Frame, '쉐도우맵 샘플'),
-            (anim.Frame, '캐릭터 애니메이션'),
+            (kine.Frame, 'Kinematic Animation'),
+            (sprite.Frame, '2D Sprites, Texture Atlas'),
+            (ui.Frame, 'UI Widgets'),
+            (vehicle.Frame, 'Vehicle'),
+            (shadow.Frame, 'Shadow Mapping'),
+            (anim.Frame, 'Character Animation'),
         ]
 
         btnFontAttr = dk.ui.font.attributes(16, outline=2)
@@ -133,13 +133,12 @@ class MainFrame(dk.ui.View):
                 super().onLoaded()
                 labels = [
                     dk.ui.Label('DK Game Library'),
-                    dk.ui.Label('DKDemo 프로젝트는 DKLib 데모용 샘플 입니다.'),
-                    dk.ui.Label('DK 엔진은 C++ 로 되어있으며,'),
-                    dk.ui.Label('파이썬 스크립트를 사용할 수 있습니다.'),
-                    dk.ui.Label('이 데모 프로그램은 모두 스크립트로 되어 있으며,'),
-                    dk.ui.Label('모든 스크립트파일은 Scripts 폴더에 있습니다.'),
-                    dk.ui.Label('DK 엔진 구조는 C++ 헤더 파일을 참조 하세요.'),
-                    dk.ui.Label('제작: 김홍태, Copyright (c) 2015.'),
+                    dk.ui.Label('This is DKLib demo sample.'),
+                    dk.ui.Label('DK is written with C++.'),
+                    dk.ui.Label('You can use python script with PyDK.'),
+                    dk.ui.Label('This app content written with python.'),
+                    dk.ui.Label('All contents are located in Scripts folder.'),
+                    dk.ui.Label('Author: Hongtae Kim, tiff2766@gmail.com'),
                 ]
                 # font = dk.ui.font.attributes(12, file='SeoulNamsanM.ttf')
                 font = dk.ui.font.attributes(12, file='NanumGothic.ttf')
@@ -155,14 +154,14 @@ class MainFrame(dk.ui.View):
 
         def openSiteURL(*a):
             import webbrowser
-            webbrowser.open('http://bitbucket.org/tiff2766/dkdemo')
+            webbrowser.open('http://github.com/tiff2766/DKLib')
 
         infoView = InfoView(caption='About DKDemo', frame=dk.Rect(0, 0, 300, 300))
-        btn1 = dk.ui.Button('확인', frame=dk.Rect(10, 10, 100, 40))
+        btn1 = dk.ui.Button('Dismiss', frame=dk.Rect(10, 10, 100, 40))
         btn1.addTarget(self, dismiss)
         infoView.addChild(btn1)
 
-        btn2 = dk.ui.Button('홈페이지', frame=dk.Rect(190, 10, 100, 40))
+        btn2 = dk.ui.Button('GitHub', frame=dk.Rect(190, 10, 100, 40))
         btn2.addTarget(self, openSiteURL)
         infoView.addChild(btn2)
 

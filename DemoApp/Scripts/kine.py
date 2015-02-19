@@ -34,7 +34,7 @@ class Frame(dk.ui.View):
         super().onLoaded()
         self.backgroundColor = dk.Color(0.25, 0.25, 0.25)
 
-        self.infoLabel = dk.ui.Label('  마우스 좌클릭: 시점 이동, 우클릭: 장애물 투척 (모바일은 두손가락 터치 이동)')
+        self.infoLabel = dk.ui.Label(' Left-Click: camera move, Right-Click: Shoot box (Second touch on mobile)')
         self.infoLabel.fontAttributes = dk.ui.font.attributes(14, outline=2)
         self.infoLabel.align = dk.ui.label.ALIGN_LEFT
         self.infoLabel.setBlendState(dk.blendstate.defaultAlpha)
