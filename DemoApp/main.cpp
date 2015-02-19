@@ -1,8 +1,3 @@
-﻿///////////////////////////////////////////////////////////////////////////////
-//
-//  THIS FILE MUST BE OPEN WITH UTF-8 ENCODING!!
-//
-///////////////////////////////////////////////////////////////////////////////
 
 #include "stdafx.h"
 #include <DK/DK.h>
@@ -32,6 +27,8 @@ DKString AbsolutePathStringOfPyStd(void)
 }
 #endif
 
+// inherit PyDKApplication (Not DKApplication directly)
+// PyDKApplication enables to use Python-Context.
 class DemoApp : public PyDKApplication
 {
 public:
@@ -53,14 +50,17 @@ public:
 
 			auto runScript = [this](DKString mainScript)
 			{
-				// 메인 스크립트 호출.
+				// run main script. (main.py)
 				this->python->RunFile(mainScript);
-				// 메인 스크립트가 종료됨. 앱 종료.
-				this->CancelScriptBinding();
+				
+				// script finished. terminate app.
+				this->CancelScriptBinding(); // unbind PyDK.
 				this->Terminate(0);
 			};
 
 			this->thread = DKThread::Create(DKFunction(runScript)->Invocation(mainScript));
+
+			// Call PyDKApplication::OnInitialize() to initialize PyDK.
 			return PyDKApplication::OnInitialize();
 		}
 		Terminate(-1);
@@ -71,7 +71,7 @@ public:
 		{
 			PyDKApplication::OnTerminate();
 			this->thread->WaitTerminate();
-			this->python = NULL;	// 콘텍스트 종료.
+			this->python = NULL;	// destroy python context.
 		}
 	}
 };
