@@ -36,10 +36,11 @@ more detail, full-source on http://github.com/tiff2766/DKLib
 * Windows Vista (or later, 32-64bit)
 * Mac OS X 10.8 or later
 * iOS 4.0 or later
-> In this demo, distributes with **Framework** library. So If you want to build and run with this project, a target OS should be iOS 8.0 or later. Previous iOS is not supports framework.  
-> If you want to build for iOS7 or earlier version of iOS, download DKLib and build static-library. (download link is described above.)
->
-> i386, x64, armv7, arm64 universal binary included.
+
+   > In this demo, distributes with **Framework** library. So If you want to build and run with this project, a target OS should be iOS 8.0 or later. Previous iOS does not supports Framework.
+   > If you want to build for iOS7 or earlier version of iOS, download DKLib and build static-library. (download link is described above.)
+   >
+   > i386, x64, armv7, arm64 universal binary included.
 
 **Android and Linux are not supported at this time.**
 
