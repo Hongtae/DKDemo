@@ -21,7 +21,7 @@ This project has IDE environment files. (Visual Studio 2013, Xcode6)
 * `DKDemo.sln` *Visual Studio 2013 Solution file*
 * `DKDemo.xcworkspace` *Xcode 6 Workspace file*
 
-# Windows Executable Download (Sample App)
+# Prebuilt Executable Download (Sample App)
 * See demo quickly. (no build, no IDE required.)
 * Screenshots embedded bottom of page.
 * Windows
