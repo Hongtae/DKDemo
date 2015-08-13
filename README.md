@@ -5,7 +5,7 @@ You can see 6 demo samples with this app.
 All contents was written with Python.
 This project is ready to build and run on Windows, Mac OS X, iOS.
 This project has pre-built core library. no sources for core libraries.
-You can download core library source from http://github.com/tiff2766/DKLib  
+You can download core library source from http://github.com/hongtae/DKGL  
 
 This project has IDE environment files. (Visual Studio 2013, Xcode6)  
 
