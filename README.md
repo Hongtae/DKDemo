@@ -1,6 +1,6 @@
 # README #
 
-**DKDemo** is demo application for **DKLib**.
+**DKDemo** is demo application for **DKGL**.
 You can see 6 demo samples with this app.
 All contents was written with Python.
 This project is ready to build and run on Windows, Mac OS X, iOS.
@@ -25,16 +25,15 @@ This project has IDE environment files. (Visual Studio 2013, Xcode6)
 * See demo quickly. (no build, no IDE required.)
 * Screenshots embedded bottom of page.
 * Windows
-  * [Download DKDemoApp_Win32_En.zip]( https://bitbucket.org/tiff2766/dkdemo/downloads/DKDemoApp_Win32_En.zip)
-  * Build: 2015-01-22, win32_i386  
+  * [Download DKDemoApp_Win32.zip]( https://bitbucket.org/hongtae/dkdemo/downloads/DKDemoApp_Win32_En.zip )   * Build: 2015-01-22, win32_i386  
 * Mac OS X
-  * [Download Demo_OSX.zip](https://bitbucket.org/tiff2766/dkdemo/downloads/Demo_OSX.app.zip)
+  * [Download Demo_OSX.zip]( https://bitbucket.org/hongtae/dkdemo/downloads/Demo_OSX.app.zip )
   * Build: 2015-02-24
 
-# About DKLib
+# About DKGL
 a small game engine, written with C\++. This project includes pre-built DK libraries (DK, PyDK). all contents were written with Python. You can use all codes of this project for your project, whether it is commercial or not.
 
-more detail, full-source on http://github.com/tiff2766/DKLib
+more detail, full-source on http://github.com/hongtae/DKGL
 
 ## Available platforms 
 * Windows Vista (or later, 32-64bit)
